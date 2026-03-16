@@ -1,34 +1,51 @@
 ---
-import { LANGS, t } from "../../i18n/ui.js";
-import LangSwitch from "../../components/LangSwitch.astro";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { t } from "../../i18n/ui";
+import { projects } from "../../data/projects.js";
+import GitHubIssuesLakehouse from "../../components/projects/GitHubIssuesLakehouse.astro";
 
 export function getStaticPaths() {
-  return LANGS.map((lang) => ({ params: { lang } }));
+  return projects.map((p) => ({
+    params: { slug: p.slug },
+  }));
 }
 
-const { lang } = Astro.params;
+const { slug } = Astro.params;
+const lang = "en";
+
+const project = projects.find((p) => p.slug === slug);
+if (!project) {
+  throw new Error(`Project not found: ${slug}`);
+}
+
+const title = project.title[lang];
+const isLakehouse = project.slug === "github-issues-lakehouse";
 ---
 
-<html lang={lang}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{t(lang, "site_title")}</title>
-  </head>
-  <body>
-    <main style="max-width:1050px;margin:0 auto;padding:18px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
-        <h1 style="margin:0;">{t(lang, "site_title")}</h1>
-        <LangSwitch lang={lang} path="/" />
-      </div>
+<SiteLayout lang={lang} title={`${title} — ${t(lang, "site_title")}`}>
+  <div style="margin-bottom:14px;">
+    <a class="btn" href="/projects/">← {t(lang, "projects_title")}</a>
+  </div>
 
-      <p style="color:#555;margin-top:8px;">{t(lang, "hero_subtitle")}</p>
-
-      <p style="margin-top:16px;">
-        <a href={`/${lang}/projects`} style="text-decoration:none;border:1px solid #eee;padding:10px 14px;border-radius:12px;display:inline-block;">
-          {t(lang, "projects_title")}
-        </a>
+  {isLakehouse ? (
+    <GitHubIssuesLakehouse lang={lang} project={project} />
+  ) : (
+    <section class="card" style="padding:22px;">
+      <h1 style="margin:0 0 10px; font-size:28px;">{title}</h1>
+      <p style="margin:0; opacity:.8; max-width:80ch; line-height:1.5;">
+        {project.summary[lang]}
       </p>
-    </main>
-  </body>
-</html>
+
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn" href={project.links.repo} target="_blank" rel="noreferrer">
+          Open repository
+        </a>
+        {project.links.demo ? (
+          <a class="btn" href={project.links.demo} target="_blank" rel="noreferrer">
+            View demo
+          </a>
+        ) : null}
+      </div>
+    </section>
+  )}
+</SiteLayout>
