@@ -1,0 +1,72 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { allLangs as LANGS, isLang, type Lang } from "../../i18n/config";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang: rawLang } = Astro.params;
+const lang = (isLang(rawLang ?? "") ? rawLang : "en") as Lang;
+
+const copy = {
+  en: {
+    title: "About",
+    eyebrow: "Profile",
+    intro:
+      "Engineering student building a portfolio focused on data engineering, applied AI, and delivery-oriented technical case studies.",
+    block1Title: "What this portfolio is for",
+    block1Text:
+      "The goal is to present projects with a cleaner structure: clear context, technical choices, and readable implementation rather than isolated snippets.",
+    block2Title: "Main positioning",
+    block2Text:
+      "The strongest axis is data engineering, complemented by RAG and applied AI projects connected to real documentation and practical use cases.",
+    block3Title: "Current direction",
+    block3Text:
+      "This version of the portfolio is intentionally scoped around a compact set of representative projects that can be expanded gradually.",
+  },
+  fr: {
+    title: "À propos",
+    eyebrow: "Profil",
+    intro:
+      "Élève ingénieur qui construit un portfolio orienté data engineering, IA appliquée et cas techniques présentés comme de vrais livrables.",
+    block1Title: "Objectif du portfolio",
+    block1Text:
+      "L'idée est de présenter les projets avec une structure plus claire : contexte, choix techniques et implémentation lisible plutôt que des extraits isolés.",
+    block2Title: "Positionnement principal",
+    block2Text:
+      "L'axe le plus fort est le data engineering, complété par des projets RAG et IA appliquée connectés à une vraie documentation et à des usages concrets.",
+    block3Title: "Direction actuelle",
+    block3Text:
+      "Cette version du portfolio est volontairement cadrée autour d'un ensemble compact de projets représentatifs, à enrichir progressivement.",
+  },
+} as const;
+
+const ui = copy[lang];
+---
+<SiteLayout lang={lang} title={`${ui.title} - Achraf Bahich`} description={ui.intro}>
+  <section class="page-hero">
+    <span class="eyebrow">{ui.eyebrow}</span>
+    <h1>{ui.title}</h1>
+    <p>{ui.intro}</p>
+  </section>
+
+  <section class="section">
+    <div class="focus-grid">
+      <article class="focus-card">
+        <h3>{ui.block1Title}</h3>
+        <p>{ui.block1Text}</p>
+      </article>
+      <article class="focus-card">
+        <h3>{ui.block2Title}</h3>
+        <p>{ui.block2Text}</p>
+      </article>
+      <article class="focus-card">
+        <h3>{ui.block3Title}</h3>
+        <p>{ui.block3Text}</p>
+      </article>
+    </div>
+  </section>
+</SiteLayout>

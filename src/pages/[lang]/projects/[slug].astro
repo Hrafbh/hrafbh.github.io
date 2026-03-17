@@ -1,13 +1,14 @@
 ---
 import SiteLayout from "../../../layouts/SiteLayout.astro";
-import { allLangs as LANGS, isLang, type Lang } from "../../../i18n/config";
-import { t } from "../../../i18n/ui";
-import { projects } from "../../../data/projects.js";
 import GitHubIssuesLakehouse from "../../../components/projects/GitHubIssuesLakehouse.astro";
+import { allLangs as LANGS, isLang, type Lang } from "../../../i18n/config";
+import { projects } from "../../../data/projects.js";
 
 export function getStaticPaths() {
   return LANGS.flatMap((lang) =>
-    projects.map((p) => ({ params: { lang, slug: p.slug } }))
+    projects.map((project) => ({
+      params: { lang, slug: project.slug },
+    }))
   );
 }
 
@@ -17,33 +18,147 @@ const lang = (isLang(rawLang ?? "") ? rawLang : "en") as Lang;
 const project = projects.find((p) => p.slug === slug);
 if (!project) throw new Error("Project not found: " + slug);
 
-const title = project.title[lang];
-const isLakehouse = project.slug === "github-issues-lakehouse";
+type ProjectWithMeta = typeof project & {
+  tags?: string[];
+  stack?: string[];
+  tech?: string[];
+  category?: Partial<Record<Lang, string>>;
+  showcase?: {
+    type?: "highlights";
+    bullets?: Partial<Record<Lang, string[]>>;
+  };
+};
+
+const richProject = project as ProjectWithMeta;
+
+const title = richProject.title?.[lang] ?? richProject.title?.en ?? richProject.slug;
+const summary = richProject.summary?.[lang] ?? richProject.summary?.en ?? "";
+
+const tags =
+  Array.isArray(richProject.tags) ? richProject.tags :
+  Array.isArray(richProject.stack) ? richProject.stack :
+  Array.isArray(richProject.tech) ? richProject.tech :
+  [];
+
+const category =
+  richProject.category?.[lang] ??
+  richProject.category?.en ??
+  (richProject.slug.includes("rag")
+    ? (lang === "fr" ? "IA / RAG" : "AI / RAG")
+    : "Data Engineering");
+
+const copy = {
+  en: {
+    back: "Back to projects",
+    repo: "Open repository",
+    demo: "View demo",
+    overview: "Project overview",
+    overviewText:
+      "This page is already structured as a case-study layout. The detailed technical content can be enriched next without changing the overall design.",
+    stack: "Tech stack",
+    next: "Next content blocks",
+    nextItems: [
+      "Problem and business context",
+      "Architecture and technical decisions",
+      "Implementation details and results",
+    ],
+    highlights: "Highlights",
+    empty: "To be completed",
+  },
+  fr: {
+    back: "Retour aux projets",
+    repo: "Ouvrir le dépôt",
+    demo: "Voir la démo",
+    overview: "Vue d'ensemble du projet",
+    overviewText:
+      "Cette page est déjà structurée comme un cas d'étude. Le contenu technique détaillé pourra être enrichi ensuite sans modifier le design global.",
+    stack: "Stack technique",
+    next: "Prochains blocs de contenu",
+    nextItems: [
+      "Problème et contexte métier",
+      "Architecture et choix techniques",
+      "Détails d'implémentation et résultats",
+    ],
+    highlights: "Points clés",
+    empty: "À compléter",
+  },
+} as const;
+
+const ui = copy[lang];
+const isLakehouse = richProject.slug === "github-issues-lakehouse";
+const highlights =
+  richProject.showcase?.type === "highlights"
+    ? richProject.showcase.bullets?.[lang] ?? richProject.showcase.bullets?.en ?? []
+    : [];
 ---
-<SiteLayout lang={lang} title={`${title} — ${t(lang, "site_title")}`}>
-  <div style="margin-bottom:14px;">
-    <a class="btn" href={`/${lang}/projects/`}>← {t(lang, "projects_title")}</a>
+<SiteLayout
+  lang={lang}
+  title={`${title} - Achraf Bahich`}
+  description={summary}
+>
+  <div class="inline-actions" style="margin-top: 0; margin-bottom: 16px;">
+    <a class="btn" href={`/${lang}/projects/`}>&larr; {ui.back}</a>
   </div>
 
   {isLakehouse ? (
-    <GitHubIssuesLakehouse lang={lang} project={project} />
+    <GitHubIssuesLakehouse lang={lang} project={richProject} />
   ) : (
-    <section class="card" style="padding:22px;">
-      <h1 style="margin:0 0 10px; font-size:28px;">{title}</h1>
-      <p style="margin:0; opacity:.8; max-width:80ch; line-height:1.5;">
-        {project.summary[lang]}
-      </p>
+    <>
+      <section class="detail-hero">
+        <span class="eyebrow">{category}</span>
+        <h1>{title}</h1>
+        <p>{summary}</p>
 
-      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-        <a class="btn" href={project.links.repo} target="_blank" rel="noreferrer">
-          {lang === "fr" ? "Ouvrir le repo" : "Open repository"}
-        </a>
-        {project.links.demo
-          ? <a class="btn" href={project.links.demo} target="_blank" rel="noreferrer">
-              {lang === "fr" ? "Voir la démo" : "View demo"}
+        <div class="hero-actions">
+          {richProject.links?.repo ? (
+            <a class="btn-primary" href={richProject.links.repo} target="_blank" rel="noreferrer">
+              {ui.repo}
             </a>
-          : null}
-      </div>
-    </section>
+          ) : null}
+
+          {richProject.links?.demo ? (
+            <a class="btn-secondary" href={richProject.links.demo} target="_blank" rel="noreferrer">
+              {ui.demo}
+            </a>
+          ) : null}
+        </div>
+      </section>
+
+      <section class="detail-grid">
+        <div>
+          <article class="detail-panel">
+            <h2>{ui.overview}</h2>
+            <p>{ui.overviewText}</p>
+          </article>
+
+          {highlights.length > 0 ? (
+            <article class="detail-panel">
+              <h2>{ui.highlights}</h2>
+              <ul>
+                {highlights.map((item: string) => <li>{item}</li>)}
+              </ul>
+            </article>
+          ) : null}
+
+          <article class="detail-panel">
+            <h2>{ui.next}</h2>
+            <ul>
+              {ui.nextItems.map((item: string) => <li>{item}</li>)}
+            </ul>
+          </article>
+        </div>
+
+        <aside>
+          <article class="detail-panel">
+            <h3>{ui.stack}</h3>
+            <div class="tag-row" style="margin-top: 14px;">
+              {tags.length > 0
+                ? tags.map((tag: string) => <span class="tag">{tag}</span>)
+                : <span class="tag">{ui.empty}</span>}
+            </div>
+          </article>
+        </aside>
+      </section>
+    </>
   )}
 </SiteLayout>

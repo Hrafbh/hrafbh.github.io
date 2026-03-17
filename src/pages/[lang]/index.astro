@@ -1,40 +1,164 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
-import { allLangs, type Lang } from "../../i18n/config";
-import { t } from "../../i18n/ui";
-import ProjectCard from "../../components/ProjectCard.astro"; // Importing ProjectCard component
-import { projects } from "../../data/projects"; // Adjust the path as necessary
+import ProjectCard from "../../components/ProjectCard.astro";
+import { allLangs as LANGS, isLang, type Lang } from "../../i18n/config";
+import { projects } from "../../data/projects.js";
 
-export async function getStaticPaths() {
-  return allLangs.map((lang) => ({ params: { lang } }));
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({
+    params: { lang },
+  }));
 }
 
-const lang = Astro.params.lang as Lang;
+const { lang: rawLang } = Astro.params;
+const lang = (isLang(rawLang ?? "") ? rawLang : "en") as Lang;
 
-// Placeholder (commit #2 branchera la vraie data projects)
-const featured = projects.filter((p) => p.featured).slice(0, 3);
+const copy = {
+  en: {
+    title: "Data Engineering and AI portfolio structured around clear project case studies.",
+    subtitle:
+      "The site now follows a simple structure: Home, Projects, About, Resume, and Contact. The current project section already matches the portfolio scope you want to present.",
+    primary: "Browse projects",
+    secondary: "About me",
+    featuredTitle: "Current project lineup",
+    featuredText:
+      "These are the projects currently included in the portfolio structure.",
+    mapTitle: "Portfolio structure",
+    mapText:
+      "A cleaner information architecture makes each section easier to expand as you add full project write-ups.",
+    card1Title: "Projects",
+    card1Text:
+      "Five project entries already organized as dedicated case-study pages.",
+    card2Title: "Resume",
+    card2Text:
+      "A dedicated page to present profile highlights, experience, and future downloadable CV links.",
+    card3Title: "Contact / Links",
+    card3Text:
+      "A single place for GitHub, LinkedIn, email, and other professional entry points.",
+    stat1: "Focus",
+    stat1Value: "Data & AI",
+    stat2: "Sections",
+    stat2Value: "5",
+    stat3: "Projects",
+    stat3Value: String(projects.length),
+    stat4: "Language",
+    stat4Value: "EN / FR",
+  },
+  fr: {
+    title: "Un portfolio Data Engineering et IA structuré autour de cas projets clairs.",
+    subtitle:
+      "Le site suit maintenant une structure simple : Home, Projects, About, Resume et Contact. La section projets reflète déjà le périmètre que tu veux montrer pour le moment.",
+    primary: "Voir les projets",
+    secondary: "À propos",
+    featuredTitle: "Projets actuellement inclus",
+    featuredText:
+      "Voici les projets déjà intégrés dans la structure du portfolio.",
+    mapTitle: "Structure du portfolio",
+    mapText:
+      "Une architecture d'information plus claire permet d'ajouter ensuite le contenu complet sans refaire l'organisation du site.",
+    card1Title: "Projects",
+    card1Text:
+      "Cinq entrées projets déjà organisées comme des pages de type case study.",
+    card2Title: "Resume",
+    card2Text:
+      "Une page dédiée pour présenter ton profil, tes points forts et ensuite ton CV téléchargeable.",
+    card3Title: "Contact / Links",
+    card3Text:
+      "Un point d'entrée unique pour GitHub, LinkedIn, email et les liens professionnels.",
+    stat1: "Focus",
+    stat1Value: "Data & IA",
+    stat2: "Sections",
+    stat2Value: "5",
+    stat3: "Projets",
+    stat3Value: String(projects.length),
+    stat4: "Langues",
+    stat4Value: "EN / FR",
+  },
+} as const;
+
+const ui = copy[lang];
+const featured = projects;
 ---
-<SiteLayout lang={lang} title={t(lang, "site_title")} description={t(lang, "hero_subtitle")}>
-  <section class="card" style="padding:22px;">
-    <h1 style="margin:0 0 10px; font-size:28px;">
-      {t(lang, "hero_title")}
-    </h1>
-    <p style="margin:0; opacity:.78; max-width:70ch;">
-      {t(lang, "hero_subtitle")}
-    </p>
+<SiteLayout
+  lang={lang}
+  title={`Achraf Bahich - ${lang === "fr" ? "Portfolio Data & IA" : "Data & AI Portfolio"}`}
+  description={ui.subtitle}
+>
+  <section class="hero">
+    <div>
+      <span class="eyebrow">
+        {lang === "fr" ? "Portfolio technique bilingue" : "Bilingual technical portfolio"}
+      </span>
 
-    <div style="margin-top:16px;">
-      <a class="btn" href={`/${lang}/projects/`}>{t(lang, "cta_view_all")}</a>
+      <h1>{ui.title}</h1>
+      <p class="hero-copy">{ui.subtitle}</p>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href={`/${lang}/projects/`}>{ui.primary}</a>
+        <a class="btn-secondary" href={`/${lang}/about/`}>
+          {ui.secondary}
+        </a>
+      </div>
+    </div>
+
+    <aside class="hero-panel">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <strong>{ui.stat1Value}</strong>
+          <span>{ui.stat1}</span>
+        </div>
+        <div class="stat-card">
+          <strong>{ui.stat2Value}</strong>
+          <span>{ui.stat2}</span>
+        </div>
+        <div class="stat-card">
+          <strong>{ui.stat3Value}</strong>
+          <span>{ui.stat3}</span>
+        </div>
+        <div class="stat-card">
+          <strong>{ui.stat4Value}</strong>
+          <span>{ui.stat4}</span>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>{ui.featuredTitle}</h2>
+        <p>{ui.featuredText}</p>
+      </div>
+    </div>
+
+    <div class="project-grid">
+      {featured.map((project) => <ProjectCard project={project} lang={lang} />)}
     </div>
   </section>
 
-  <section style="margin-top:18px;">
-    <h2 style="margin:0 0 12px; font-size:18px; opacity:.9;">
-      {t(lang, "featured_title")}
-    </h2>
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>{ui.mapTitle}</h2>
+        <p>{ui.mapText}</p>
+      </div>
+    </div>
 
-    <div class="grid grid-3">
-      {featured.map((p) => <ProjectCard lang={lang} project={p} />)}
+    <div class="focus-grid">
+      <article class="focus-card">
+        <h3>{ui.card1Title}</h3>
+        <p>{ui.card1Text}</p>
+      </article>
+
+      <article class="focus-card">
+        <h3>{ui.card2Title}</h3>
+        <p>{ui.card2Text}</p>
+      </article>
+
+      <article class="focus-card">
+        <h3>{ui.card3Title}</h3>
+        <p>{ui.card3Text}</p>
+      </article>
     </div>
   </section>
 </SiteLayout>

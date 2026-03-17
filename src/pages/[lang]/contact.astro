@@ -1,0 +1,75 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { allLangs as LANGS, isLang, type Lang } from "../../i18n/config";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang: rawLang } = Astro.params;
+const lang = (isLang(rawLang ?? "") ? rawLang : "en") as Lang;
+
+const copy = {
+  en: {
+    title: "Contact / Links",
+    eyebrow: "Professional links",
+    intro:
+      "A dedicated place for the main channels that connect the portfolio to the rest of your professional presence.",
+    githubText: "Code repositories and public project work.",
+    linkedinText: "Professional profile and networking entry point.",
+    emailText: "Direct contact channel for opportunities and collaboration.",
+    linkedinCta: "Add LinkedIn URL",
+  },
+  fr: {
+    title: "Contact / Liens",
+    eyebrow: "Liens professionnels",
+    intro:
+      "Un espace dédié aux principaux points d'entrée qui relient le portfolio au reste de ta présence professionnelle.",
+    githubText: "Dépôts de code et projets publics.",
+    linkedinText: "Profil professionnel et point d'entrée réseau.",
+    emailText: "Canal de contact direct pour opportunités et collaborations.",
+    linkedinCta: "Ajouter l'URL LinkedIn",
+  },
+} as const;
+
+const ui = copy[lang];
+---
+<SiteLayout lang={lang} title={`${ui.title} - Achraf Bahich`} description={ui.intro}>
+  <section class="page-hero">
+    <span class="eyebrow">{ui.eyebrow}</span>
+    <h1>{ui.title}</h1>
+    <p>{ui.intro}</p>
+  </section>
+
+  <section class="section">
+    <div class="focus-grid">
+      <article class="focus-card">
+        <h3>GitHub</h3>
+        <p>{ui.githubText}</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="https://github.com/Hrafbh" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        </div>
+      </article>
+      <article class="focus-card">
+        <h3>LinkedIn</h3>
+        <p>{ui.linkedinText}</p>
+        <div class="hero-actions">
+          <span class="btn-secondary">{ui.linkedinCta}</span>
+        </div>
+      </article>
+      <article class="focus-card">
+        <h3>Email</h3>
+        <p>{ui.emailText}</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="mailto:achrafbahich@gmail.com">
+            achrafbahich@gmail.com
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+</SiteLayout>

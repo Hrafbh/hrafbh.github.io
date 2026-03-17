@@ -1,52 +1,76 @@
 ---
-const { lang, project } = Astro.props;
+import type { Lang } from "../i18n/config";
 
-const href = `/${lang}/projects/${project.slug}/`;
-const title = project.title[lang];
-const summary = project.summary[lang];
-const category = project.category[lang];
+type LocalizedText = {
+  en: string;
+  fr: string;
+};
 
-const statusLabel =
-  project.status === "wip"
-    ? (lang === "fr" ? "En cours" : "Work in progress")
-    : (lang === "fr" ? "Disponible" : "Live");
+type ProjectCardProps = {
+  project: {
+    slug: string;
+    title: LocalizedText;
+    summary: LocalizedText;
+    date?: string;
+    status?: "live" | "wip";
+    links?: {
+      repo?: string;
+      demo?: string;
+    };
+    category?: Partial<Record<Lang, string>>;
+    tags?: string[];
+    stack?: string[];
+    tech?: string[];
+  };
+  lang?: Lang;
+};
 
-const viewLabel = lang === "fr" ? "Voir le projet" : "View project";
-const repoLabel = lang === "fr" ? "Repo" : "Repository";
+const { project, lang = "en" } = Astro.props as ProjectCardProps;
+
+const title = project.title?.[lang] ?? project.title.en ?? project.slug;
+const summary = project.summary?.[lang] ?? project.summary.en ?? "";
+const tags =
+  Array.isArray(project.tags) ? project.tags :
+  Array.isArray(project.stack) ? project.stack :
+  Array.isArray(project.tech) ? project.tech :
+  [];
+
+const category =
+  project.category?.[lang] ??
+  project.category?.en ??
+  (project.slug.includes("rag")
+    ? (lang === "fr" ? "IA / RAG" : "AI / RAG")
+    : "Data Engineering");
+
+const projectHref = `/${lang}/projects/${project.slug}/`;
 ---
-<article class="card" style="padding:16px; display:flex; flex-direction:column; min-height: 220px;">
-  <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start;">
-    <div style="font-weight:800; letter-spacing:.2px; line-height:1.2;">
-      {title}
+<article class="project-card">
+  <div class="project-meta">
+    <span class="project-type">{category}</span>
+    {project.date ? <span class="project-date">{project.date}</span> : null}
+  </div>
+
+  <h3>
+    <a class="project-link-title" href={projectHref}>{title}</a>
+  </h3>
+
+  <p>{summary}</p>
+
+  {tags.length > 0 ? (
+    <div class="tag-row">
+      {tags.slice(0, 6).map((tag: string) => <span class="tag">{tag}</span>)}
     </div>
-    <span
-      style="font-size:12px; padding:2px 10px; border:1px solid rgba(255,255,255,.14); border-radius:999px; opacity:.85; white-space:nowrap;"
-    >
-      {statusLabel}
-    </span>
-  </div>
+  ) : null}
 
-  <div style="margin-top:6px; opacity:.72; font-size:13px;">
-    <b style="opacity:.92;">{category}</b>
-    <span style="opacity:.7;"> · {project.date}</span>
-  </div>
+  <div class="project-actions">
+    <a class="btn-primary" href={projectHref}>
+      {lang === "fr" ? "Voir le projet" : "View project"}
+    </a>
 
-  <p style="margin:10px 0 12px; opacity:.78; line-height:1.45; font-size:14px;">
-    {summary}
-  </p>
-
-  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:auto;">
-    {project.tags.slice(0, 5).map((tag: string) => (
-      <span
-        style="font-size:12px; border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:2px 8px; opacity:.8;"
-      >
-        {tag}
-      </span>
-    ))}
-  </div>
-
-  <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-    <a class="btn" href={href}>{viewLabel}</a>
-    <a class="btn" href={project.links.repo} target="_blank" rel="noreferrer">{repoLabel}</a>
+    {project.links?.repo ? (
+      <a class="btn-secondary" href={project.links.repo} target="_blank" rel="noreferrer">
+        GitHub
+      </a>
+    ) : null}
   </div>
 </article>

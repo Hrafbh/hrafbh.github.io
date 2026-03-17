@@ -9,30 +9,6 @@
  * }} ShowcaseHighlights
  *
  * @typedef {{
- *   type: "iframe";
- *   url: string;
- *   height?: number;
- * }} ShowcaseIframe
- *
- * @typedef {{
- *   type: "gallery";
- *   images: { src: string; alt: I18nText }[];
- * }} ShowcaseGallery
- *
- * @typedef {{
- *   type: "video";
- *   embedUrl: string;
- * }} ShowcaseVideo
- *
- * @typedef {{
- *   type: "notebook";
- *   url: string;
- *   provider?: "colab" | "nbviewer" | "github";
- * }} ShowcaseNotebook
- *
- * @typedef {ShowcaseHighlights | ShowcaseIframe | ShowcaseGallery | ShowcaseVideo | ShowcaseNotebook} Showcase
- *
- * @typedef {{
  *   slug: string;
  *   featured?: boolean;
  *   status?: "live" | "wip";
@@ -42,7 +18,7 @@
  *   title: I18nText;
  *   summary: I18nText;
  *   links: { repo: string; demo?: string };
- *   showcase?: Showcase;
+ *   showcase?: ShowcaseHighlights;
  * }} Project
  */
 
@@ -54,11 +30,11 @@ export const projects = [
     status: "live",
     category: { fr: "Data Engineering", en: "Data Engineering" },
     date: "2026-01",
-    tags: ["Python", "GitHub API", "Bronze/Silver/Gold", "Parquet", "KPI"],
+    tags: ["Python", "GitHub API", "Lakehouse", "Parquet", "KPIs"],
     title: { fr: "GitHub Issues Lakehouse", en: "GitHub Issues Lakehouse" },
     summary: {
-      fr: "Pipeline lakehouse sur les issues de pandas : ingestion → dataset Silver → KPI Gold (flow, backlog, temps de résolution).",
-      en: "Lakehouse pipeline on pandas issues: ingestion → Silver dataset → Gold KPIs (flow, backlog, resolution time).",
+      fr: "Projet lakehouse sur des issues GitHub, pensé comme un cas de data engineering similaire à un projet métier structuré.",
+      en: "GitHub issues lakehouse project designed as a structured data engineering case study.",
     },
     links: {
       repo: "https://github.com/Hrafbh/github-issues-lakehouse",
@@ -68,73 +44,152 @@ export const projects = [
       type: "highlights",
       bullets: {
         fr: [
-          "Bronze JSONL (raw) + Silver Parquet (curated) + Gold KPI mensuels.",
-          "Classification adaptée GitHub : defect/enhancement/docs/question + priority tiers.",
-          "Exports CSV/Parquet + exécution CLI (ingest/silver/gold).",
+          "Architecture Bronze / Silver / Gold avec sorties CSV et Parquet.",
+          "KPIs mensuels sur le backlog, le flow et le temps de résolution.",
+          "Projet vitrine pour montrer une logique de delivery data end-to-end.",
         ],
         en: [
-          "Bronze JSONL (raw) + Silver Parquet (curated) + Gold monthly KPIs.",
-          "GitHub-adapted classification: defect/enhancement/docs/question + priority tiers.",
-          "CSV/Parquet exports + CLI runs (ingest/silver/gold).",
+          "Bronze / Silver / Gold architecture with CSV and Parquet outputs.",
+          "Monthly KPIs for backlog, flow, and resolution speed.",
+          "Showcase project to demonstrate end-to-end delivery thinking.",
         ],
       },
     },
   },
-
-  // --- WIP project #2 (placeholder propre, sans sur-vendre) ---
   {
-    slug: "kpi-automation-wip",
+    slug: "confluence-rag-chatbot",
     featured: true,
     status: "wip",
-    category: { fr: "Data Analytics", en: "Data Analytics" },
+    category: { fr: "Applied AI", en: "Applied AI" },
     date: "2026",
-    tags: ["ETL", "KPIs", "Dashboards", "SQL", "Python"],
-    title: {
-      fr: "KPI Automation (WIP)",
-      en: "KPI Automation (WIP)",
-    },
+    tags: ["RAG", "LLM", "Confluence", "Embeddings", "Chatbot"],
+    title: { fr: "Confluence RAG Chatbot", en: "Confluence RAG Chatbot" },
     summary: {
-      fr: "Projet en cours : industrialisation d’un calcul KPI avec pipeline de données, contrôles qualité et reporting.",
-      en: "Work in progress: KPI computation industrialization with a data pipeline, quality checks, and reporting.",
+      fr: "Assistant conversationnel RAG basé sur une base documentaire Confluence, dans l'esprit du projet Energy Pool AI chatbot.",
+      en: "RAG conversational assistant built on top of a Confluence knowledge base, similar in spirit to the Energy Pool AI chatbot project.",
     },
     links: {
-      repo: "https://github.com/Hrafbh", // à remplacer par le repo exact quand prêt
+      repo: "https://github.com/Hrafbh",
       demo: "",
     },
     showcase: {
       type: "highlights",
       bullets: {
-        fr: ["Structure prête. Contenu détaillé à publier progressivement."],
-        en: ["Structure ready. Details will be published progressively."],
+        fr: [
+          "Pipeline d'ingestion documentaire et préparation de chunks pour la recherche.",
+          "Travail centré sur la pertinence des réponses et la qualité du contexte restitué.",
+          "Page prête à accueillir l'architecture, l'évaluation et les choix techniques détaillés.",
+        ],
+        en: [
+          "Document ingestion pipeline and chunk preparation for retrieval.",
+          "Work focused on answer relevance and retrieved context quality.",
+          "Page ready to host architecture, evaluation, and detailed technical choices.",
+        ],
       },
     },
   },
-
-  // --- WIP project #3 (placeholder) ---
   {
-    slug: "applied-ml-wip",
+    slug: "energy-pool-data-engineering-project",
     featured: true,
     status: "wip",
-    category: { fr: "Data Science", en: "Data Science" },
-    date: "2026",
-    tags: ["ML", "Python", "Notebook", "Evaluation", "Visualization"],
+    category: { fr: "Data Engineering", en: "Data Engineering" },
+    date: "2025",
+    tags: ["ETL", "SQL", "Python", "Analytics", "Industrial Data"],
     title: {
-      fr: "Applied ML (WIP)",
-      en: "Applied ML (WIP)",
+      fr: "Energy Pool Data Engineering Project",
+      en: "Energy Pool Data Engineering Project",
     },
     summary: {
-      fr: "Projet en cours : expérimentation ML, itérations notebook → scripts, et mise en valeur des résultats.",
-      en: "Work in progress: ML experiments, notebook-to-scripts iterations, and results storytelling.",
+      fr: "Cas de data engineering centré sur la structuration, la transformation et l'exploitation fiable de données métier.",
+      en: "Data engineering case study focused on structuring, transforming, and exposing business data reliably.",
     },
     links: {
-      repo: "https://github.com/Hrafbh", // à remplacer
+      repo: "https://github.com/Hrafbh",
       demo: "",
     },
     showcase: {
       type: "highlights",
       bullets: {
-        fr: ["Structure prête. Résultats/figures à intégrer."],
-        en: ["Structure ready. Results/figures to be added."],
+        fr: [
+          "Projet de référence pour la logique pipeline, qualité et exploitation analytique.",
+          "Base de comparaison pour d'autres projets data du portfolio.",
+          "Le contenu détaillé sera enrichi progressivement.",
+        ],
+        en: [
+          "Reference project for pipeline, quality, and analytical delivery logic.",
+          "Baseline used to position other data projects in the portfolio.",
+          "Detailed write-up will be expanded progressively.",
+        ],
+      },
+    },
+  },
+  {
+    slug: "framatome-data-engineering-project",
+    featured: false,
+    status: "wip",
+    category: { fr: "Data Engineering", en: "Data Engineering" },
+    date: "2025",
+    tags: ["Data Pipeline", "Monitoring", "SQL", "Python", "Industry"],
+    title: {
+      fr: "Framatome Data Engineering Project",
+      en: "Framatome Data Engineering Project",
+    },
+    summary: {
+      fr: "Projet orienté pipeline, fiabilité et mise à disposition de données dans un contexte industriel.",
+      en: "Project centered on pipeline reliability and data delivery in an industrial context.",
+    },
+    links: {
+      repo: "https://github.com/Hrafbh",
+      demo: "",
+    },
+    showcase: {
+      type: "highlights",
+      bullets: {
+        fr: [
+          "Accent mis sur la robustesse du traitement et la lisibilité de l'architecture.",
+          "Positionné comme un cas concret de data engineering appliqué.",
+          "La page sert déjà de place propre pour publier le contenu complet ensuite.",
+        ],
+        en: [
+          "Emphasis on robust processing and readable architecture.",
+          "Positioned as a concrete applied data engineering case study.",
+          "The page already provides a clean slot for the full write-up later on.",
+        ],
+      },
+    },
+  },
+  {
+    slug: "academic-data-science-project",
+    featured: false,
+    status: "wip",
+    category: { fr: "Data Science", en: "Data Science" },
+    date: "2024-2025",
+    tags: ["Machine Learning", "Time Series", "Energy", "Notebook", "Evaluation"],
+    title: {
+      fr: "Academic Data Science Project",
+      en: "Academic Data Science Project",
+    },
+    summary: {
+      fr: "Projet académique regroupant notamment Challenge Data Engie et Wind Turbine Energy avec une approche data science appliquée.",
+      en: "Academic project grouping work such as Challenge Data Engie and Wind Turbine Energy with an applied data science angle.",
+    },
+    links: {
+      repo: "https://github.com/Hrafbh",
+      demo: "",
+    },
+    showcase: {
+      type: "highlights",
+      bullets: {
+        fr: [
+          "Regroupe les projets académiques les plus représentatifs pour le portfolio.",
+          "Met en avant l'analyse, la modélisation et l'évaluation des résultats.",
+          "Convient pour présenter des notebooks, figures et conclusions métier.",
+        ],
+        en: [
+          "Groups the most representative academic projects for the portfolio.",
+          "Highlights analysis, modeling, and result evaluation.",
+          "Well suited for notebooks, figures, and business-facing conclusions.",
+        ],
       },
     },
   },

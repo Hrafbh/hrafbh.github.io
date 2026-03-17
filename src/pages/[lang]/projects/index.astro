@@ -1,33 +1,49 @@
 ---
 import SiteLayout from "../../../layouts/SiteLayout.astro";
-import { allLangs, type Lang } from "../../../i18n/config";
-import { t } from "../../../i18n/ui";
 import ProjectCard from "../../../components/ProjectCard.astro";
-import { projects } from "../../../data/projects";
+import { allLangs as LANGS, isLang, type Lang } from "../../../i18n/config";
+import { projects } from "../../../data/projects.js";
 
-export async function getStaticPaths() {
-  return allLangs.map((lang) => ({ params: { lang } }));
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({
+    params: { lang },
+  }));
 }
 
-const lang = Astro.params.lang as Lang;
+const { lang: rawLang } = Astro.params;
+const lang = (isLang(rawLang ?? "") ? rawLang : "en") as Lang;
+
+const copy = {
+  en: {
+    title: "Project portfolio",
+    subtitle:
+      "The project section now follows the portfolio structure you defined, with the current five entries already in place.",
+  },
+  fr: {
+    title: "Portfolio de projets",
+    subtitle:
+      "La section projets suit maintenant la structure du portfolio que tu as définie, avec les cinq entrées déjà en place.",
+  },
+} as const;
+
+const ui = copy[lang];
 ---
-<SiteLayout lang={lang} title={`${t(lang, "projects_title")} — ${t(lang, "site_title")}`}>
-  <section style="margin-bottom:14px;">
-    <h1 style="margin:0 0 6px; font-size:22px;">{t(lang, "projects_title")}</h1>
-    <p style="margin:0; opacity:.72;">
-      {lang === "fr"
-        ? "Tous les projets, avec un rendu adapté selon le type de showcase."
-        : "All projects, with tailored rendering depending on showcase type."}
-    </p>
+<SiteLayout
+  lang={lang}
+  title={`Achraf Bahich - ${ui.title}`}
+  description={ui.subtitle}
+>
+  <section class="page-hero">
+    <span class="eyebrow">
+      {lang === "fr" ? "Sélection de projets" : "Project selection"}
+    </span>
+    <h1>{ui.title}</h1>
+    <p>{ui.subtitle}</p>
   </section>
 
-  <div class="grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
-    {projects.map((p) => <ProjectCard lang={lang} project={p} />)}
-  </div>
-
-  <style>
-    @media (max-width: 900px) {
-      div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
-    }
-  </style>
+  <section class="section">
+    <div class="project-grid">
+      {projects.map((project) => <ProjectCard project={project} lang={lang} />)}
+    </div>
+  </section>
 </SiteLayout>
