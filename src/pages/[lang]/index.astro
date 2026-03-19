@@ -15,15 +15,15 @@ const lang = (isLang(rawLang ?? "") ? rawLang : "en") as Lang;
 
 const copy = {
   en: {
-    eyebrow: "Data Engineering • Data Science • Applied AI",
+    eyebrow: "Data Engineering - Data Science - Applied AI",
     title: "Data engineer focused on pipelines, cloud, and applied AI.",
     subtitle:
       "I work end to end from data ingestion and modeling to analytics and AI delivery, with hands-on experience in ETL/ELT, Azure, PySpark, SQL, NLP, and support automation.",
     primary: "View projects",
     secondary: "About me",
-    featuredTitle: "Selected projects",
+    featuredTitle: "Projects",
     featuredText:
-      "A focused set of case studies covering cloud pipelines, lakehouse design, RAG, analytics, and applied machine learning.",
+      "A selection of projects presented with context, implementation details, and concrete outcomes.",
     mapTitle: "What this portfolio shows",
     mapText:
       "The goal is to present work the way teams evaluate it in practice: business context, architecture choices, implementation details, and measurable outcomes.",
@@ -36,30 +36,29 @@ const copy = {
     card3Title: "Delivery mindset",
     card3Text:
       "A project approach focused on understanding business needs, structuring the problem clearly, and shipping maintainable solutions.",
-
   },
   fr: {
-    eyebrow: "Data Engineering • Data Science • IA appliquée",
-    title: "Ingénieur data, cloud et IA appliquée.",
+    eyebrow: "Data Engineering - Data Science - IA appliquee",
+    title: "Ingenieur data, cloud et IA appliquee.",
     subtitle:
-      "Je travaille de bout en bout, de l'ingestion et la modélisation des données jusqu'à la livraison d'outils analytiques et IA, avec une expérience concrète en ETL/ELT, Azure, PySpark, SQL, NLP et automatisation du support.",
+      "Je travaille de bout en bout, de l'ingestion et la modelisation des donnees jusqu'a la livraison d'outils analytiques et IA, avec une experience concrete en ETL/ELT, Azure, PySpark, SQL, NLP et automatisation du support.",
     primary: "Voir les projets",
-    secondary: "À propos",
-    featuredTitle: "Projets sélectionnés",
+    secondary: "A propos",
+    featuredTitle: "Projets",
     featuredText:
-      "Une sélection de cas concrets autour des pipelines cloud, du lakehouse, du RAG, de l'analytics et du machine learning appliqué.",
+      "Une selection de projets presentes avec leur contexte, leur implementation et leurs resultats concrets.",
     mapTitle: "Ce que montre ce portfolio",
     mapText:
-      "L'objectif est de présenter les projets comme en contexte réel : besoin métier, choix d'architecture, implémentation et résultats mesurables.",
+      "L'objectif est de presenter les projets comme en contexte reel : besoin metier, choix d'architecture, implementation et resultats mesurables.",
     card1Title: "Data Engineering",
     card1Text:
-      "Pipelines ETL/ELT, modélisation, workflows cloud, architecture medallion et traitement de données orienté production.",
+      "Pipelines ETL/ELT, modelisation, workflows cloud, architecture medallion et traitement de donnees oriente production.",
     card2Title: "Data Science & IA",
     card2Text:
-      "Machine learning appliqué, NLP, RAG et assistants IA connectés à de la documentation et à des cas d'usage support.",
+      "Machine learning applique, NLP, RAG et assistants IA connectes a de la documentation et a des cas d'usage support.",
     card3Title: "Approche delivery",
     card3Text:
-      "Une façon de travailler centrée sur la compréhension du besoin, la clarté technique et la livraison de solutions maintenables.",
+      "Une facon de travailler centree sur la comprehension du besoin, la clarte technique et la livraison de solutions maintenables.",
   },
 } as const;
 
@@ -74,18 +73,14 @@ const featured = projects;
   <section class="hero">
     <div>
       <span class="eyebrow">{ui.eyebrow}</span>
-
       <h1>{ui.title}</h1>
       <p class="hero-copy">{ui.subtitle}</p>
 
       <div class="hero-actions">
         <a class="btn-primary" href={`/${lang}/projects/`}>{ui.primary}</a>
-        <a class="btn-secondary" href={`/${lang}/about/`}>
-          {ui.secondary}
-        </a>
+        <a class="btn-secondary" href={`/${lang}/about/`}>{ui.secondary}</a>
       </div>
     </div>
-
   </section>
 
   <section class="section">

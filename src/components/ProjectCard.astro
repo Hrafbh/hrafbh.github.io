@@ -21,6 +21,8 @@ type ProjectCardProps = {
     tags?: string[];
     stack?: string[];
     tech?: string[];
+    skills?: string[];
+    mainTech?: string[];
   };
   lang?: Lang;
 };
@@ -29,11 +31,22 @@ const { project, lang = "en" } = Astro.props as ProjectCardProps;
 
 const title = project.title?.[lang] ?? project.title.en ?? project.slug;
 const summary = project.summary?.[lang] ?? project.summary.en ?? "";
-const tags =
+const skills = Array.isArray(project.skills) ? project.skills : [];
+const mainTech =
+  Array.isArray(project.mainTech) ? project.mainTech :
   Array.isArray(project.tags) ? project.tags :
   Array.isArray(project.stack) ? project.stack :
   Array.isArray(project.tech) ? project.tech :
   [];
+const fallbackTags =
+  Array.isArray(project.tags) ? project.tags :
+  Array.isArray(project.stack) ? project.stack :
+  Array.isArray(project.tech) ? project.tech :
+  [];
+const visibleSkills = skills.slice(0, 4);
+const visibleMainTech = mainTech.slice(0, 4);
+const combinedTags = [...new Set([...visibleSkills, ...visibleMainTech])];
+const visibleTags = combinedTags.length > 0 ? combinedTags : fallbackTags.slice(0, 6);
 
 const category =
   project.category?.[lang] ??
@@ -89,9 +102,9 @@ const companyLogo =
 
   <p>{summary}</p>
 
-  {tags.length > 0 ? (
+  {visibleTags.length > 0 ? (
     <div class="tag-row">
-      {tags.slice(0, 6).map((tag: string) => <span class="tag">{tag}</span>)}
+      {visibleTags.map((tag: string) => <span class="tag">{tag}</span>)}
     </div>
   ) : null}
 
@@ -109,6 +122,12 @@ const companyLogo =
 </article>
 
 <style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
   .project-company-badge {
     margin-bottom: 0.7rem;
   }
@@ -118,5 +137,10 @@ const companyLogo =
     height: var(--company-logo-height, 16px);
     width: auto;
     object-fit: contain;
+  }
+
+  .project-actions {
+    margin-top: auto;
+    padding-top: 1.25rem;
   }
 </style>

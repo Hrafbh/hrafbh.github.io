@@ -16,7 +16,7 @@ const contacts = {
   phoneDisplay: "07 01 21 25 54",
   phoneHref: "tel:0701212554",
   linkedin: "https://linkedin.com/in/achrafbahich/",
-  github: "https://github.com/Hrafbh",
+  linkedinDisplay: "linkedin.com/in/achrafbahich",
 } as const;
 
 const copy = {
@@ -24,33 +24,72 @@ const copy = {
     title: "Contact",
     eyebrow: "Professional contact",
     intro:
-      "These are the contact details used on my CV for data engineering, data science, and applied AI opportunities.",
+      "You can reach me through the channels below for data engineering, data science, and applied AI opportunities.",
     emailTitle: "Email",
     phoneTitle: "Phone",
-    emailText: "Direct channel for opportunities, collaboration, and technical discussions.",
-    phoneText: "Quickest way to reach me for a first exchange or an interview.",
     linkedinTitle: "LinkedIn",
-    linkedinText: "Professional profile, background, and networking entry point.",
-    githubTitle: "GitHub",
-    githubText: "Repositories and public project work.",
   },
   fr: {
     title: "Contact",
-    eyebrow: "Coordonnées professionnelles",
+    eyebrow: "Coordonnees professionnelles",
     intro:
-      "Voici les coordonnées présentes sur mes CV pour échanger autour d'opportunités en data engineering, data science et IA appliquée.",
+      "Vous pouvez me joindre via les canaux ci-dessous pour des opportunites en data engineering, data science et IA appliquee.",
     emailTitle: "Email",
-    phoneTitle: "Téléphone",
-    emailText: "Canal direct pour les opportunités, les collaborations et les échanges techniques.",
-    phoneText: "Le moyen le plus rapide pour un premier échange ou un entretien.",
+    phoneTitle: "Telephone",
     linkedinTitle: "LinkedIn",
-    linkedinText: "Profil professionnel, parcours et point d'entrée réseau.",
-    githubTitle: "GitHub",
-    githubText: "Dépôts de code et projets publics.",
   },
 } as const;
 
 const ui = copy[lang];
+
+type ContactItem = {
+  title: string;
+  value: string;
+  href: string;
+  icon: string;
+  external?: boolean;
+};
+
+const icons = {
+  email: `
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z" stroke="currentColor" stroke-width="1.75"/>
+      <path d="m5.5 7 6.5 5 6.5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `,
+  phone: `
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7.8 4h2.3c.4 0 .8.28.9.67l.92 3.2a1 1 0 0 1-.28.99l-1.47 1.46a13.1 13.1 0 0 0 3.5 3.5l1.46-1.47a1 1 0 0 1 .99-.28l3.2.92c.39.11.67.47.67.88v2.32a1.8 1.8 0 0 1-1.97 1.8C10.77 18.36 5.64 13.23 6 5.97A1.8 1.8 0 0 1 7.8 4Z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `,
+  linkedin: `
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6.94 8.5H3.56V19h3.38V8.5Zm.22-3.25A1.97 1.97 0 1 0 3.2 5.26a1.97 1.97 0 0 0 3.95 0ZM20.8 12.53c0-3.2-1.7-4.68-3.98-4.68-1.83 0-2.65 1-3.1 1.7V8.5H10.35c.04.7 0 10.5 0 10.5h3.38v-5.86c0-.31.02-.62.11-.84.25-.62.82-1.27 1.78-1.27 1.26 0 1.77.96 1.77 2.37V19h3.39v-6.47Z"/>
+    </svg>
+  `,
+} as const;
+
+const contactItems: ContactItem[] = [
+  {
+    title: ui.emailTitle,
+    value: contacts.email,
+    href: `mailto:${contacts.email}`,
+    icon: icons.email,
+  },
+  {
+    title: ui.phoneTitle,
+    value: contacts.phoneDisplay,
+    href: contacts.phoneHref,
+    icon: icons.phone,
+  },
+  {
+    title: ui.linkedinTitle,
+    value: contacts.linkedinDisplay,
+    href: contacts.linkedin,
+    icon: icons.linkedin,
+    external: true,
+  },
+];
 ---
 <SiteLayout lang={lang} title={`${ui.title} - Achraf Bahich`} description={ui.intro}>
   <section class="page-hero">
@@ -60,43 +99,113 @@ const ui = copy[lang];
   </section>
 
   <section class="section">
-    <div class="focus-grid">
-      <article class="focus-card">
-        <h3>{ui.emailTitle}</h3>
-        <p>{ui.emailText}</p>
-        <div class="hero-actions">
-          <a class="btn-primary" href={`mailto:${contacts.email}`}>
-            {contacts.email}
+    <div class="contact-grid">
+      {
+        contactItems.map((item) => (
+          <a
+            class="contact-card"
+            href={item.href}
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noreferrer" : undefined}
+            aria-label={`${item.title}: ${item.value}`}
+          >
+            <span class="contact-icon" set:html={item.icon} />
+            <span class="contact-copy">
+              <span class="contact-value">{item.value}</span>
+            </span>
           </a>
-        </div>
-      </article>
-      <article class="focus-card">
-        <h3>{ui.phoneTitle}</h3>
-        <p>{ui.phoneText}</p>
-        <div class="hero-actions">
-          <a class="btn-primary" href={contacts.phoneHref}>
-            {contacts.phoneDisplay}
-          </a>
-        </div>
-      </article>
-      <article class="focus-card">
-        <h3>{ui.linkedinTitle}</h3>
-        <p>{ui.linkedinText}</p>
-        <div class="hero-actions">
-          <a class="btn-primary" href={contacts.linkedin} target="_blank" rel="noreferrer">
-            linkedin.com/in/achrafbahich
-          </a>
-        </div>
-      </article>
-      <article class="focus-card">
-        <h3>{ui.githubTitle}</h3>
-        <p>{ui.githubText}</p>
-        <div class="hero-actions">
-          <a class="btn-primary" href={contacts.github} target="_blank" rel="noreferrer">
-            github.com/Hrafbh
-          </a>
-        </div>
-      </article>
+        ))
+      }
     </div>
   </section>
 </SiteLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 108px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .contact-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(37, 99, 235, 0.22);
+    box-shadow: var(--shadow);
+  }
+
+  .contact-icon {
+    display: grid;
+    flex: 0 0 60px;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(79, 70, 229, 0.16));
+    color: var(--primary);
+  }
+
+  .contact-icon :global(svg) {
+    width: 28px;
+    height: 28px;
+  }
+
+  .contact-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .contact-value {
+    color: var(--text);
+    font-size: 1.02rem;
+    font-weight: 700;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 980px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .contact-card {
+      gap: 14px;
+      min-height: 96px;
+      padding: 18px;
+    }
+
+    .contact-icon {
+      flex-basis: 52px;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+    }
+
+    .contact-icon :global(svg) {
+      width: 24px;
+      height: 24px;
+    }
+
+    .contact-value {
+      font-size: 0.96rem;
+    }
+  }
+</style>

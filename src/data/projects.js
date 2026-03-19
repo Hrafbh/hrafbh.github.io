@@ -15,6 +15,8 @@
  *   category: I18nText;
  *   date: string;
  *   tags: string[];
+ *   skills?: string[];
+ *   mainTech?: string[];
  *   title: I18nText;
  *   summary: I18nText;
  *   links: { repo: string; demo?: string };
@@ -64,8 +66,10 @@ export const projects = [
     featured: true,
     status: "live",
     category: { fr: "Applied AI", en: "Applied AI" },
-    date: "2026-01",
+    date: "2026-January  2026-March",
     tags: ["Python", "RAG", "Confluence API", "ChromaDB", "Sentence Transformers", "Streamlit"],
+    skills: ["RAG pipeline", "Semantic retrieval", "Intent routing", "Support automation"],
+    mainTech: ["Python", "ChromaDB", "Sentence Transformers", "Streamlit"],
     title: { fr: "ConfluRAG-SupportAgent (similar to Energy Pool project)", en: "ConfluRAG-SupportAgent (similar to Energy Pool project)" },
     summary: {
       fr: "Assistant support interne oriente RAG, connecte a une base documentaire Confluence et pense comme un cas portfolio realiste pour le support SaaS B2B.",
@@ -96,8 +100,10 @@ export const projects = [
     featured: true,
     status: "live",
     category: { fr: "Data Engineering", en: "Data Engineering" },
-    date: "2025-04 2025-07",
+    date: "2025-April  2025-July",
     tags: ["Python", "GitHub API", "Lakehouse", "Parquet", "KPIs"],
+    skills: ["ETL orchestration", "Data modeling", "Lakehouse design", "KPI analytics"],
+    mainTech: ["Python", "GitHub REST API", "pandas", "PyArrow / Parquet"],
     title: { fr: "GitHub Issues Lakehouse (similar to Energy Pool project)", en: "GitHub Issues Lakehouse (similar to Energy Pool project)" },
     summary: {
       fr: "Cas de data engineering centré sur la structuration, la transformation et l'exploitation fiable de données métier.",
@@ -123,46 +129,15 @@ export const projects = [
       },
     },
   },
-
-  {
-    slug: "framatome-data-engineering-project",
-    featured: true,
-    status: "live",
-    category: { fr: "Data Engineering", en: "Data Engineering" },
-    date: "2024",
-    tags: ["Azure Databricks", "Azure Data Factory", "Spark", "Python", "GDPR", "Azure Blob Storage"],
-    title: {
-      fr: "GDPR Compliance Data Pipeline",
-      en: "GDPR Compliance Data Pipeline",
-    },
-    summary: {
-      fr: "Projet de stage centre sur l'automatisation de l'anonymisation RGPD pour des plateformes internes de knowledge management, avec une forte dimension architecture et orchestration Azure.",
-      en: "Internship project focused on automating GDPR-oriented anonymization for internal knowledge management platforms, with a strong emphasis on Azure architecture and orchestration.",
-    },
-    links: {},
-    showcase: {
-      type: "highlights",
-      bullets: {
-        fr: [
-          "Pipeline Azure pour anonymiser des donnees d'usage tout en conservant leur valeur analytique.",
-          "Projet portfolio presente surtout via des diagrammes d'architecture et d'orchestration.",
-          "Cas concret de data engineering applique dans un contexte enterprise et RGPD.",
-        ],
-        en: [
-          "Azure pipeline designed to anonymize usage data while preserving analytical value.",
-          "Portfolio presentation centered on architecture and orchestration diagrams rather than code.",
-          "Concrete applied data engineering case study in an enterprise GDPR setting.",
-        ],
-      },
-    },
-  },
   {
     slug: "academic-data-science-project",
     featured: false,
     status: "live",
     category: { fr: "Data Science", en: "Data Science" },
-    date: "2024-2025",
+    date: "2025-January  2025-March",
     tags: ["Python", "Pandas", "Scikit-learn", "TensorFlow/Keras", "XGBoost", "Time Series", "Energy Forecasting"],
+    skills: ["Time-series forecasting", "Model benchmarking", "Feature engineering", "Performance evaluation"],
+    mainTech: ["Python", "Pandas", "Scikit-learn", "TensorFlow / Keras"],
     title: {
       fr: "Prediction de production eolienne (ENGIE Challenge)",
       en: "Wind Energy Forecasting (ENGIE Challenge)",
@@ -184,6 +159,40 @@ export const projects = [
           "Time-series benchmark using a temporal split to avoid data leakage.",
           "Comparison of MLP, Random Forest, and XGBoost on a real wind-turbine dataset.",
           "Random Forest selected as the best model with Test_MAE 13.14 and Test_RMSE 33.06.",
+        ],
+      },
+    },
+  },
+    {
+    slug: "framatome-data-engineering-project",
+    featured: true,
+    status: "live",
+    category: { fr: "Data Engineering", en: "Data Engineering" },
+    date: "2024-April  2024-September",
+    tags: ["Azure Databricks", "Azure Data Factory", "Spark", "Python", "GDPR", "Azure Blob Storage"],
+    skills: ["Data anonymization", "Cloud orchestration", "Spark processing", "Data governance"],
+    mainTech: ["Azure Databricks", "Azure Data Factory", "PySpark", "Azure Blob Storage"],
+    title: {
+      fr: "Pipeline de conformité RGPD",
+      en: "GDPR Compliance Data Pipeline",
+    },
+    summary: {
+      fr: "Projet de Data Engineering centré sur l'automatisation de l'anonymisation RGPD pour des plateformes internes de knowledge management, avec une forte dimension architecture et orchestration Azure.",
+      en: "Data Engineering project focused on automating GDPR-oriented anonymization for internal knowledge management platforms, with a strong emphasis on Azure architecture and orchestration.",
+    },
+    links: {},
+    showcase: {
+      type: "highlights",
+      bullets: {
+        fr: [
+          "Pipeline Azure pour anonymiser des donnees d'usage tout en conservant leur valeur analytique.",
+          "Projet portfolio presente surtout via des diagrammes d'architecture et d'orchestration.",
+          "Cas concret de data engineering applique dans un contexte enterprise et RGPD.",
+        ],
+        en: [
+          "Azure pipeline designed to anonymize usage data while preserving analytical value.",
+          "Portfolio presentation centered on architecture and orchestration diagrams rather than code.",
+          "Concrete applied data engineering case study in an enterprise GDPR setting.",
         ],
       },
     },
