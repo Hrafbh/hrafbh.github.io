@@ -1,0 +1,143 @@
+---
+import type { Lang } from "../i18n/config";
+
+const { lang = "en" } = Astro.props as { lang?: Lang };
+
+const copy = {
+  en: {
+    light: "Light",
+    dark: "Dark",
+    actionLight: "Switch to light mode",
+    actionDark: "Switch to dark mode",
+  },
+  fr: {
+    light: "Clair",
+    dark: "Sombre",
+    actionLight: "Activer le mode clair",
+    actionDark: "Activer le mode sombre",
+  },
+} as const;
+
+const ui = copy[lang];
+---
+<button
+  class="theme-toggle"
+  type="button"
+  data-theme-toggle
+  data-label-light={ui.light}
+  data-label-dark={ui.dark}
+  data-action-light={ui.actionLight}
+  data-action-dark={ui.actionDark}
+  aria-pressed="false"
+  aria-label={ui.actionDark}
+>
+  <span class="theme-toggle-icons" aria-hidden="true">
+    <span class="theme-toggle-icon theme-toggle-icon-sun">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M12 3v2.2M12 18.8V21M5.64 5.64l1.56 1.56M16.8 16.8l1.56 1.56M3 12h2.2M18.8 12H21M5.64 18.36 7.2 16.8M16.8 7.2l1.56-1.56"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-width="1.8"
+        />
+        <circle cx="12" cy="12" r="4.1" stroke="currentColor" stroke-width="1.8" />
+      </svg>
+    </span>
+    <span class="theme-toggle-icon theme-toggle-icon-moon">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M20 14.2A7.7 7.7 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.8"
+        />
+      </svg>
+    </span>
+  </span>
+
+  <span class="theme-toggle-label" data-theme-toggle-label>{ui.light}</span>
+</button>
+
+<script is:inline>
+  (() => {
+    const buttons = document.querySelectorAll("[data-theme-toggle]");
+    if (!buttons.length) return;
+
+    const storageKey = "portfolio-theme";
+    const root = document.documentElement;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    const themeColors = {
+      light: "#f8fafc",
+      dark: "#030712",
+    };
+
+    const getStoredTheme = () => {
+      try {
+        const value = window.localStorage.getItem(storageKey);
+        return value === "light" || value === "dark" ? value : null;
+      } catch {
+        return null;
+      }
+    };
+
+    const applyTheme = (theme) => {
+      const resolvedTheme = theme === "dark" ? "dark" : "light";
+
+      root.dataset.theme = resolvedTheme;
+      root.style.colorScheme = resolvedTheme;
+
+      if (meta) {
+        meta.setAttribute("content", themeColors[resolvedTheme]);
+      }
+
+      buttons.forEach((button) => {
+        const labelNode = button.querySelector("[data-theme-toggle-label]");
+        const lightLabel = button.getAttribute("data-label-light") ?? "Light";
+        const darkLabel = button.getAttribute("data-label-dark") ?? "Dark";
+        const actionLight = button.getAttribute("data-action-light") ?? "Switch to light mode";
+        const actionDark = button.getAttribute("data-action-dark") ?? "Switch to dark mode";
+        const isDark = resolvedTheme === "dark";
+
+        if (labelNode) {
+          labelNode.textContent = isDark ? darkLabel : lightLabel;
+        }
+
+        button.setAttribute("aria-pressed", String(isDark));
+        button.setAttribute("aria-label", isDark ? actionLight : actionDark);
+      });
+    };
+
+    applyTheme(
+      getStoredTheme() ||
+      root.dataset.theme ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+    );
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+
+        try {
+          window.localStorage.setItem(storageKey, nextTheme);
+        } catch {
+          // Ignore storage failures and still apply the theme for this session.
+        }
+
+        applyTheme(nextTheme);
+      });
+    });
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (event) => {
+      if (getStoredTheme()) return;
+      applyTheme(event.matches ? "dark" : "light");
+    };
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", handleChange);
+    } else if (typeof mediaQuery.addListener === "function") {
+      mediaQuery.addListener(handleChange);
+    }
+  })();
+</script>
