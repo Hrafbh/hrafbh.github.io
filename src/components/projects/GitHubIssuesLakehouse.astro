@@ -6,7 +6,7 @@ const { lang, project } = Astro.props as { lang: Lang; project: Project };
 
 const copy = {
   en: {
-    title: "github-issues-lakehouse",
+    title: "github-issues-lakehouse-ep",
     oneLiner:
       "A public portfolio adaptation of an enterprise-style data engineering pipeline, rebuilt with GitHub Issues data from the pandas-dev/pandas repository and structured as a Bronze / Silver / Gold lakehouse.",
     context: "Personal project inspired by a real internship data engineering context",
@@ -90,100 +90,100 @@ const copy = {
     repoText: "Public repository available on GitHub.",
   },
   fr: {
-    title: "github-issues-lakehouse",
+    title: "github-issues-lakehouse-ep",
     oneLiner:
-      "Une adaptation publique d'un pipeline de data engineering inspirÃ© d'un contexte entreprise, reconstruite Ã  partir des GitHub Issues du dÃ©pÃ´t pandas-dev/pandas et structurÃ©e comme un lakehouse Bronze / Silver / Gold.",
-    context: "Projet personnel inspirÃ© d'un vrai contexte de data engineering vÃ©cu en stage",
+      "Une adaptation publique d'un pipeline de data engineering inspiré d'un contexte entreprise, reconstruite à partir des GitHub Issues du dépôt pandas-dev/pandas et structurée comme un lakehouse Bronze / Silver / Gold.",
+    context: "Projet personnel inspiré d'un vrai contexte de data engineering vécu en stage",
     role: "Data Engineering / Analytics Engineering",
     stack: "Python, GitHub API, pandas, Parquet, YAML, Plotly, GitHub Pages",
-    focus: "Ingestion API, architecture medallion, rÃ¨gles mÃ©tier configurables, KPI marts",
-    viewRepo: "View Repository",
-    readme: "Read README",
-    dashboard: "Open Dashboard",
+    focus: "Ingestion API, architecture medallion, règles métier configurables, KPI marts",
+    viewRepo: "Voir le dépôt",
+    readme: "Lire le README",
+    dashboard: "Ouvrir le dashboard",
     dashboardSoon: "Espace dashboard",
     section1: "1. Contexte",
     section2: "2. Solution",
     section3: "3. Architecture + Stack technique",
-    section4: "4. RÃ©sultats / Ce que le projet dÃ©montre",
-    section5: "5. Screenshots / DÃ©mo",
-    section6: "6. Challenges & Learnings",
-    section7: "7. GitHub Repo",
+    section4: "4. Résultats / Ce que le projet démontre",
+    section5: "5. Screenshots / Démo",
+    section6: "6. Difficultés & Apprentissages",
+    section7: "7. Dépôt GitHub",
     contextP1:
-      "Ce projet est une adaptation publique d'un contexte rÃ©el de data engineering sur lequel j'ai travaillÃ© pendant mon stage chez Energy Pool.",
+      "Ce projet est une adaptation publique d'un contexte réel de data engineering sur lequel j'ai travaillé pendant mon stage chez Energy Pool.",
     contextP2:
-      "Dans l'environnement professionnel d'origine, le pipeline s'appuyait sur des plateformes opÃ©rationnelles internes et des sources de donnÃ©es non publiques qui ne pouvaient pas Ãªtre partagÃ©es. Pour rendre visible la mÃªme logique d'ingÃ©nierie dans un format ouvert et reproductible, j'ai reconstruit le pipeline autour des GitHub Issues du dÃ©pÃ´t pandas-dev/pandas.",
+      "Dans l'environnement professionnel d'origine, le pipeline s'appuyait sur des plateformes opérationnelles internes et des sources de données non publiques qui ne pouvaient pas être partagées. Pour rendre visible la même logique d'ingénierie dans un format ouvert et reproductible, j'ai reconstruit le pipeline autour des GitHub Issues du dépôt pandas-dev/pandas.",
     contextP3:
-      "L'objectif n'Ã©tait pas de reproduire la plateforme mÃ©tier elle-mÃªme, mais de conserver la mÃªme logique data engineering : ingestion via API, traitement par couches du brut au curÃ©, rÃ¨gles mÃ©tier configurables et gÃ©nÃ©ration mensuelle des KPIs pour le suivi opÃ©rationnel.",
+      "L'objectif n'était pas de reproduire la plateforme métier elle-même, mais de conserver la même logique data engineering : ingestion via API, traitement en couches du brut au curé, règles métier configurables et génération mensuelle des KPI pour le suivi opérationnel.",
     solutionP:
-      "J'ai construit un pipeline de bout en bout qui extrait les issues depuis l'API GitHub, stocke les payloads bruts dans une couche Bronze, les transforme en jeux Silver nettoyÃ©s et enrichis, puis produit des marts Gold de KPIs pour l'analyse aval et un dashboard lÃ©ger.",
-    cliTitle: "Ã‰tapes du pipeline",
+      "J'ai construit un pipeline de bout en bout qui extrait les issues depuis l'API GitHub, stocke les payloads bruts dans une couche Bronze, les transforme en jeux de données Silver nettoyés et enrichis, puis produit des marts Gold de KPI pour l'analyse aval et un dashboard léger.",
+    cliTitle: "Étapes du pipeline",
     cliSteps: [
       "ingest pour l'extraction brute via API",
       "silver pour la normalisation et la classification des issues",
-      "gold pour la gÃ©nÃ©ration mensuelle des KPIs",
-      "demo pour prÃ©visualiser rapidement les sorties analytiques",
+      "gold pour la génération mensuelle des KPI",
+      "demo pour prévisualiser rapidement les sorties analytiques",
     ],
     configNote:
-      "La logique de traitement est pilotÃ©e par une configuration YAML, ce qui rend le projet plus simple Ã  maintenir et Ã  adapter Ã  d'autres dÃ©pÃ´ts ou taxonomies de labels.",
+      "La logique de traitement est pilotée par une configuration YAML, ce qui rend le projet plus simple à maintenir et à adapter à d'autres dépôts ou taxonomies de labels.",
     bronzeTitle: "Bronze",
     bronzeItems: [
       "Ingestion depuis l'API GitHub Issues avec pagination et filtres temporels optionnels",
-      "Stockage brut en JSON Lines horodatÃ©",
+      "Stockage brut en JSON Lines horodaté",
       "Exclusion des pull requests de la source issues",
     ],
     silverTitle: "Silver",
     silverItems: [
-      "Normalisation des timestamps et calcul du temps de rÃ©solution",
-      "Flatten des labels et colonnes analytiques curÃ©es",
-      "Classification des issues en ticket kind, priority tier et component",
-      "Catalog labels avec frÃ©quences et descriptions",
+      "Normalisation des timestamps et calcul du temps de résolution",
+      "Aplatissement des labels et colonnes analytiques curées",
+      "Classification des issues en type de ticket, niveau de priorité et composant",
+      "Catalogue des labels avec fréquences et descriptions",
     ],
     goldTitle: "Gold",
     goldItems: [
-      "Tables mensuelles de KPIs sur les tickets de type defect-like",
-      "KPIs par composant et tier de prioritÃ©, plus agrÃ©gations globales",
-      "Created, closed, backlog, avg / median / p90 resolution time",
-      "Part des tickets rÃ©solus en 24h, 72h, 168h et 336h",
+      "Tables mensuelles de KPI sur les tickets de type defect-like",
+      "KPI par composant et niveau de priorité, plus agrégations globales",
+      "Créés, fermés, backlog, avg / median / p90 resolution time",
+      "Part des tickets résolus en 24h, 72h, 168h et 336h",
     ],
     techTitle: "Technologies principales",
     resultsItems: [
-      "Construire un pipeline complet de l'API jusqu'Ã  l'analytique",
-      "Structurer des donnÃ©es opÃ©rationnelles en couches Bronze, Silver et Gold",
-      "Transformer des donnÃ©es semi-structurÃ©es en datasets analytiques propres",
-      "Encoder des rÃ¨gles orientÃ©es mÃ©tier de maniÃ¨re configurable",
-      "GÃ©nÃ©rer des KPI marts directement exploitables pour dashboarding ou reporting",
-      "Exposer les sorties analytiques dans une interface statique lÃ©gÃ¨re",
+      "Construire un pipeline complet de l'API jusqu'à l'analytique",
+      "Structurer des données opérationnelles en couches Bronze, Silver et Gold",
+      "Transformer des données semi-structurées en datasets analytiques propres",
+      "Encoder des règles orientées métier de manière configurable",
+      "Générer des KPI marts directement exploitables pour le dashboarding ou le reporting",
+      "Exposer les sorties analytiques dans une interface statique légère",
     ],
     resultsNote:
-      "Au-delÃ  de l'extraction brute, le projet met surtout l'accent sur un flux maintenable qui sÃ©pare clairement ingestion, transformation et gÃ©nÃ©ration des KPIs.",
+      "Au-delà de l'extraction brute, le projet met surtout l'accent sur un flux maintenable qui sépare clairement ingestion, transformation et génération des KPI.",
     demoIntro:
-      "La dÃ©mo interactive du projet est dÃ©jÃ  publiÃ©e Ã  part et contient les diagrammes, les sorties KPI et les vues dashboard.",
+      "La démo interactive du projet est déjà publiée à part et contient les diagrammes, les sorties KPI et les vues dashboard.",
     demoText:
-      "Utilise le lien ci-dessous pour ouvrir la page de dÃ©mo dÃ©diÃ©e, publiÃ©e sur GitHub Pages.",
+      "Utilise le lien ci-dessous pour ouvrir la page de démo dédiée, publiée sur GitHub Pages.",
     challengeP1:
-      "Un premier challenge a Ã©tÃ© de choisir une source publique capable de reflÃ©ter malgrÃ© tout la complexitÃ© de donnÃ©es de plateforme opÃ©rationnelle. GitHub Issues s'est rÃ©vÃ©lÃ© pertinent car les enregistrements contiennent labels, timestamps, Ã©tats, descriptions et suffisamment de mÃ©tadonnÃ©es pour rendre la transformation rÃ©aliste.",
+      "Un premier challenge a été de choisir une source publique capable de refléter malgré tout la complexité de données issues d'une plateforme opérationnelle. GitHub Issues s'est révélé pertinent, car les enregistrements contiennent des labels, des timestamps, des états, des descriptions et suffisamment de métadonnées pour rendre la transformation réaliste.",
     challengeP2:
-      "Un autre challenge a concernÃ© le mapping entre taxonomie open-source et dimensions analytiques orientÃ©es mÃ©tier. Au lieu de dÃ©pendre d'un schÃ©ma fixe, j'ai implÃ©mentÃ© des rÃ¨gles configurables pour le type d'issue, la prioritÃ© et l'affectation composant.",
+      "Un autre challenge a concerné le mapping entre la taxonomie open source et des dimensions analytiques orientées métier. Au lieu de dépendre d'un schéma fixe, j'ai implémenté des règles configurables pour le type d'issue, la priorité et l'affectation des composants.",
     learningsTitle: "Principaux enseignements",
     learnings: [
-      "L'ingestion brute et la modÃ©lisation analytique doivent Ãªtre clairement sÃ©parÃ©es",
-      "Des rÃ¨gles pilotÃ©es par configuration amÃ©liorent la maintenabilitÃ©",
-      "Les donnÃ©es opÃ©rationnelles basÃ©es sur les labels nÃ©cessitent une normalisation soignÃ©e avant le suivi KPI",
-      "Un bon projet portfolio montre aussi l'architecture, la modÃ©lisation et les livrables, pas seulement le code",
+      "L'ingestion brute et la modélisation analytique doivent être clairement séparées",
+      "Des règles pilotées par configuration améliorent la maintenabilité",
+      "Les données opérationnelles basées sur les labels nécessitent une normalisation soignée avant le suivi des KPI",
+      "Un bon projet portfolio montre aussi l'architecture, la modélisation et les livrables, pas seulement le code",
     ],
-    repoText: "DÃ©pÃ´t public disponible sur GitHub.",
+    repoText: "Dépôt public disponible sur GitHub.",
   },
 } as const;
 
 const ui = copy[lang];
 const title = project.title?.[lang] ?? ui.title;
 const summary = project.summary?.[lang] ?? ui.oneLiner;
-const repoHref = project.links?.repo ?? "https://github.com/Hrafbh/github-issues-lakehouse";
+const repoHref = project.links?.repo ?? "https://github.com/Hrafbh/github-issues-lakehouse-ep";
 const readmeHref = `${repoHref}#readme`;
-const dashboardHref = project.links?.demo ?? "https://hrafbh.github.io/github-issues-lakehouse/";
+const dashboardHref = project.links?.demo ?? "https://hrafbh.github.io/github-issues-lakehouse-ep/";
 const techTags = ["Python 3.11", "GitHub REST API", "pandas", "PyArrow / Parquet", "YAML", "requests", "Plotly", "GitHub Pages"];
-const awsDiagramSrc = "/projects/github-issues-lakehouse%20EP/architecture%20solutions%20aws.png";
-const medallionDiagramSrc = "/projects/github-issues-lakehouse%20EP/Archeticture_Medallion.jpg";
+const awsDiagramSrc = "/projects/github-issues-lakehouse-ep/architecture%20solutions%20aws.png";
+const medallionDiagramSrc = "/projects/github-issues-lakehouse-ep/Archeticture_Medallion.jpg";
 const diagramCopy =
   lang === "fr"
     ? {
@@ -420,3 +420,4 @@ const diagramCopy =
     ) : null}
   </div>
 </section>
+

@@ -24,46 +24,49 @@
 
 /** @type {Project[]} */
 export const projects = [
-  {
-    slug: "github-issues-lakehouse",
+    /*{
+    slug: "github-issues-lakehouse-advanced",
     featured: true,
-    status: "live",
+    status: "wip",
     category: { fr: "Data Engineering", en: "Data Engineering" },
-    date: "2026-01",
-    tags: ["Python", "GitHub API", "Lakehouse", "Parquet", "KPIs"],
-    title: { fr: "GitHub Issues Lakehouse", en: "GitHub Issues Lakehouse" },
+    date: "2026-01 2026-03",
+    tags: ["ETL", "SQL", "Python", "Analytics", "Airflow", "Lakehouse","dbt", "Parquet","postgreSQL"],
+    title: {
+      fr: "GitHub Issues Lakehouse Project (Advanced Version)",
+      en: "GitHub Issues Lakehouse Project (Advanced Version)",
+    },
     summary: {
       fr: "Projet lakehouse sur des issues GitHub, pense comme un cas de data engineering similaire a un projet metier structure.",
       en: "GitHub issues lakehouse project designed as a structured data engineering case study.",
     },
     links: {
-      repo: "https://github.com/Hrafbh/github-issues-lakehouse",
-      demo: "https://hrafbh.github.io/github-issues-lakehouse/",
+      repo: "https://github.com/Hrafbh",
+      demo: "",
     },
     showcase: {
       type: "highlights",
       bullets: {
         fr: [
-          "Architecture Bronze / Silver / Gold avec sorties CSV et Parquet.",
-          "KPIs mensuels sur le backlog, le flow et le temps de resolution.",
-          "Projet vitrine pour montrer une logique de delivery data end-to-end.",
+          "Projet de reference pour la logique pipeline, qualite et exploitation analytique.",
+          "Base de comparaison pour d'autres projets data du portfolio.",
+          "Le contenu detaille sera enrichi progressivement.",
         ],
         en: [
-          "Bronze / Silver / Gold architecture with CSV and Parquet outputs.",
-          "Monthly KPIs for backlog, flow, and resolution speed.",
-          "Showcase project to demonstrate end-to-end delivery thinking.",
+          "Reference project for pipeline, quality, and analytical delivery logic.",
+          "Baseline used to position other data projects in the portfolio.",
+          "Detailed write-up will be expanded progressively.",
         ],
       },
     },
-  },
-  {
+  },*/
+    {
     slug: "confluence-rag-chatbot",
     featured: true,
     status: "live",
     category: { fr: "Applied AI", en: "Applied AI" },
     date: "2026-01",
     tags: ["Python", "RAG", "Confluence API", "ChromaDB", "Sentence Transformers", "Streamlit"],
-    title: { fr: "ConfluRAG-SupportAgent", en: "ConfluRAG-SupportAgent" },
+    title: { fr: "ConfluRAG-SupportAgent (similar to Energy Pool project)", en: "ConfluRAG-SupportAgent (similar to Energy Pool project)" },
     summary: {
       fr: "Assistant support interne oriente RAG, connecte a une base documentaire Confluence et pense comme un cas portfolio realiste pour le support SaaS B2B.",
       en: "Internal support assistant built around a Confluence-backed knowledge base, combining KB-as-code, semantic retrieval, intent routing, and an interactive Streamlit demo.",
@@ -89,40 +92,38 @@ export const projects = [
     },
   },
   {
-    slug: "energy-pool-data-engineering-project",
+    slug: "github-issues-lakehouse-ep",
     featured: true,
-    status: "wip",
+    status: "live",
     category: { fr: "Data Engineering", en: "Data Engineering" },
-    date: "2025",
-    tags: ["ETL", "SQL", "Python", "Analytics", "Industrial Data"],
-    title: {
-      fr: "Energy Pool Data Engineering Project",
-      en: "Energy Pool Data Engineering Project",
-    },
+    date: "2025-04 2025-07",
+    tags: ["Python", "GitHub API", "Lakehouse", "Parquet", "KPIs"],
+    title: { fr: "GitHub Issues Lakehouse (similar to Energy Pool project)", en: "GitHub Issues Lakehouse (similar to Energy Pool project)" },
     summary: {
-      fr: "Cas de data engineering centre sur la structuration, la transformation et l'exploitation fiable de donnees metier.",
+      fr: "Cas de data engineering centré sur la structuration, la transformation et l'exploitation fiable de données métier.",
       en: "Data engineering case study focused on structuring, transforming, and exposing business data reliably.",
     },
     links: {
-      repo: "https://github.com/Hrafbh",
-      demo: "",
+      repo: "https://github.com/Hrafbh/github-issues-lakehouse-ep",
+      demo: "https://hrafbh.github.io/github-issues-lakehouse-ep/",
     },
     showcase: {
       type: "highlights",
       bullets: {
         fr: [
-          "Projet de reference pour la logique pipeline, qualite et exploitation analytique.",
-          "Base de comparaison pour d'autres projets data du portfolio.",
-          "Le contenu detaille sera enrichi progressivement.",
+          "Architecture Bronze / Silver / Gold avec sorties CSV et Parquet.",
+          "KPIs mensuels sur le backlog, le flow et le temps de résolution.",
+          "Projet vitrine pour montrer une logique de delivery data end-to-end.",
         ],
         en: [
-          "Reference project for pipeline, quality, and analytical delivery logic.",
-          "Baseline used to position other data projects in the portfolio.",
-          "Detailed write-up will be expanded progressively.",
+          "Bronze / Silver / Gold architecture with CSV and Parquet outputs.",
+          "Monthly KPIs for backlog, flow, and resolution speed.",
+          "Showcase project to demonstrate end-to-end delivery thinking.",
         ],
       },
     },
   },
+
   {
     slug: "framatome-data-engineering-project",
     featured: true,
@@ -158,34 +159,31 @@ export const projects = [
   {
     slug: "academic-data-science-project",
     featured: false,
-    status: "wip",
+    status: "live",
     category: { fr: "Data Science", en: "Data Science" },
     date: "2024-2025",
-    tags: ["Machine Learning", "Time Series", "Energy", "Notebook", "Evaluation"],
+    tags: ["Python", "Pandas", "Scikit-learn", "TensorFlow/Keras", "XGBoost", "Time Series", "Energy Forecasting"],
     title: {
-      fr: "Academic Data Science Project",
-      en: "Academic Data Science Project",
+      fr: "Prediction de production eolienne (ENGIE Challenge)",
+      en: "Wind Energy Forecasting (ENGIE Challenge)",
     },
     summary: {
-      fr: "Projet academique regroupant notamment Challenge Data Engie et Wind Turbine Energy avec une approche data science appliquee.",
-      en: "Academic project grouping work such as Challenge Data Engie and Wind Turbine Energy with an applied data science angle.",
+      fr: "Projet academique centre sur la prediction de la production eolienne a partir de donnees capteurs reelles, avec comparaison MLP, Random Forest et XGBoost.",
+      en: "Academic case study on wind energy forecasting from real turbine sensor data, comparing MLP, Random Forest, and XGBoost.",
     },
-    links: {
-      repo: "https://github.com/Hrafbh",
-      demo: "",
-    },
+    links: {},
     showcase: {
       type: "highlights",
       bullets: {
         fr: [
-          "Regroupe les projets academiques les plus representatifs pour le portfolio.",
-          "Met en avant l'analyse, la modelisation et l'evaluation des resultats.",
-          "Convient pour presenter des notebooks, figures et conclusions metier.",
+          "Benchmark time-series avec split temporel pour eviter toute fuite d'information.",
+          "Comparaison MLP, Random Forest et XGBoost sur un jeu de donnees eolien reel.",
+          "Random Forest retenu comme meilleur modele avec Test_MAE 13.14 et Test_RMSE 33.06.",
         ],
         en: [
-          "Groups the most representative academic projects for the portfolio.",
-          "Highlights analysis, modeling, and result evaluation.",
-          "Well suited for notebooks, figures, and business-facing conclusions.",
+          "Time-series benchmark using a temporal split to avoid data leakage.",
+          "Comparison of MLP, Random Forest, and XGBoost on a real wind-turbine dataset.",
+          "Random Forest selected as the best model with Test_MAE 13.14 and Test_RMSE 33.06.",
         ],
       },
     },

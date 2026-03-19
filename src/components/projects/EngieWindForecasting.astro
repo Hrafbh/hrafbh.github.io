@@ -1,0 +1,627 @@
+---
+import type { Lang } from "../../i18n/config";
+
+type Project = any;
+const { lang, project } = Astro.props as { lang: Lang; project: Project };
+
+const isFr = lang === "fr";
+const courseText = isFr
+  ? "Cours de Deep Learning - Centrale Casablanca"
+  : "Deep Learning course - Centrale Casablanca";
+const title =
+  project.title?.[lang] ??
+  project.title?.en ??
+  (isFr
+    ? "Prediction de production eolienne (ENGIE Challenge)"
+    : "Wind Energy Forecasting (ENGIE Challenge)");
+const summary =
+  project.summary?.[lang] ??
+  project.summary?.en ??
+  (isFr
+    ? "Developpement et evaluation de modeles de ML et DL pour predire la production eolienne a partir de donnees capteurs reelles."
+    : "Development and evaluation of ML and DL models to predict wind energy production from real turbine sensor data.");
+const repoHref = typeof project.links?.repo === "string" ? project.links.repo.trim() : "";
+const hasRepo = repoHref.length > 0;
+
+const metaItems = isFr
+  ? [
+      ["Contexte", "Projet academique"],
+      ["Focus", "Forecasting temporel et comparaison ML vs DL"],
+      ["Modeles", "MLP, Random Forest, XGBoost"],
+      ["Evaluation", "Split temporel, MAE, RMSE"],
+    ]
+  : [
+      ["Context", "Academic project"],
+      ["Focus", "Time-series forecasting and ML vs DL comparison"],
+      ["Models", "MLP, Random Forest, XGBoost"],
+      ["Evaluation", "Temporal split, MAE, RMSE"],
+    ];
+
+const problemParagraphs = isFr
+  ? [
+      "Le challenge ENGIE consistait a predire la puissance active produite par des eoliennes a partir de mesures historiques issues de capteurs reels.",
+      "Le dataset reunissait des variables environnementales et operationnelles provenant de quatre turbines, avec notamment des temperatures, vitesses de rotation, variables electriques et identifiants de turbine.",
+      "La contrainte cle du projet etait d'eviter toute fuite d'information. L'evaluation devait donc respecter l'ordre chronologique plutot qu'un split aleatoire.",
+    ]
+  : [
+      "The ENGIE challenge focused on predicting active power output from historical wind-turbine sensor data.",
+      "The dataset combined real operational measurements from four turbines, including temperatures, rotation speeds, electrical indicators, and turbine identifiers.",
+      "A key constraint was to avoid leakage. The evaluation therefore had to preserve chronological order instead of using a random split.",
+    ];
+
+const stakes = isFr
+  ? [
+      "Une meilleure prediction aide la planification, le pilotage du reseau et la gestion operationnelle.",
+      "Le projet s'appuie sur une vraie telemetrie industrielle plutot que sur un dataset jouet.",
+      "L'evaluation temporelle rend la comparaison des modeles plus realiste.",
+    ]
+  : [
+      "Better forecasting supports planning, grid stability, and operational decision-making.",
+      "The project uses real industrial telemetry rather than a toy academic dataset.",
+      "Time-aware evaluation makes the benchmark more realistic.",
+    ];
+
+const solutionParagraphs = isFr
+  ? [
+      "Le projet a suivi un workflow data science classique: analyse exploratoire, preparation des donnees, modelisation, puis comparaison benchmark des modeles.",
+      "Le preprocessing a inclus le traitement des valeurs manquantes, l'encodage one-hot de MAC_CODE, la standardisation des variables numeriques lorsque necessaire, puis un split chronologique 70 / 15 / 15 pour train, validation et test.",
+      "Trois modeles ont ete implementes et compares: un MLP, Random Forest et XGBoost. Les performances ont ete mesurees avec MAE et RMSE.",
+    ]
+  : [
+      "The project followed a structured data science workflow: exploratory analysis, data preparation, model training, and final benchmark comparison.",
+      "Preprocessing included missing-value handling, one-hot encoding of MAC_CODE, feature scaling when needed, and a chronological 70 / 15 / 15 train / validation / test split.",
+      "Three models were implemented and compared: an MLP, Random Forest, and XGBoost. Performance was evaluated with MAE and RMSE.",
+    ];
+
+const workflowCards = isFr
+  ? [
+      ["EDA", "Distributions, correlations, valeurs manquantes et comparaison entre turbines."],
+      ["Preparation", "Nettoyage, encodage categorical et standardisation."],
+      ["Split temporel", "Decoupage chronologique train / validation / test."],
+      ["Modelisation", "Benchmark MLP, Random Forest et XGBoost."],
+      ["Evaluation", "MAE, RMSE, predictions vs reel et importance des variables."],
+    ]
+  : [
+      ["EDA", "Distributions, correlations, missing values, and turbine-level comparisons."],
+      ["Preparation", "Cleaning, categorical encoding, and feature scaling."],
+      ["Temporal split", "Chronological train / validation / test split."],
+      ["Modeling", "Benchmark of MLP, Random Forest, and XGBoost."],
+      ["Evaluation", "MAE, RMSE, predictions vs actual, and feature importance."],
+    ];
+
+const pipelineSteps = isFr
+  ? [
+      "Donnees capteurs brutes",
+      "Nettoyage et imputation",
+      "Encodage, standardisation et preparation des features",
+      "Split temporel",
+      "Entrainement MLP / RF / XGBoost",
+      "Comparaison MAE / RMSE",
+    ]
+  : [
+      "Raw turbine sensor data",
+      "Cleaning and imputation",
+      "Encoding, scaling, and feature preparation",
+      "Temporal split",
+      "MLP / RF / XGBoost training",
+      "MAE / RMSE comparison",
+    ];
+
+const modelCards = isFr
+  ? [
+      ["MLP", "Deux couches Dense(64) avec ReLU, Dropout(0.2), Adam et early stopping."],
+      ["Random Forest", "20 arbres, profondeur non limitee, entrainement parallele avec n_jobs = -1."],
+      ["XGBoost", "50 arbres, learning_rate 0.05, max_depth 6, subsample 0.8, early stopping."],
+    ]
+  : [
+      ["MLP", "Two Dense(64) layers with ReLU, Dropout(0.2), Adam, and early stopping."],
+      ["Random Forest", "20 trees, unrestricted depth, and parallel training with n_jobs = -1."],
+      ["XGBoost", "50 trees, learning_rate 0.05, max_depth 6, subsample 0.8, and early stopping."],
+    ];
+
+const resultBullets = isFr
+  ? [
+      "Random Forest est le meilleur modele du benchmark.",
+      "Le modele obtient Test_MAE 13.14 et Test_RMSE 33.06.",
+      "Le projet montre qu'un modele plus classique peut battre un reseau de neurones sur de la donnee tabulaire.",
+    ]
+  : [
+      "Random Forest is the strongest model in the benchmark.",
+      "It reaches Test_MAE 13.14 and Test_RMSE 33.06.",
+      "The project shows that a classical model can outperform a neural network on structured tabular data.",
+    ];
+
+const insights = isFr
+  ? [
+      "Random Forest surpasse a la fois le MLP et XGBoost.",
+      "Generator_speed et Rotor_speed ressortent comme variables tres influentes.",
+      "Le MLP a demande plus de controle sur la normalisation et la stabilite de l'entrainement.",
+    ]
+  : [
+      "Random Forest outperformed both the MLP and XGBoost.",
+      "Generator speed and rotor speed emerged as highly influential variables.",
+      "The MLP required tighter normalization and training-stability control.",
+    ];
+
+const challenges = isFr
+  ? [
+      ["Contrainte time series", "Un split aleatoire aurait cree de la fuite d'information. Le split chronologique etait indispensable."],
+      ["Qualite des donnees", "La presence de valeurs manquantes a impose un preprocessing rigoureux avant l'entrainement."],
+      ["Choix du modele", "L'intuition initiale en faveur du deep learning n'a pas ete confirmee par les resultats."],
+      ["Stabilite du MLP", "Le rapport mentionne des problemes de NaN et de divergence qui ont demande des ajustements."],
+    ]
+  : [
+      ["Time-series constraint", "A random split would have created leakage, so a chronological split was essential."],
+      ["Data quality", "Missing values required careful preprocessing before training."],
+      ["Model choice", "The initial deep-learning intuition was not confirmed by the results."],
+      ["MLP stability", "The report mentions NaN and divergence issues that required further tuning."],
+    ];
+
+const learnings = isFr
+  ? [
+      "La validation temporelle compte autant que le choix du modele.",
+      "Les modeles arbres restent de tres bonnes bases sur des donnees industrielles tabulaires.",
+      "L'importance des variables aide a rendre les resultats plus interpretables.",
+    ]
+  : [
+      "Temporal validation matters as much as model choice.",
+      "Tree-based models remain excellent baselines for industrial tabular data.",
+      "Feature importance makes the results easier to interpret and communicate.",
+    ];
+
+const visuals = [
+  {
+    title: isFr ? "Distribution apres standardisation" : "Standardized feature distribution",
+    src: "/projects/engie-challenge/distribution.png",
+    wide: false,
+  },
+  {
+    title: isFr ? "Matrice de correlation" : "Correlation matrix",
+    src: "/projects/engie-challenge/correlation_matrix.png",
+    wide: false,
+  },
+  {
+    title: isFr ? "Predictions vs reel" : "Predictions vs actual",
+    src: "/projects/engie-challenge/comparaison.png",
+    wide: true,
+  },
+  {
+    title: isFr ? "Comparaison des metriques" : "Metric comparison",
+    src: "/projects/engie-challenge/perf.png",
+    wide: true,
+  },
+  {
+    title: "Top 10 features - Random Forest",
+    src: "/projects/engie-challenge/random_forest.png",
+    wide: false,
+  },
+  {
+    title: "Top 10 features - XGBoost",
+    src: "/projects/engie-challenge/XG.png",
+    wide: false,
+  },
+];
+
+const metrics = [
+  {
+    model: isFr ? "Reseau de neurones (MLP)" : "Neural Network (MLP)",
+    valMae: "31.21",
+    valRmse: "71.32",
+    testMae: "34.58",
+    testRmse: "53.38",
+  },
+  { model: "Random Forest", valMae: "13.01", valRmse: "47.88", testMae: "13.14", testRmse: "33.06" },
+  { model: "XGBoost", valMae: "29.47", valRmse: "52.28", testMae: "33.40", testRmse: "54.49" },
+];
+
+const techTags = [
+  "Python",
+  "Pandas",
+  "NumPy",
+  "Scikit-learn",
+  "TensorFlow / Keras",
+  "XGBoost",
+  "Matplotlib",
+  "Seaborn",
+  "Time Series",
+  "Energy Forecasting",
+];
+---
+
+<section class="detail-hero engie-hero">
+  <span class="eyebrow">{isFr ? "Projet academique de Data Science" : "Academic Data Science Project"}</span>
+  <div class="hero-brand">
+    <img src="/projects/engie-challenge/engie.png" alt="ENGIE logo" loading="lazy" />
+    <span>{courseText}</span>
+  </div>
+  <h1>{title}</h1>
+  <p>{summary}</p>
+
+  <div class="meta-strip">
+    {metaItems.map(([label, value]) => (
+      <div class="meta-card">
+        <span class="meta-label">{label}</span>
+        <p>{value}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="hero-actions">
+    {hasRepo ? (
+      <a class="btn-primary" href={repoHref} target="_blank" rel="noreferrer">
+        {isFr ? "Voir le depot" : "View repository"}
+      </a>
+    ) : (
+      <span class="btn-secondary">{isFr ? "Code GitHub a venir" : "Code will be added soon"}</span>
+    )}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><h2>{isFr ? "1. Probleme" : "1. Problem"}</h2></div></div>
+  <div class="detail-grid">
+    <article class="detail-panel">
+      {problemParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </article>
+    <article class="detail-panel">
+      <h3>{isFr ? "Pourquoi ce probleme compte" : "Why this matters"}</h3>
+      <ul>{stakes.map((item) => <li>{item}</li>)}</ul>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><h2>{isFr ? "2. Solution" : "2. Solution"}</h2></div></div>
+  <article class="detail-panel">
+    {solutionParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+  </article>
+  <div class="workflow-grid">
+    {workflowCards.map(([title, text]) => (
+      <article class="workflow-card">
+        <h3>{title}</h3>
+        <p>{text}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{isFr ? "3. Pipeline de modelisation + Stack" : "3. Modeling Pipeline + Stack"}</h2>
+      <p>{isFr ? "Architecture de modelisation plutot qu'architecture logicielle classique." : "A modeling pipeline rather than a classic software architecture."}</p>
+    </div>
+  </div>
+  <article class="detail-panel">
+    <div class="pipeline-grid">
+      {pipelineSteps.map((step, index) => (
+        <div class="pipeline-step">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{step}</p>
+        </div>
+      ))}
+    </div>
+  </article>
+  <div class="model-grid">
+    {modelCards.map(([name, text]) => (
+      <article class="detail-panel model-card">
+        <h3>{name}</h3>
+        <p>{text}</p>
+      </article>
+    ))}
+  </div>
+  <article class="detail-panel" style="margin-top: 18px;">
+    <h3>{isFr ? "Technologies principales" : "Main technologies"}</h3>
+    <div class="tag-row" style="margin-top: 14px;">
+      {techTags.map((tag) => <span class="tag">{tag}</span>)}
+    </div>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{isFr ? "4. Resultats / Impact" : "4. Results / Impact"}</h2>
+      <p>{isFr ? "Random Forest obtient la meilleure generalisation sur le benchmark." : "Random Forest achieved the strongest generalization in the benchmark."}</p>
+    </div>
+  </div>
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel result-panel">
+        <div class="result-badge">{isFr ? "Meilleur modele" : "Best model"}</div>
+        <h3>Random Forest</h3>
+        <ul>{resultBullets.map((item) => <li>{item}</li>)}</ul>
+      </article>
+      <article class="detail-panel" style="margin-top: 18px;">
+        <h3>{isFr ? "Comparaison des modeles" : "Model comparison"}</h3>
+        <div class="metrics-wrap">
+          <table class="metrics-table">
+            <thead>
+              <tr>
+                <th>{isFr ? "Modele" : "Model"}</th>
+                <th>Val MAE</th>
+                <th>Val RMSE</th>
+                <th>Test MAE</th>
+                <th>Test RMSE</th>
+              </tr>
+            </thead>
+            <tbody>
+              {metrics.map((row) => (
+                <tr class:list={[row.model === "Random Forest" && "is-best"]}>
+                  <td>{row.model}</td>
+                  <td>{row.valMae}</td>
+                  <td>{row.valRmse}</td>
+                  <td>{row.testMae}</td>
+                  <td>{row.testRmse}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+    <article class="detail-panel">
+      <h3>{isFr ? "Points clefs du rapport" : "Key takeaways from the report"}</h3>
+      <ul>{insights.map((item) => <li>{item}</li>)}</ul>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{isFr ? "5. Visuels du projet" : "5. Visual Outputs"}</h2>
+      <p>{isFr ? "Figures reprises du rapport academique." : "Figures reused from the academic report."}</p>
+    </div>
+  </div>
+  <div class="visual-grid">
+    {visuals.map((visual) => (
+      <article class:list={["detail-panel", "figure-card", visual.wide && "figure-card-wide"]}>
+        <h3>{visual.title}</h3>
+        <img class="project-figure" src={visual.src} alt={visual.title} loading="lazy" />
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><h2>{isFr ? "6. Challenges & Learnings" : "6. Challenges & Learnings"}</h2></div></div>
+  <div class="challenge-grid">
+    {challenges.map(([title, text]) => (
+      <article class="detail-panel challenge-card">
+        <h3>{title}</h3>
+        <p>{text}</p>
+      </article>
+    ))}
+  </div>
+  <article class="detail-panel" style="margin-top: 18px;">
+    <h3>{isFr ? "Principaux enseignements" : "Key learnings"}</h3>
+    <ul>{learnings.map((item) => <li>{item}</li>)}</ul>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><h2>{isFr ? "7. Depot GitHub" : "7. GitHub Repo"}</h2></div></div>
+  <article class="detail-panel">
+    <p>
+      {isFr
+        ? "Pour le moment, ce projet est presente comme un case study base sur le rapport plutot que comme un depot de code public."
+        : "For now, this project is presented as a report-based case study rather than a public code repository."}
+    </p>
+    <p>
+      {isFr
+        ? "Un depot GitHub pourra etre ajoute plus tard pour reproduire les experiences et les resultats."
+        : "A GitHub repository may be added later to reproduce the experiments and results."}
+    </p>
+  </article>
+</section>
+
+<style>
+  .engie-hero {
+    background:
+      radial-gradient(circle at top right, rgba(14, 165, 233, 0.16), transparent 30%),
+      radial-gradient(circle at left center, rgba(16, 185, 129, 0.1), transparent 24%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.96));
+  }
+
+  .hero-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin: 0.75rem 0 0.35rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  }
+
+  .hero-brand img {
+    display: block;
+    width: 86px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .hero-brand span {
+    color: #0f172a;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .meta-strip,
+  .workflow-grid,
+  .model-grid,
+  .visual-grid,
+  .challenge-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .meta-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.5rem;
+  }
+
+  .meta-card,
+  .workflow-card,
+  .pipeline-step,
+  .challenge-card {
+    padding: 1rem;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  }
+
+  .meta-card p,
+  .workflow-card p,
+  .challenge-card p {
+    margin: 0.35rem 0 0;
+    color: #475569;
+    line-height: 1.55;
+  }
+
+  .meta-label,
+  .result-badge,
+  .pipeline-step span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.24rem 0.58rem;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .meta-label {
+    background: #e0f2fe;
+    color: #075985;
+  }
+
+  .workflow-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    margin-top: 18px;
+  }
+
+  .workflow-card h3,
+  .challenge-card h3,
+  .figure-card h3 {
+    margin: 0 0 0.6rem;
+  }
+
+  .pipeline-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .pipeline-step span {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .pipeline-step p {
+    margin: 0.75rem 0 0;
+    color: #334155;
+    font-weight: 600;
+  }
+
+  .model-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 18px;
+  }
+
+  .model-card {
+    background:
+      radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 30%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+  }
+
+  .result-panel {
+    background:
+      radial-gradient(circle at top right, rgba(16, 185, 129, 0.14), transparent 32%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 253, 244, 0.94));
+  }
+
+  .result-badge {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .metrics-wrap {
+    overflow-x: auto;
+    margin-top: 1rem;
+  }
+
+  .metrics-table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+  }
+
+  .metrics-table th,
+  .metrics-table td {
+    padding: 0.85rem 0.9rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    text-align: left;
+  }
+
+  .metrics-table th {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .metrics-table tr.is-best td {
+    background: rgba(220, 252, 231, 0.58);
+    color: #166534;
+  }
+
+  .visual-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .figure-card {
+    overflow: hidden;
+  }
+
+  .figure-card-wide {
+    grid-column: span 2;
+  }
+
+  .project-figure {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    border-radius: 0.9rem;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: #fff;
+  }
+
+  .challenge-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 1100px) {
+    .pipeline-grid,
+    .model-grid,
+    .visual-grid,
+    .challenge-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .figure-card-wide {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .meta-strip {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

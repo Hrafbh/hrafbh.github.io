@@ -43,9 +43,32 @@ const category =
     : "Data Engineering");
 
 const projectHref = `/${lang}/projects/${project.slug}/`;
+const companyLogoBySlug = {
+  "framatome-data-engineering-project": {
+    src: "/projects/framatome/logo_framatome.png",
+    alt: "Framatome logo",
+    height: 18,
+  },
+  "github-issues-lakehouse-ep": {
+    src: "/projects/github-issues-lakehouse-ep/energy%20pool%20logo.png",
+    alt: "Energy Pool logo",
+    height: 22,
+  },
+  "confluence-rag-chatbot": {
+    src: "/projects/confluence-rag-ep/energy%20pool%20logo.png",
+    alt: "Energy Pool logo",
+    height: 22,
+  },
+  "academic-data-science-project": {
+    src: "/projects/engie-challenge/engie.png",
+    alt: "ENGIE logo",
+    height: 22,
+  },
+} as const;
+
 const companyLogo =
-  project.slug === "framatome-data-engineering-project"
-    ? "/projects/framatome/logo_framatome.png"
+  project.slug in companyLogoBySlug
+    ? companyLogoBySlug[project.slug as keyof typeof companyLogoBySlug]
     : null;
 ---
 <article class="project-card">
@@ -55,8 +78,8 @@ const companyLogo =
   </div>
 
   {companyLogo ? (
-    <div class="project-company-badge">
-      <img src={companyLogo} alt="Framatome logo" loading="lazy" />
+    <div class="project-company-badge" style={`--company-logo-height: ${companyLogo.height}px;`}>
+      <img src={companyLogo.src} alt={companyLogo.alt} loading="lazy" />
     </div>
   ) : null}
 
@@ -92,7 +115,7 @@ const companyLogo =
 
   .project-company-badge img {
     display: block;
-    height: 16px;
+    height: var(--company-logo-height, 16px);
     width: auto;
     object-fit: contain;
   }

@@ -15,64 +15,51 @@ const lang = (isLang(rawLang ?? "") ? rawLang : "en") as Lang;
 
 const copy = {
   en: {
-    title: "Data Engineering and AI portfolio structured around clear project case studies.",
+    eyebrow: "Data Engineering • Data Science • Applied AI",
+    title: "Data engineer focused on pipelines, cloud, and applied AI.",
     subtitle:
-      "The site now follows a simple structure: Home, Projects, About, and Contact. The current project section already matches the portfolio scope you want to present.",
-    primary: "Browse projects",
+      "I work end to end from data ingestion and modeling to analytics and AI delivery, with hands-on experience in ETL/ELT, Azure, PySpark, SQL, NLP, and support automation.",
+    primary: "View projects",
     secondary: "About me",
-    featuredTitle: "Current project lineup",
+    featuredTitle: "Selected projects",
     featuredText:
-      "These are the projects currently included in the portfolio structure.",
-    mapTitle: "Portfolio structure",
+      "A focused set of case studies covering cloud pipelines, lakehouse design, RAG, analytics, and applied machine learning.",
+    mapTitle: "What this portfolio shows",
     mapText:
-      "A cleaner information architecture makes each section easier to expand as you add full project write-ups.",
-    card1Title: "Projects",
+      "The goal is to present work the way teams evaluate it in practice: business context, architecture choices, implementation details, and measurable outcomes.",
+    card1Title: "Data Engineering",
     card1Text:
-      "Five project entries already organized as dedicated case-study pages.",
-    card2Title: "About",
+      "ETL/ELT pipelines, data modeling, cloud workflows, medallion architecture, and production-oriented data processing.",
+    card2Title: "Data Science & AI",
     card2Text:
-      "A focused page to present your profile, positioning, and the story behind your technical path.",
-    card3Title: "Contact / Links",
+      "Applied machine learning, NLP, RAG, and AI assistants connected to real documentation and support use cases.",
+    card3Title: "Delivery mindset",
     card3Text:
-      "A single place for GitHub, LinkedIn, email, and other professional entry points.",
-    stat1: "Focus",
-    stat1Value: "Data & AI",
-    stat2: "Sections",
-    stat2Value: "4",
-    stat3: "Projects",
-    stat3Value: String(projects.length),
-    stat4: "Language",
-    stat4Value: "EN / FR",
+      "A project approach focused on understanding business needs, structuring the problem clearly, and shipping maintainable solutions.",
+
   },
   fr: {
-    title: "Un portfolio Data Engineering et IA structure autour de cas projets clairs.",
+    eyebrow: "Data Engineering • Data Science • IA appliquée",
+    title: "Ingénieur data, cloud et IA appliquée.",
     subtitle:
-      "Le site suit maintenant une structure simple : Home, Projects, About et Contact. La section projets reflete deja le perimetre que tu veux montrer pour le moment.",
+      "Je travaille de bout en bout, de l'ingestion et la modélisation des données jusqu'à la livraison d'outils analytiques et IA, avec une expérience concrète en ETL/ELT, Azure, PySpark, SQL, NLP et automatisation du support.",
     primary: "Voir les projets",
-    secondary: "A propos",
-    featuredTitle: "Projets actuellement inclus",
+    secondary: "À propos",
+    featuredTitle: "Projets sélectionnés",
     featuredText:
-      "Voici les projets deja integres dans la structure du portfolio.",
-    mapTitle: "Structure du portfolio",
+      "Une sélection de cas concrets autour des pipelines cloud, du lakehouse, du RAG, de l'analytics et du machine learning appliqué.",
+    mapTitle: "Ce que montre ce portfolio",
     mapText:
-      "Une architecture d'information plus claire permet d'ajouter ensuite le contenu complet sans refaire l'organisation du site.",
-    card1Title: "Projects",
+      "L'objectif est de présenter les projets comme en contexte réel : besoin métier, choix d'architecture, implémentation et résultats mesurables.",
+    card1Title: "Data Engineering",
     card1Text:
-      "Cinq entrees projets deja organisees comme des pages de type case study.",
-    card2Title: "About",
+      "Pipelines ETL/ELT, modélisation, workflows cloud, architecture medallion et traitement de données orienté production.",
+    card2Title: "Data Science & IA",
     card2Text:
-      "Une page ciblee pour presenter ton profil, ton positionnement et le fil conducteur de ton parcours technique.",
-    card3Title: "Contact / Links",
+      "Machine learning appliqué, NLP, RAG et assistants IA connectés à de la documentation et à des cas d'usage support.",
+    card3Title: "Approche delivery",
     card3Text:
-      "Un point d'entree unique pour GitHub, LinkedIn, email et les liens professionnels.",
-    stat1: "Focus",
-    stat1Value: "Data & IA",
-    stat2: "Sections",
-    stat2Value: "4",
-    stat3: "Projets",
-    stat3Value: String(projects.length),
-    stat4: "Langues",
-    stat4Value: "EN / FR",
+      "Une façon de travailler centrée sur la compréhension du besoin, la clarté technique et la livraison de solutions maintenables.",
   },
 } as const;
 
@@ -86,9 +73,7 @@ const featured = projects;
 >
   <section class="hero">
     <div>
-      <span class="eyebrow">
-        {lang === "fr" ? "Portfolio technique bilingue" : "Bilingual technical portfolio"}
-      </span>
+      <span class="eyebrow">{ui.eyebrow}</span>
 
       <h1>{ui.title}</h1>
       <p class="hero-copy">{ui.subtitle}</p>
@@ -101,26 +86,6 @@ const featured = projects;
       </div>
     </div>
 
-    <aside class="hero-panel">
-      <div class="stat-grid">
-        <div class="stat-card">
-          <strong>{ui.stat1Value}</strong>
-          <span>{ui.stat1}</span>
-        </div>
-        <div class="stat-card">
-          <strong>{ui.stat2Value}</strong>
-          <span>{ui.stat2}</span>
-        </div>
-        <div class="stat-card">
-          <strong>{ui.stat3Value}</strong>
-          <span>{ui.stat3}</span>
-        </div>
-        <div class="stat-card">
-          <strong>{ui.stat4Value}</strong>
-          <span>{ui.stat4}</span>
-        </div>
-      </div>
-    </aside>
   </section>
 
   <section class="section">
