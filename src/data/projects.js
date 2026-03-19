@@ -33,19 +33,19 @@ export const projects = [
     tags: ["Python", "GitHub API", "Lakehouse", "Parquet", "KPIs"],
     title: { fr: "GitHub Issues Lakehouse", en: "GitHub Issues Lakehouse" },
     summary: {
-      fr: "Projet lakehouse sur des issues GitHub, pensé comme un cas de data engineering similaire à un projet métier structuré.",
+      fr: "Projet lakehouse sur des issues GitHub, pense comme un cas de data engineering similaire a un projet metier structure.",
       en: "GitHub issues lakehouse project designed as a structured data engineering case study.",
     },
     links: {
       repo: "https://github.com/Hrafbh/github-issues-lakehouse",
-      demo: "",
+      demo: "https://hrafbh.github.io/github-issues-lakehouse/",
     },
     showcase: {
       type: "highlights",
       bullets: {
         fr: [
           "Architecture Bronze / Silver / Gold avec sorties CSV et Parquet.",
-          "KPIs mensuels sur le backlog, le flow et le temps de résolution.",
+          "KPIs mensuels sur le backlog, le flow et le temps de resolution.",
           "Projet vitrine pour montrer une logique de delivery data end-to-end.",
         ],
         en: [
@@ -59,31 +59,31 @@ export const projects = [
   {
     slug: "confluence-rag-chatbot",
     featured: true,
-    status: "wip",
+    status: "live",
     category: { fr: "Applied AI", en: "Applied AI" },
-    date: "2026",
-    tags: ["RAG", "LLM", "Confluence", "Embeddings", "Chatbot"],
-    title: { fr: "Confluence RAG Chatbot", en: "Confluence RAG Chatbot" },
+    date: "2026-01",
+    tags: ["Python", "RAG", "Confluence API", "ChromaDB", "Sentence Transformers", "Streamlit"],
+    title: { fr: "ConfluRAG-SupportAgent", en: "ConfluRAG-SupportAgent" },
     summary: {
-      fr: "Assistant conversationnel RAG basé sur une base documentaire Confluence, dans l'esprit du projet Energy Pool AI chatbot.",
-      en: "RAG conversational assistant built on top of a Confluence knowledge base, similar in spirit to the Energy Pool AI chatbot project.",
+      fr: "Assistant support interne oriente RAG, connecte a une base documentaire Confluence et pense comme un cas portfolio realiste pour le support SaaS B2B.",
+      en: "Internal support assistant built around a Confluence-backed knowledge base, combining KB-as-code, semantic retrieval, intent routing, and an interactive Streamlit demo.",
     },
     links: {
-      repo: "https://github.com/Hrafbh",
+      repo: "https://github.com/Hrafbh/ConfluRAG-SupportAgent",
       demo: "",
     },
     showcase: {
       type: "highlights",
       bullets: {
         fr: [
-          "Pipeline d'ingestion documentaire et préparation de chunks pour la recherche.",
-          "Travail centré sur la pertinence des réponses et la qualité du contexte restitué.",
-          "Page prête à accueillir l'architecture, l'évaluation et les choix techniques détaillés.",
+          "Base de connaissances maintenue en Markdown avec IDs stables puis synchronisee avec Confluence.",
+          "Pipeline RAG avec indexation ChromaDB, routing par intention, reranking hybride et mode inconnu.",
+          "Projet renforce par une vraie evaluation retrieval avec Hit@1 = 75 % et Hit@5 = 87.5 %.",
         ],
         en: [
-          "Document ingestion pipeline and chunk preparation for retrieval.",
-          "Work focused on answer relevance and retrieved context quality.",
-          "Page ready to host architecture, evaluation, and detailed technical choices.",
+          "Knowledge base maintained in Markdown with stable IDs, then synchronized with Confluence.",
+          "RAG pipeline with ChromaDB indexing, intent routing, hybrid reranking, and an unknown-answer fallback.",
+          "Strengthened by explicit retrieval evaluation with Hit@1 = 75% and Hit@5 = 87.5%.",
         ],
       },
     },
@@ -100,7 +100,7 @@ export const projects = [
       en: "Energy Pool Data Engineering Project",
     },
     summary: {
-      fr: "Cas de data engineering centré sur la structuration, la transformation et l'exploitation fiable de données métier.",
+      fr: "Cas de data engineering centre sur la structuration, la transformation et l'exploitation fiable de donnees metier.",
       en: "Data engineering case study focused on structuring, transforming, and exposing business data reliably.",
     },
     links: {
@@ -111,9 +111,9 @@ export const projects = [
       type: "highlights",
       bullets: {
         fr: [
-          "Projet de référence pour la logique pipeline, qualité et exploitation analytique.",
+          "Projet de reference pour la logique pipeline, qualite et exploitation analytique.",
           "Base de comparaison pour d'autres projets data du portfolio.",
-          "Le contenu détaillé sera enrichi progressivement.",
+          "Le contenu detaille sera enrichi progressivement.",
         ],
         en: [
           "Reference project for pipeline, quality, and analytical delivery logic.",
@@ -125,35 +125,32 @@ export const projects = [
   },
   {
     slug: "framatome-data-engineering-project",
-    featured: false,
-    status: "wip",
+    featured: true,
+    status: "live",
     category: { fr: "Data Engineering", en: "Data Engineering" },
-    date: "2025",
-    tags: ["Data Pipeline", "Monitoring", "SQL", "Python", "Industry"],
+    date: "2024",
+    tags: ["Azure Databricks", "Azure Data Factory", "Spark", "Python", "GDPR", "Azure Blob Storage"],
     title: {
-      fr: "Framatome Data Engineering Project",
-      en: "Framatome Data Engineering Project",
+      fr: "GDPR Compliance Data Pipeline",
+      en: "GDPR Compliance Data Pipeline",
     },
     summary: {
-      fr: "Projet orienté pipeline, fiabilité et mise à disposition de données dans un contexte industriel.",
-      en: "Project centered on pipeline reliability and data delivery in an industrial context.",
+      fr: "Projet de stage centre sur l'automatisation de l'anonymisation RGPD pour des plateformes internes de knowledge management, avec une forte dimension architecture et orchestration Azure.",
+      en: "Internship project focused on automating GDPR-oriented anonymization for internal knowledge management platforms, with a strong emphasis on Azure architecture and orchestration.",
     },
-    links: {
-      repo: "https://github.com/Hrafbh",
-      demo: "",
-    },
+    links: {},
     showcase: {
       type: "highlights",
       bullets: {
         fr: [
-          "Accent mis sur la robustesse du traitement et la lisibilité de l'architecture.",
-          "Positionné comme un cas concret de data engineering appliqué.",
-          "La page sert déjà de place propre pour publier le contenu complet ensuite.",
+          "Pipeline Azure pour anonymiser des donnees d'usage tout en conservant leur valeur analytique.",
+          "Projet portfolio presente surtout via des diagrammes d'architecture et d'orchestration.",
+          "Cas concret de data engineering applique dans un contexte enterprise et RGPD.",
         ],
         en: [
-          "Emphasis on robust processing and readable architecture.",
-          "Positioned as a concrete applied data engineering case study.",
-          "The page already provides a clean slot for the full write-up later on.",
+          "Azure pipeline designed to anonymize usage data while preserving analytical value.",
+          "Portfolio presentation centered on architecture and orchestration diagrams rather than code.",
+          "Concrete applied data engineering case study in an enterprise GDPR setting.",
         ],
       },
     },
@@ -170,7 +167,7 @@ export const projects = [
       en: "Academic Data Science Project",
     },
     summary: {
-      fr: "Projet académique regroupant notamment Challenge Data Engie et Wind Turbine Energy avec une approche data science appliquée.",
+      fr: "Projet academique regroupant notamment Challenge Data Engie et Wind Turbine Energy avec une approche data science appliquee.",
       en: "Academic project grouping work such as Challenge Data Engie and Wind Turbine Energy with an applied data science angle.",
     },
     links: {
@@ -181,9 +178,9 @@ export const projects = [
       type: "highlights",
       bullets: {
         fr: [
-          "Regroupe les projets académiques les plus représentatifs pour le portfolio.",
-          "Met en avant l'analyse, la modélisation et l'évaluation des résultats.",
-          "Convient pour présenter des notebooks, figures et conclusions métier.",
+          "Regroupe les projets academiques les plus representatifs pour le portfolio.",
+          "Met en avant l'analyse, la modelisation et l'evaluation des resultats.",
+          "Convient pour presenter des notebooks, figures et conclusions metier.",
         ],
         en: [
           "Groups the most representative academic projects for the portfolio.",

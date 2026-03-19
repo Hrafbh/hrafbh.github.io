@@ -22,7 +22,6 @@ const copy: Record<
     home: string;
     projects: string;
     about: string;
-    resume: string;
     contact: string;
     footer: string;
   }
@@ -32,7 +31,6 @@ const copy: Record<
     home: "Home",
     projects: "Projects",
     about: "About",
-    resume: "Resume",
     contact: "Contact / Links",
     footer: "Built with Astro · bilingual portfolio focused on Data Engineering and Applied AI",
   },
@@ -41,7 +39,6 @@ const copy: Record<
     home: "Accueil",
     projects: "Projets",
     about: "À propos",
-    resume: "CV",
     contact: "Contact / Liens",
     footer: "Construit avec Astro · portfolio bilingue orienté Data Engineering et IA appliquée",
   },
@@ -53,7 +50,6 @@ const currentPath = Astro.url.pathname.replace(/^\/(en|fr)/, "") || "/";
 const homeHref = `/${lang}/`;
 const projectsHref = `/${lang}/projects/`;
 const aboutHref = `/${lang}/about/`;
-const resumeHref = `/${lang}/resume/`;
 const contactHref = `/${lang}/contact/`;
 ---
 <html lang={lang}>
@@ -88,9 +84,6 @@ const contactHref = `/${lang}/contact/`;
             </a>
             <a class={`nav-link ${currentPath.startsWith("/about") ? "active" : ""}`} href={aboutHref}>
               {ui.about}
-            </a>
-            <a class={`nav-link ${currentPath.startsWith("/resume") ? "active" : ""}`} href={resumeHref}>
-              {ui.resume}
             </a>
             <a class={`nav-link ${currentPath.startsWith("/contact") ? "active" : ""}`} href={contactHref}>
               {ui.contact}

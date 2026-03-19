@@ -1,0 +1,638 @@
+---
+import type { Lang } from "../../i18n/config";
+
+type Project = any;
+const { lang, project } = Astro.props as { lang: Lang; project: Project };
+
+const copy = {
+  en: {
+    title: "ConfluRAG-SupportAgent",
+    oneLiner:
+      "A portfolio-ready internal support assistant based on a Confluence-backed knowledge base, combining KB-as-code, semantic retrieval, intent routing, and an interactive Streamlit demo in a realistic B2B SaaS support context.",
+    role: "AI / RAG / NLP Engineering",
+    contextMeta: "Personal portfolio project inspired by a real enterprise support AI use case",
+    stackMeta: "Python, Confluence API, Markdown, ChromaDB, Sentence Transformers, Streamlit",
+    focusMeta: "RAG pipeline, KB structuring, intent routing, support-oriented answer grounding",
+    viewRepo: "View Repository",
+    readme: "Read README",
+    demo: "Launch Demo Locally",
+    demoSoon: "Local demo setup",
+    section1: "1. Context",
+    section2: "2. Solution",
+    section3: "3. Architecture + Tech Stack",
+    section4: "4. Results / What It Demonstrates",
+    section5: "5. Screenshots / Demo",
+    section6: "6. Challenges & Learnings",
+    section7: "7. GitHub Repo",
+    contextP1:
+      "This project is a portfolio-friendly reconstruction of an internal support AI assistant concept inspired by a real enterprise context I previously worked on.",
+    contextP2:
+      "To make the work publicly presentable without exposing internal company assets, I reframed it around a fictional B2B SaaS company called RoutePilot, focused on route planning, field execution, proof of delivery, reporting, and access administration.",
+    contextP3:
+      "In that setting, the assistant helps Support, Operations, and Customer Success teams resolve recurring internal requests faster by retrieving grounded procedures, troubleshooting steps, and operational guidance from a structured knowledge base.",
+    solutionP1:
+      "I built a support-oriented RAG system connected to a structured knowledge base maintained in Markdown and designed for synchronization with Confluence.",
+    solutionP2:
+      "The solution combines a KB-as-code repository for versioned support documentation, a Confluence integration workflow to simulate a live enterprise knowledge source, a vector retrieval pipeline for semantic search, an intent-routing layer to narrow retrieval, and an interactive Streamlit interface for demonstration.",
+    solutionP3:
+      "The assistant retrieves relevant passages, reranks them with lightweight lexical signals, extracts actionable resolution steps when possible, and can explicitly decline to answer when the evidence is too weak.",
+    kbTitle: "Knowledge Base",
+    kbItems: [
+      "Markdown articles stored in kb/ with one page per file",
+      "Stable IDs such as KB-013 and KB-024 for citations and evaluation",
+      "Clear support taxonomy across onboarding, SSO/MFA, workstation, network, tooling, and incident runbooks",
+      "Structured metadata to improve retrieval quality and downstream filtering",
+    ],
+    confluenceTitle: "Confluence Integration",
+    confluenceItems: [
+      "Publication workflow from Markdown KB pages to Confluence",
+      "API-based extraction of Confluence pages and metadata",
+      "Normalization of enterprise-style page content for indexing",
+      "A realistic dual model: documentation as code plus collaborative Confluence usage",
+    ],
+    retrievalTitle: "Retrieval Layer",
+    retrievalItems: [
+      "HTML-to-text conversion from exported Confluence content",
+      "Chunking with overlap before embedding generation",
+      "Sentence Transformers embeddings stored in ChromaDB",
+      "Intent routing, category filtering, hybrid reranking, and deduplication by page_id",
+    ],
+    archTitle: "System flow",
+    archIntro:
+      "The project is organized as an end-to-end support RAG workflow, from authored KB pages to grounded answers with citations.",
+    archSteps: [
+      {
+        label: "Source",
+        title: "KB as code",
+        text: "Support pages authored in Markdown with stable IDs and structured metadata.",
+      },
+      {
+        label: "Sync",
+        title: "Confluence publish / pull",
+        text: "Pages are pushed to Confluence and can also be extracted again through the API.",
+      },
+      {
+        label: "Indexing",
+        title: "Chunk + embed",
+        text: "Confluence HTML is normalized, chunked, embedded, and stored in ChromaDB.",
+      },
+      {
+        label: "Routing",
+        title: "Intent + filters",
+        text: "Queries are routed by intent and narrowed with category-level filtering.",
+      },
+      {
+        label: "Ranking",
+        title: "Hybrid reranking",
+        text: "Vector distance is combined with keyword, title, tag, and content bonuses.",
+      },
+      {
+        label: "Answering",
+        title: "Support response",
+        text: "The system returns grounded steps, cited sources, or an escalation recommendation.",
+      },
+    ],
+    techTitle: "Main technologies",
+    techTags: [
+      "Python",
+      "Confluence API",
+      "Markdown",
+      "BeautifulSoup",
+      "Sentence Transformers",
+      "ChromaDB",
+      "JSON",
+      "Streamlit",
+    ],
+    resultsIntro:
+      "This project demonstrates a more mature support assistant design than a simple demo chatbot because it combines documentation design, retrieval engineering, and explicit evaluation.",
+    resultsItems: [
+      "Structure a realistic internal support knowledge base for RAG usage",
+      "Combine KB-as-code with enterprise-style Confluence workflows",
+      "Build a semantic retrieval pipeline with persistent vector indexing",
+      "Improve precision with intent routing and lightweight reranking",
+      "Handle low-confidence cases through an unknown-answer fallback and escalation logic",
+      "Expose the workflow through both a CLI and a Streamlit demo",
+    ],
+    metricTitle: "Retrieval evaluation",
+    metricNote:
+      "The repository includes a curated eval set and an existing retrieval report, which gives the project a stronger engineering and validation angle.",
+    metrics: [
+      { label: "Hit@1", value: "75%" },
+      { label: "Hit@5", value: "87.5%" },
+      { label: "MRR", value: "0.775" },
+      { label: "Model", value: "all-MiniLM-L6-v2" },
+    ],
+    demoIntro:
+      "The most relevant demo format is the Streamlit interface already included in the repository.",
+    demoItems: [
+      "Ask support questions such as 'What should I do if PDF export fails?'",
+      "Show grounded answer blocks with extracted resolution steps",
+      "Display cited source pages with KB IDs",
+      "Optionally surface detected intent, category filters, and top-k retrieval behavior",
+    ],
+    demoSetupTitle: "Local demo setup",
+    demoSetup: [
+      "python scripts/rag_build_index.py",
+      "streamlit run scripts/streamlit_app.py",
+    ],
+    challengeP1:
+      "One challenge was designing a fictional but credible business environment that could support realistic workflows without relying on proprietary enterprise documentation. Building the RoutePilot context made the assistant feel operational rather than generic.",
+    challengeP2:
+      "Another challenge was keeping retrieval useful for support scenarios where pure vector similarity is often not enough. To improve answer quality, I added intent routing, metadata filtering, reranking heuristics, and a basic fallback when the retrieved evidence is too weak.",
+    learningsTitle: "Key learnings",
+    learnings: [
+      "Documentation quality directly shapes RAG quality",
+      "Stable KB structure and metadata improve retrieval behavior",
+      "Support assistants need grounded procedural answers more than conversational polish",
+      "Evaluation matters in portfolio projects because it shows measured retrieval quality, not only a visual demo",
+    ],
+    repoText: "Public repository available on GitHub, with README, scripts, KB articles, and retrieval evaluation artifacts.",
+  },
+  fr: {
+    title: "ConfluRAG-SupportAgent",
+    oneLiner:
+      "Assistant support interne pour portfolio, base sur une knowledge base reliee a Confluence, avec KB-as-code, retrieval semantique, routing par intention et demo Streamlit dans un contexte SaaS B2B realiste.",
+    role: "AI / RAG / NLP Engineering",
+    contextMeta: "Projet portfolio personnel inspire d'un vrai use case d'IA support en entreprise",
+    stackMeta: "Python, Confluence API, Markdown, ChromaDB, Sentence Transformers, Streamlit",
+    focusMeta: "Pipeline RAG, structuration de KB, intent routing, reponses support ancrees dans les sources",
+    viewRepo: "View Repository",
+    readme: "Read README",
+    demo: "Lancer la demo en local",
+    demoSoon: "Setup demo locale",
+    section1: "1. Contexte",
+    section2: "2. Solution",
+    section3: "3. Architecture + Stack technique",
+    section4: "4. Resultats / Ce que le projet demontre",
+    section5: "5. Screenshots / Demo",
+    section6: "6. Challenges & Learnings",
+    section7: "7. GitHub Repo",
+    contextP1:
+      "Ce projet est une reconstruction portfolio d'un concept d'assistant support interne inspire d'un contexte entreprise reel sur lequel j'avais deja travaille.",
+    contextP2:
+      "Pour le rendre publiable sans exposer de documents internes, je l'ai reformule autour d'une entreprise fictive B2B SaaS appelee RoutePilot, centree sur la planification de tournees, l'execution terrain, la preuve de livraison, le reporting et l'administration des acces.",
+    contextP3:
+      "Dans ce cadre, l'assistant aide les equipes Support, Operations et Customer Success a traiter plus vite les demandes recurrentes en retrouvant des procedures, des etapes de troubleshooting et de la connaissance operationnelle de facon structuree.",
+    solutionP1:
+      "J'ai construit un systeme RAG oriente support connecte a une knowledge base structuree, maintenue en Markdown et pensee pour etre synchronisee avec Confluence.",
+    solutionP2:
+      "La solution combine un depot KB-as-code pour la documentation versionnee, un workflow d'integration Confluence pour simuler une source entreprise vivante, un pipeline de retrieval vectoriel, une couche de routing par intention pour reduire l'espace de recherche, et une interface Streamlit pour la demonstration.",
+    solutionP3:
+      "L'assistant recupere les passages pertinents, les rerank avec des signaux lexicaux simples, essaie d'extraire des resolution steps actionnables, et peut aussi refuser de repondre si les preuves sont trop faibles.",
+    kbTitle: "Knowledge Base",
+    kbItems: [
+      "Articles Markdown dans kb/ avec 1 page par fichier",
+      "IDs stables comme KB-013 et KB-024 pour les citations et l'evaluation",
+      "Taxonomie support claire sur onboarding, SSO/MFA, workstation, network, tooling et runbooks d'incident",
+      "Metadonnees structurees pour ameliorer le retrieval et les filtres aval",
+    ],
+    confluenceTitle: "Integration Confluence",
+    confluenceItems: [
+      "Workflow de publication depuis la KB Markdown vers Confluence",
+      "Extraction des pages Confluence et des metadonnees via API",
+      "Normalisation du contenu pour l'indexation",
+      "Modele realiste: documentation as code plus usage collaboratif de Confluence",
+    ],
+    retrievalTitle: "Couche retrieval",
+    retrievalItems: [
+      "Conversion HTML vers texte depuis le contenu Confluence exporte",
+      "Chunking avec overlap avant generation des embeddings",
+      "Embeddings Sentence Transformers stockes dans ChromaDB",
+      "Intent routing, filtre de categorie, reranking hybride et deduplication par page_id",
+    ],
+    archTitle: "Flux systeme",
+    archIntro:
+      "Le projet est organise comme un workflow RAG support de bout en bout, depuis les pages KB jusqu'aux reponses ancrees avec citations.",
+    archSteps: [
+      {
+        label: "Source",
+        title: "KB as code",
+        text: "Pages support redigees en Markdown avec IDs stables et metadonnees structurees.",
+      },
+      {
+        label: "Sync",
+        title: "Confluence publish / pull",
+        text: "Les pages peuvent etre publiees dans Confluence puis re-extraites via API.",
+      },
+      {
+        label: "Indexation",
+        title: "Chunk + embed",
+        text: "Le HTML Confluence est normalise, decoupe, vectorise et stocke dans ChromaDB.",
+      },
+      {
+        label: "Routing",
+        title: "Intent + filtres",
+        text: "Les questions sont routees par intention puis reduites via des filtres de categorie.",
+      },
+      {
+        label: "Ranking",
+        title: "Reranking hybride",
+        text: "La distance vectorielle est combinee avec des bonus mots-cles, titre, tags et contenu.",
+      },
+      {
+        label: "Reponse",
+        title: "Support answer",
+        text: "Le systeme renvoie des etapes de resolution sourcees ou recommande une escalation.",
+      },
+    ],
+    techTitle: "Technologies principales",
+    techTags: [
+      "Python",
+      "Confluence API",
+      "Markdown",
+      "BeautifulSoup",
+      "Sentence Transformers",
+      "ChromaDB",
+      "JSON",
+      "Streamlit",
+    ],
+    resultsIntro:
+      "Ce projet montre un assistant support plus mature qu'un simple chatbot de demo, car il combine conception documentaire, retrieval engineering et evaluation explicite.",
+    resultsItems: [
+      "Structurer une vraie knowledge base support pour un usage RAG",
+      "Combiner KB-as-code et workflow Confluence de style entreprise",
+      "Construire un pipeline semantique avec indexation vectorielle persistante",
+      "Ameliorer la precision avec intent routing et reranking leger",
+      "Gerer les cas de faible confiance avec unknown mode et logique d'escalade",
+      "Exposer le workflow via une CLI et une demo Streamlit",
+    ],
+    metricTitle: "Evaluation retrieval",
+    metricNote:
+      "Le repo contient un eval set et un rapport retrieval deja genere, ce qui apporte une vraie dimension validation au projet.",
+    metrics: [
+      { label: "Hit@1", value: "75%" },
+      { label: "Hit@5", value: "87.5%" },
+      { label: "MRR", value: "0.775" },
+      { label: "Model", value: "all-MiniLM-L6-v2" },
+    ],
+    demoIntro:
+      "Le meilleur format de demo pour ce projet est l'interface Streamlit deja incluse dans le repository.",
+    demoItems: [
+      "Poser des questions support comme 'What should I do if PDF export fails?'",
+      "Montrer des blocs de reponse avec resolution steps extraits",
+      "Afficher les pages sources citees avec leurs IDs KB",
+      "Optionnellement afficher l'intent detecte, les filtres de categorie et le comportement top-k",
+    ],
+    demoSetupTitle: "Setup demo locale",
+    demoSetup: [
+      "python scripts/rag_build_index.py",
+      "streamlit run scripts/streamlit_app.py",
+    ],
+    challengeP1:
+      "Un des principaux challenges etait de construire un environnement metier fictif mais credible, capable de supporter des workflows support realistes sans s'appuyer sur de la documentation proprietaire. Le contexte RoutePilot rend l'assistant plus operationnel et moins generique.",
+    challengeP2:
+      "Un autre challenge concernait l'utilite du retrieval en contexte support, car la simple similarite vectorielle ne suffit pas toujours. J'ai donc ajoute du routing par intention, des filtres de metadonnees, des heuristiques de reranking et un fallback basique quand les preuves sont trop faibles.",
+    learningsTitle: "Principaux enseignements",
+    learnings: [
+      "La qualite de la documentation influence directement la qualite du RAG",
+      "Une structure KB stable et des metadonnees propres ameliorent le retrieval",
+      "Les assistants support ont besoin de reponses procedurales ancrees plus que d'un style conversationnel",
+      "L'evaluation compte aussi en portfolio, car elle montre une qualite mesuree et pas seulement une demo visuelle",
+    ],
+    repoText: "Depot public disponible sur GitHub, avec README, scripts, articles KB et artefacts d'evaluation retrieval.",
+  },
+} as const;
+
+const ui = copy[lang];
+const title = project.title?.[lang] ?? ui.title;
+const summary = project.summary?.[lang] ?? ui.oneLiner;
+const repoHref = project.links?.repo ?? "https://github.com/Hrafbh/ConfluRAG-SupportAgent";
+const readmeHref = `${repoHref}#readme`;
+---
+
+<section class="detail-hero">
+  <span class="eyebrow">{ui.role}</span>
+  <h1>{title}</h1>
+  <p>{summary}</p>
+
+  <div class="meta-strip">
+    <div class="meta-card">
+      <span class="meta-label">Context</span>
+      <p>{ui.contextMeta}</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-label">Stack</span>
+      <p>{ui.stackMeta}</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-label">Focus</span>
+      <p>{ui.focusMeta}</p>
+    </div>
+  </div>
+
+  <div class="hero-actions">
+    <a class="btn-primary" href={repoHref} target="_blank" rel="noreferrer">
+      {ui.viewRepo}
+    </a>
+    <a class="btn-secondary" href={readmeHref} target="_blank" rel="noreferrer">
+      {ui.readme}
+    </a>
+    <span class="btn-secondary">{ui.demoSoon}</span>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section1}</h2>
+    </div>
+  </div>
+
+  <article class="detail-panel">
+    <p>{ui.contextP1}</p>
+    <p>{ui.contextP2}</p>
+    <p>{ui.contextP3}</p>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section2}</h2>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel">
+        <p>{ui.solutionP1}</p>
+        <p>{ui.solutionP2}</p>
+        <p>{ui.solutionP3}</p>
+      </article>
+    </div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.techTitle}</h3>
+        <div class="tag-row" style="margin-top: 14px;">
+          {ui.techTags.map((tag) => <span class="tag">{tag}</span>)}
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section3}</h2>
+      <p>{ui.archIntro}</p>
+    </div>
+  </div>
+
+  <article class="detail-panel architecture-panel">
+    <div class="architecture-grid">
+      {ui.archSteps.map((step) => (
+        <article class="architecture-card">
+          <span class="step-label">{step.label}</span>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </article>
+      ))}
+    </div>
+  </article>
+
+  <div class="focus-grid">
+    <article class="focus-card">
+      <h3>{ui.kbTitle}</h3>
+      <ul>
+        {ui.kbItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </article>
+
+    <article class="focus-card">
+      <h3>{ui.confluenceTitle}</h3>
+      <ul>
+        {ui.confluenceItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </article>
+
+    <article class="focus-card">
+      <h3>{ui.retrievalTitle}</h3>
+      <ul>
+        {ui.retrievalItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section4}</h2>
+      <p>{ui.resultsIntro}</p>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel">
+        <ul>
+          {ui.resultsItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    </div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.metricTitle}</h3>
+        <p>{ui.metricNote}</p>
+        <div class="metrics-grid">
+          {ui.metrics.map((metric) => (
+            <div class="metric-card">
+              <span>{metric.label}</span>
+              <strong>{metric.value}</strong>
+            </div>
+          ))}
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section5}</h2>
+      <p>{ui.demoIntro}</p>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel">
+        <ul>
+          {ui.demoItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    </div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.demoSetupTitle}</h3>
+        <div class="command-list">
+          {ui.demoSetup.map((cmd) => <code>{cmd}</code>)}
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section6}</h2>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel">
+        <p>{ui.challengeP1}</p>
+        <p>{ui.challengeP2}</p>
+      </article>
+    </div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.learningsTitle}</h3>
+        <ul>
+          {ui.learnings.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section7}</h2>
+      <p>{ui.repoText}</p>
+    </div>
+  </div>
+
+  <div class="hero-actions" style="margin-top: 0;">
+    <a class="btn-primary" href={repoHref} target="_blank" rel="noreferrer">
+      {ui.viewRepo}
+    </a>
+    <a class="btn-secondary" href={readmeHref} target="_blank" rel="noreferrer">
+      {ui.readme}
+    </a>
+  </div>
+</section>
+
+<style>
+  .meta-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.4rem;
+  }
+
+  .meta-card,
+  .architecture-card,
+  .metric-card {
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  }
+
+  .meta-card {
+    padding: 1rem 1.1rem;
+  }
+
+  .meta-card p {
+    margin: 0.35rem 0 0;
+    color: #475569;
+  }
+
+  .meta-label,
+  .step-label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 0.45rem;
+    padding: 0.22rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: #e0f2fe;
+    color: #075985;
+  }
+
+  .architecture-panel {
+    margin-bottom: 18px;
+    background:
+      radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 30%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+  }
+
+  .architecture-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .architecture-card {
+    padding: 1rem;
+  }
+
+  .architecture-card h3 {
+    margin: 0 0 0.45rem;
+    font-size: 1rem;
+    color: #0f172a;
+  }
+
+  .architecture-card p {
+    margin: 0;
+    color: #475569;
+    line-height: 1.55;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .metric-card {
+    padding: 0.9rem 1rem;
+  }
+
+  .metric-card span {
+    display: block;
+    color: #64748b;
+    font-size: 0.88rem;
+  }
+
+  .metric-card strong {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 1.25rem;
+    color: #0f172a;
+  }
+
+  .command-list {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .command-list code {
+    display: block;
+    padding: 0.85rem 1rem;
+    border-radius: 0.9rem;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 0.92rem;
+    overflow-x: auto;
+  }
+
+  @media (max-width: 980px) {
+    .meta-strip,
+    .architecture-grid,
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

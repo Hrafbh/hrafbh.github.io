@@ -1,6 +1,8 @@
 ---
 import SiteLayout from "../../../layouts/SiteLayout.astro";
 import GitHubIssuesLakehouse from "../../../components/projects/GitHubIssuesLakehouse.astro";
+import ConfluRAGSupportAgent from "../../../components/projects/ConfluRAGSupportAgent.astro";
+import FramatomeGdprPipeline from "../../../components/projects/FramatomeGdprPipeline.astro";
 import { allLangs as LANGS, isLang, type Lang } from "../../../i18n/config";
 import { projects } from "../../../data/projects.js";
 
@@ -86,6 +88,8 @@ const copy = {
 
 const ui = copy[lang];
 const isLakehouse = richProject.slug === "github-issues-lakehouse";
+const isConfluRAG = richProject.slug === "confluence-rag-chatbot";
+const isFramatome = richProject.slug === "framatome-data-engineering-project";
 const highlights =
   richProject.showcase?.type === "highlights"
     ? richProject.showcase.bullets?.[lang] ?? richProject.showcase.bullets?.en ?? []
@@ -102,6 +106,10 @@ const highlights =
 
   {isLakehouse ? (
     <GitHubIssuesLakehouse lang={lang} project={richProject} />
+  ) : isConfluRAG ? (
+    <ConfluRAGSupportAgent lang={lang} project={richProject} />
+  ) : isFramatome ? (
+    <FramatomeGdprPipeline lang={lang} project={richProject} />
   ) : (
     <>
       <section class="detail-hero">

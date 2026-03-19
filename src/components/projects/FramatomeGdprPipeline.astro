@@ -1,0 +1,780 @@
+---
+import type { Lang } from "../../i18n/config";
+
+type Project = any;
+const { lang, project } = Astro.props as { lang: Lang; project: Project };
+
+const copy = {
+  en: {
+    title: "GDPR Compliance Data Pipeline for Knowledge Management",
+    oneLiner:
+      "Design and implementation of an Azure-based data pipeline to automate GDPR-oriented anonymization for internal knowledge management platforms.",
+    role: "Data Engineering Intern",
+    contextLabel: "Context",
+    roleLabel: "Role",
+    companyLabel: "Company",
+    periodLabel: "Period",
+    stackLabel: "Stack",
+    focusLabel: "Focus",
+    contextMeta: "Internship project",
+    companyMeta: "Framatome",
+    periodMeta: "Apr 2024 - Aug 2024",
+    stackMeta:
+      "Azure Databricks, Azure Data Factory, Azure Blob Storage, Azure Key Vault, Azure DevOps, Python, Spark",
+    focusMeta:
+      "ETL automation, GDPR compliance, anonymization, cloud orchestration, enterprise data workflows",
+    confidentiality: "Confidential project - architecture and outcomes only",
+    section1: "1. Context",
+    section2: "2. Mission & Solution",
+    section3: "3. Architecture + Tech Stack",
+    section4: "4. Results / Impact",
+    section5: "5. Architecture Diagrams & Visual Outputs",
+    section6: "6. Challenges & Learnings",
+    section7: "7. Confidentiality Note",
+    contextP1:
+      "During my internship at Framatome's Centrale Digital Lab, I worked on a data engineering project aimed at automating GDPR compliance within the company's Knowledge Management program.",
+    contextP2:
+      "The KM ecosystem relied on several digital platforms, including Wiki, Search, Ask, and Video, that contained or processed personal usage data. This created a compliance challenge: user-related data was still needed for operational monitoring and platform analytics, but retention and exposure of personal data had to stay aligned with GDPR requirements.",
+    contextP3:
+      "The main objective was to design an automated solution able to anonymize personal data of former employees after a defined retention period following the end of their contract, while moving away from a local script-based setup toward a centralized and more maintainable cloud environment.",
+    solutionP1:
+      "The project consisted in designing and implementing a set of cloud ETL pipelines to extract, transform, anonymize, and reload data used by multiple KM platforms.",
+    solutionP2:
+      "The key anonymization principle was to replace personal identifiers, especially usernames, with hashed placeholders such as a former employee hash. This preserved the value of historical usage data for analytics while preventing direct identification of former employees.",
+    solutionP3:
+      "Operationally, the solution was organized around three streams: ingestion of usage data from several KM platforms, enrichment with directory and leaver data, and anonymization plus reload of sanitized datasets into the analytical environment used for KM visualizations.",
+    streamTitle: "Operational streams",
+    streamItems: [
+      "Ingestion of usage data from Wiki, Video, and Search flows",
+      "Enrichment with directory data and former-employee status information",
+      "Anonymization and reload of sanitized datasets for downstream analytics",
+    ],
+    architectureIntro:
+      "The solution follows a cloud-native Azure architecture built around orchestration, processing, storage, and secured secret management.",
+    globalTitle: "Global architecture",
+    globalSteps: [
+      { tag: "Sources", title: "KM platforms", text: "Wiki, Search, Video and related usage inputs" },
+      { tag: "Landing", title: "Azure Blob Storage", text: "Raw CSV files and extracted source data" },
+      { tag: "Compute", title: "Azure Databricks", text: "Spark notebooks for ETL, enrichment, and anonymization" },
+      { tag: "Orchestration", title: "Azure Data Factory", text: "Triggers, sequencing, and workflow automation" },
+      { tag: "Secrets", title: "Azure Key Vault", text: "Secure handling of credentials and secrets" },
+      { tag: "Output", title: "KM analytics", text: "Sanitized outputs reused in reporting and visualizations" },
+    ],
+    platformTitle: "Platform-specific ingestion flows",
+    platforms: [
+      {
+        name: "Wiki",
+        source: "Internal MediaWiki API",
+        ingest: "API extraction or staged CSV upload",
+        process: "Databricks anonymization notebook",
+        output: "Sanitized Wiki datasets for KM reporting",
+      },
+      {
+        name: "Video",
+        source: "Panopto API + usage CSV files",
+        ingest: "Mixed API and file-based ingestion",
+        process: "Databricks merge, enrichment, and anonymization",
+        output: "Anonymized Video activity datasets",
+      },
+      {
+        name: "Search",
+        source: "CSV files dropped in Blob Storage",
+        ingest: "Blob-based event intake",
+        process: "Custom parsing + Spark transformation",
+        output: "Sanitized Search usage datasets",
+      },
+    ],
+    orchestrationTitle: "ADF orchestration logic",
+    orchestrationText:
+      "ADF was used both to monitor incoming files and to coordinate the execution sequence. Because event triggers could monitor only one file at a time, the workflow included a preliminary trigger pipeline checking whether all required inputs were present before launching the main ETL pipeline.",
+    orchestrationSteps: [
+      "Event detection on incoming source files",
+      "Trigger pipeline validates input completeness",
+      "Main pipeline launches Databricks processing steps",
+      "Anonymized outputs are written to dedicated storage containers",
+    ],
+    techTitle: "Main technologies",
+    techTags: [
+      "Azure Databricks",
+      "Azure Data Factory",
+      "Azure Blob Storage",
+      "Azure Key Vault",
+      "Azure DevOps",
+      "Python",
+      "Spark",
+      "CSV",
+      "MediaWiki API",
+      "Panopto API",
+    ],
+    resultsIntro:
+      "The workflow was tested and validated end-to-end across Wiki, Video, and Search processing steps, making the anonymized datasets reusable inside the KM analytics environment.",
+    resultsItems: [
+      "Automated anonymization workflow for major KM data flows",
+      "Improved GDPR alignment for internal platform analytics",
+      "Sanitized historical datasets kept usable for monitoring purposes",
+      "End-to-end validation across Wiki, Video, and Search streams",
+    ],
+    impactTitle: "Reporting impact example",
+    impactBefore: "Before anonymization, the Wiki edits visualization only reflected current employees.",
+    impactAfter:
+      "After anonymization, the dashboard included both current and former employee contributions without exposing personal identities, improving the completeness of historical monitoring.",
+    visualsIntro:
+      "This project is best presented through diagrams rather than code screenshots. The most valuable portfolio assets are architecture views, platform flows, orchestration logic, and before/after reporting visuals.",
+    visualsItems: [
+      "Simplified global architecture of the Azure pipeline",
+      "Dedicated Wiki / Video / Search flow diagrams",
+      "Simplified ADF trigger and main pipeline orchestration view",
+      "Before / after analytics comparison showing the impact of anonymization",
+    ],
+    challenges: [
+      {
+        title: "Enterprise network constraints",
+        text:
+          "Some sources, such as the internal MediaWiki API and the original GitLab repository, were inside Framatome's internal network, which limited direct access from Databricks. Workarounds included moving the repository to Azure DevOps and temporarily extracting Wiki data locally before uploading CSV files to Blob Storage.",
+      },
+      {
+        title: "Messy CSV parsing",
+        text:
+          "Search logs could contain arbitrary text in the querytext field, and Wiki data included comma-separated edited pages, which interfered with standard delimiter-based parsing. The solution combined Spark multiline and special-character handling with a custom parsing function for Search files.",
+      },
+      {
+        title: "Workflow triggering",
+        text:
+          "ADF event triggers could not watch all required files at once, so the workflow needed an additional control layer to verify file readiness before launching the main ETL sequence.",
+      },
+    ],
+    learningsTitle: "Key learnings",
+    learnings: [
+      "Enterprise data engineering often means bridging cloud services with constrained internal systems",
+      "Compliance projects still require careful product thinking so analytics remains useful after anonymization",
+      "Messy flat files and orchestration edge cases are part of real-world ETL work, not exceptions",
+      "Architecture diagrams can communicate delivery quality better than code screenshots when the project is confidential",
+    ],
+    confidentialityP1:
+      "This project is presented in a portfolio-friendly format based on an internship report. Internal code, company assets, and operational details are not publicly shared.",
+    confidentialityP2:
+      "Diagrams and explanations are intentionally limited to high-level architectural and functional aspects.",
+  },
+  fr: {
+    title: "GDPR Compliance Data Pipeline for Knowledge Management",
+    oneLiner:
+      "Conception et mise en place d'un pipeline de donnees sur Azure pour automatiser l'anonymisation orientee RGPD sur des plateformes internes de knowledge management.",
+    role: "Stagiaire Data Engineering",
+    contextLabel: "Contexte",
+    roleLabel: "Role",
+    companyLabel: "Entreprise",
+    periodLabel: "Periode",
+    stackLabel: "Stack",
+    focusLabel: "Focus",
+    contextMeta: "Projet de stage",
+    companyMeta: "Framatome",
+    periodMeta: "Avr 2024 - Aout 2024",
+    stackMeta:
+      "Azure Databricks, Azure Data Factory, Azure Blob Storage, Azure Key Vault, Azure DevOps, Python, Spark",
+    focusMeta:
+      "Automatisation ETL, conformite RGPD, anonymisation, orchestration cloud, workflows data en entreprise",
+    confidentiality: "Projet confidentiel - architecture et resultats uniquement",
+    section1: "1. Contexte",
+    section2: "2. Mission & Solution",
+    section3: "3. Architecture + Stack technique",
+    section4: "4. Resultats / Impact",
+    section5: "5. Diagrammes d'architecture & visuels",
+    section6: "6. Challenges & Learnings",
+    section7: "7. Note de confidentialite",
+    contextP1:
+      "Pendant mon stage au Centrale Digital Lab de Framatome, j'ai travaille sur un projet de data engineering visant a automatiser la conformite RGPD au sein du programme de Knowledge Management de l'entreprise.",
+    contextP2:
+      "L'ecosysteme KM s'appuyait sur plusieurs plateformes digitales, notamment Wiki, Search, Ask et Video, qui contenaient ou traitaient des donnees d'usage personnelles. Cela posait un enjeu de conformite: ces donnees restaient utiles pour le monitoring operationnel et l'analytique plateforme, mais leur retention et leur exposition devaient rester alignees avec les exigences RGPD.",
+    contextP3:
+      "L'objectif principal etait de concevoir une solution automatisee capable d'anonymiser les donnees personnelles d'anciens employes apres une periode de retention definie suivant la fin de leur contrat, tout en remplacant une logique locale basee sur des scripts par un environnement cloud centralise et plus maintenable.",
+    solutionP1:
+      "Le projet a consiste a concevoir et implementer un ensemble de pipelines ETL cloud pour extraire, transformer, anonymiser et recharger les donnees utilisees par plusieurs plateformes KM.",
+    solutionP2:
+      "Le principe central d'anonymisation etait de remplacer les identifiants personnels, notamment les usernames, par des placeholders hash tels qu'un former employee hash. Cela permettait de conserver la valeur analytique des historiques d'usage tout en empechant l'identification directe d'anciens employes.",
+    solutionP3:
+      "Sur le plan operationnel, la solution s'organisait autour de trois flux: ingestion des donnees d'usage depuis plusieurs plateformes KM, enrichissement avec les donnees annuaire et le statut de depart, puis anonymisation et rechargement des datasets nettoyes dans l'environnement analytique utilise pour les visualisations KM.",
+    streamTitle: "Flux operationnels",
+    streamItems: [
+      "Ingestion des donnees d'usage depuis les flux Wiki, Video et Search",
+      "Enrichissement avec les donnees annuaire et les informations sur les anciens employes",
+      "Anonymisation puis rechargement de datasets sanitizes pour l'analytique aval",
+    ],
+    architectureIntro:
+      "La solution suit une architecture Azure cloud-native articulee autour de l'orchestration, du processing, du stockage et de la gestion securisee des secrets.",
+    globalTitle: "Architecture globale",
+    globalSteps: [
+      { tag: "Sources", title: "Plateformes KM", text: "Wiki, Search, Video et leurs donnees d'usage" },
+      { tag: "Landing", title: "Azure Blob Storage", text: "Fichiers CSV bruts et donnees sources extraites" },
+      { tag: "Compute", title: "Azure Databricks", text: "Notebooks Spark pour ETL, enrichissement et anonymisation" },
+      { tag: "Orchestration", title: "Azure Data Factory", text: "Triggers, sequencing et automatisation" },
+      { tag: "Secrets", title: "Azure Key Vault", text: "Gestion securisee des credentials et secrets" },
+      { tag: "Output", title: "Analytics KM", text: "Sorties anonymisees reutilisees dans le reporting" },
+    ],
+    platformTitle: "Flux d'ingestion par plateforme",
+    platforms: [
+      {
+        name: "Wiki",
+        source: "API MediaWiki interne",
+        ingest: "Extraction API ou upload de CSV prepares",
+        process: "Notebook Databricks d'anonymisation",
+        output: "Datasets Wiki sanitizes pour le reporting KM",
+      },
+      {
+        name: "Video",
+        source: "API Panopto + fichiers CSV d'usage",
+        ingest: "Ingestion mixte API et fichiers",
+        process: "Merge, enrichissement et anonymisation dans Databricks",
+        output: "Datasets d'activite Video anonymises",
+      },
+      {
+        name: "Search",
+        source: "Fichiers CSV deposes dans Blob Storage",
+        ingest: "Intake evenementiel depuis Blob",
+        process: "Parsing custom + transformation Spark",
+        output: "Datasets Search sanitizes",
+      },
+    ],
+    orchestrationTitle: "Logique d'orchestration ADF",
+    orchestrationText:
+      "ADF etait utilise a la fois pour surveiller les fichiers entrants et pour coordonner la sequence d'execution. Comme les event triggers ne pouvaient surveiller qu'un fichier a la fois, le workflow comprenait un trigger pipeline preliminaire charge de verifier que tous les inputs requis etaient presents avant de lancer le pipeline ETL principal.",
+    orchestrationSteps: [
+      "Detection evenementielle des fichiers sources entrants",
+      "Le trigger pipeline verifie la completude des inputs",
+      "Le pipeline principal lance les traitements Databricks",
+      "Les sorties anonymisees sont ecrites dans des containers dedies",
+    ],
+    techTitle: "Technologies principales",
+    techTags: [
+      "Azure Databricks",
+      "Azure Data Factory",
+      "Azure Blob Storage",
+      "Azure Key Vault",
+      "Azure DevOps",
+      "Python",
+      "Spark",
+      "CSV",
+      "MediaWiki API",
+      "Panopto API",
+    ],
+    resultsIntro:
+      "Le workflow a ete teste et valide de bout en bout sur les traitements Wiki, Video et Search, ce qui a permis de reutiliser les datasets anonymises dans l'environnement analytique KM.",
+    resultsItems: [
+      "Automatisation de l'anonymisation pour les principaux flux de donnees KM",
+      "Meilleur alignement RGPD pour l'analytique des plateformes internes",
+      "Conservation de jeux historiques exploitables pour le monitoring",
+      "Validation end-to-end sur les flux Wiki, Video et Search",
+    ],
+    impactTitle: "Exemple d'impact sur le reporting",
+    impactBefore: "Avant anonymisation, la visualisation des edits Wiki ne refletait que les employes actuels.",
+    impactAfter:
+      "Apres anonymisation, le dashboard integrait aussi les contributions des anciens employes sans exposer leurs identites, ce qui ameliorait la completude du suivi historique.",
+    visualsIntro:
+      "Ce projet se presente mieux avec des diagrammes qu'avec des captures de code. Les assets les plus utiles pour le portfolio sont les vues d'architecture, les flux par plateforme, la logique d'orchestration et les comparaisons avant/apres sur le reporting.",
+    visualsItems: [
+      "Architecture globale simplifiee du pipeline Azure",
+      "Diagrammes dedies aux flux Wiki / Video / Search",
+      "Vue simplifiee du trigger ADF et du pipeline principal",
+      "Comparaison analytique avant / apres montrant l'impact de l'anonymisation",
+    ],
+    challenges: [
+      {
+        title: "Contraintes reseau entreprise",
+        text:
+          "Certaines sources, comme l'API MediaWiki interne et le depot GitLab d'origine, etaient situees dans le reseau interne Framatome, ce qui limitait l'acces direct depuis Databricks. Les contournements ont notamment consiste a deplacer le depot vers Azure DevOps et a extraire temporairement les donnees Wiki en local avant upload vers Blob Storage.",
+      },
+      {
+        title: "Parsing CSV complexe",
+        text:
+          "Les logs Search pouvaient contenir du texte arbitraire dans le champ querytext, et les donnees Wiki comportaient des listes de pages editees separees par des virgules, ce qui perturbait un parsing standard. La solution a combine la configuration Spark pour les cas multiline et caracteres speciaux avec une fonction de parsing custom pour Search.",
+      },
+      {
+        title: "Declenchement du workflow",
+        text:
+          "Les event triggers ADF ne pouvaient pas surveiller l'ensemble des fichiers requis en meme temps. Le workflow a donc necessite une couche de controle supplementaire pour verifier la disponibilite des fichiers avant de lancer la sequence ETL principale.",
+      },
+    ],
+    learningsTitle: "Principaux enseignements",
+    learnings: [
+      "Le data engineering en entreprise consiste souvent a faire le pont entre services cloud et systemes internes contraints",
+      "Les projets de conformite demandent aussi une vraie logique produit pour garder une analytique utile apres anonymisation",
+      "Les flat files imparfaits et les cas limites d'orchestration font partie du vrai travail ETL",
+      "Quand un projet est confidentiel, de bons diagrammes communiquent souvent mieux la valeur que des captures de code",
+    ],
+    confidentialityP1:
+      "Ce projet est presente dans un format portfolio a partir d'un rapport de stage. Le code interne, les assets entreprise et les details operationnels ne sont pas partages publiquement.",
+    confidentialityP2:
+      "Les diagrammes et explications sont volontairement limites a des aspects architecturaux et fonctionnels de haut niveau.",
+  },
+} as const;
+
+const ui = copy[lang];
+const title = project.title?.[lang] ?? ui.title;
+const summary = project.summary?.[lang] ?? ui.oneLiner;
+const companyLogo = "/projects/framatome/logo_framatome.png";
+const architectureDiagram = "/projects/framatome/Architecture%20anonymisation.png";
+const adfWorkflowDiagram = "/projects/framatome/Workflow%20ADF.png";
+const techLogos = [
+  { name: "Azure Databricks", src: "/projects/framatome/Databricks.png" },
+  { name: "Azure Data Factory", src: "/projects/framatome/Azure%20Data%20Factory.png" },
+  { name: "Azure Key Vault", src: "/projects/framatome/azure-key-vault.png" },
+  { name: "Azure DevOps", src: "/projects/framatome/Azure%20Devops.png" },
+];
+const platformLogos = [
+  { name: "Wiki", src: "/projects/framatome/Platform_Wiki.png" },
+  { name: "Video", src: "/projects/framatome/Platform_Video.png" },
+  { name: "Search", src: "/projects/framatome/Platform_Search.png" },
+];
+---
+
+<section class="detail-hero framatome-hero">
+  <span class="eyebrow">{ui.role}</span>
+  <div class="hero-brand">
+    <img src={companyLogo} alt="Framatome logo" loading="lazy" />
+    <span>{ui.companyMeta}</span>
+  </div>
+  <h1>{title}</h1>
+  <p>{summary}</p>
+
+  <div class="meta-strip meta-strip-wide">
+    <div class="meta-card">
+      <span class="meta-label">{ui.contextLabel}</span>
+      <p>{ui.contextMeta}</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-label">{ui.roleLabel}</span>
+      <p>{ui.role}</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-label">{ui.companyLabel}</span>
+      <p>{ui.companyMeta}</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-label">{ui.periodLabel}</span>
+      <p>{ui.periodMeta}</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-label">{ui.stackLabel}</span>
+      <p>{ui.stackMeta}</p>
+    </div>
+    <div class="meta-card">
+      <span class="meta-label">{ui.focusLabel}</span>
+      <p>{ui.focusMeta}</p>
+    </div>
+  </div>
+
+  <div class="hero-actions">
+    <span class="btn-secondary">{ui.confidentiality}</span>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section1}</h2>
+    </div>
+  </div>
+
+  <article class="detail-panel">
+    <p>{ui.contextP1}</p>
+    <p>{ui.contextP2}</p>
+    <p>{ui.contextP3}</p>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section2}</h2>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel">
+        <p>{ui.solutionP1}</p>
+        <p>{ui.solutionP2}</p>
+        <p>{ui.solutionP3}</p>
+      </article>
+    </div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.streamTitle}</h3>
+        <ul>
+          {ui.streamItems.map((item) => <li>{item}</li>)}
+        </ul>
+        <div class="platform-strip">
+          {platformLogos.map((platform) => (
+            <div class="platform-logo-card">
+              <img src={platform.src} alt={`${platform.name} platform logo`} loading="lazy" />
+              <span>{platform.name}</span>
+            </div>
+          ))}
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section3}</h2>
+      <p>{ui.architectureIntro}</p>
+    </div>
+  </div>
+
+  <div class="detail-grid" style="margin-top: 18px;">
+    <div>
+      <article class="detail-panel">
+        <h3>{ui.globalTitle}</h3>
+        <p>{ui.orchestrationText}</p>
+      </article>
+    </div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.techTitle}</h3>
+        <div class="logo-grid">
+          {techLogos.map((tech) => (
+            <div class="logo-card">
+              <img src={tech.src} alt={`${tech.name} logo`} loading="lazy" />
+              <span>{tech.name}</span>
+            </div>
+          ))}
+        </div>
+        <div class="tag-row" style="margin-top: 14px;">
+          {ui.techTags.map((tag) => <span class="tag">{tag}</span>)}
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section4}</h2>
+      <p>{ui.resultsIntro}</p>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel">
+        <ul>
+          {ui.resultsItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    </div>
+    <aside>
+      <article class="detail-panel impact-panel">
+        <h3>{ui.impactTitle}</h3>
+        <div class="impact-compare">
+          <div class="impact-card before">
+            <span>Before</span>
+            <p>{ui.impactBefore}</p>
+          </div>
+          <div class="impact-arrow" aria-hidden="true">-&gt;</div>
+          <div class="impact-card after">
+            <span>After</span>
+            <p>{ui.impactAfter}</p>
+          </div>
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section5}</h2>
+      <p>{ui.visualsIntro}</p>
+    </div>
+  </div>
+
+  <article class="detail-panel diagram-image-panel">
+    <h3 class="diagram-title">{ui.globalTitle}</h3>
+    <img
+      class="project-diagram"
+      src={architectureDiagram}
+      alt="Framatome GDPR anonymization architecture diagram across source data, data ingesting, data processing, data storing, and KM platforms data."
+      loading="lazy"
+    />
+  </article>
+
+  <article class="detail-panel diagram-image-panel">
+    <h3 class="diagram-title">{ui.orchestrationTitle}</h3>
+    <img
+      class="project-diagram"
+      src={adfWorkflowDiagram}
+      alt="Azure Data Factory workflow diagram showing metadata retrieval, foreach logic, Databricks notebooks, and anonymization sequence."
+      loading="lazy"
+    />
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section6}</h2>
+    </div>
+  </div>
+
+  <div class="challenge-grid">
+    {ui.challenges.map((challenge) => (
+      <article class="detail-panel challenge-card">
+        <h3>{challenge.title}</h3>
+        <p>{challenge.text}</p>
+      </article>
+    ))}
+  </div>
+
+  <div class="detail-grid" style="margin-top: 18px;">
+    <div></div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.learningsTitle}</h3>
+        <ul>
+          {ui.learnings.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section7}</h2>
+    </div>
+  </div>
+
+  <article class="detail-panel">
+    <p>{ui.confidentialityP1}</p>
+    <p>{ui.confidentialityP2}</p>
+  </article>
+</section>
+
+<style>
+  .framatome-hero {
+    background:
+      radial-gradient(circle at top right, rgba(14, 165, 233, 0.12), transparent 28%),
+      radial-gradient(circle at left center, rgba(16, 185, 129, 0.08), transparent 24%);
+  }
+
+  .hero-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin: 0.75rem 0 0.35rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  }
+
+  .hero-brand img {
+    display: block;
+    height: 22px;
+    width: auto;
+  }
+
+  .hero-brand span {
+    color: #0f172a;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .meta-strip {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .meta-strip-wide {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .meta-card,
+  .challenge-card,
+  .impact-card {
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  }
+
+  .meta-card {
+    padding: 1rem 1.1rem;
+  }
+
+  .meta-card p {
+    margin: 0.35rem 0 0;
+    color: #475569;
+  }
+
+  .meta-label,
+  .impact-card span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.24rem 0.58rem;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .meta-label {
+    background: #e0f2fe;
+    color: #075985;
+  }
+
+  .diagram-title {
+    margin: 0 0 1rem;
+    color: #0f172a;
+  }
+
+  .diagram-image-panel,
+  .impact-panel {
+    background:
+      radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 30%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+  }
+
+  .challenge-card h3 {
+    margin: 0.6rem 0 0.45rem;
+    font-size: 1rem;
+    color: #0f172a;
+  }
+
+  .challenge-card p {
+    margin: 0;
+    color: #475569;
+    line-height: 1.55;
+  }
+
+  .impact-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  .challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .challenge-card {
+    padding: 1rem;
+  }
+
+  .logo-grid,
+  .platform-strip {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .logo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .platform-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .logo-card,
+  .platform-logo-card {
+    display: grid;
+    justify-items: center;
+    gap: 0.55rem;
+    padding: 0.9rem 0.75rem;
+    border-radius: 0.95rem;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: rgba(248, 250, 252, 0.9);
+    text-align: center;
+  }
+
+  .logo-card img,
+  .platform-logo-card img {
+    display: block;
+    max-width: 100%;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .logo-card span,
+  .platform-logo-card span {
+    color: #334155;
+    font-size: 0.84rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .project-diagram {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.8rem;
+    background: #fff;
+  }
+
+  .impact-compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0.85rem;
+    align-items: center;
+  }
+
+  .impact-card {
+    padding: 1rem;
+  }
+
+  .impact-card span {
+    margin-bottom: 0.7rem;
+  }
+
+  .impact-card.before span {
+    background: #e2e8f0;
+    color: #334155;
+  }
+
+  .impact-card.after span {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .impact-card p {
+    margin: 0;
+    color: #475569;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 1100px) {
+    .meta-strip-wide,
+    .challenge-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .logo-grid,
+    .platform-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .impact-arrow {
+      min-height: 24px;
+      transform: rotate(90deg);
+    }
+
+    .impact-compare {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

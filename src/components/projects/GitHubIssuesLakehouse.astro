@@ -1,239 +1,422 @@
 ---
 import type { Lang } from "../../i18n/config";
 
-// CSV read at build-time (no node:fs needed)
-import kpiCsv from "../../data/kpis/github-issues-lakehouse/kpi_monthly_global.csv?raw";
-
-type Project = any; // on garde simple ici (on typpe mieux plus tard)
+type Project = any;
 const { lang, project } = Astro.props as { lang: Lang; project: Project };
 
-// ---------- helpers ----------
-type Row = Record<string, string>;
+const copy = {
+  en: {
+    title: "github-issues-lakehouse",
+    oneLiner:
+      "A public portfolio adaptation of an enterprise-style data engineering pipeline, rebuilt with GitHub Issues data from the pandas-dev/pandas repository and structured as a Bronze / Silver / Gold lakehouse.",
+    context: "Personal project inspired by a real internship data engineering context",
+    role: "Data Engineering / Analytics Engineering",
+    stack: "Python, GitHub API, pandas, Parquet, YAML, Plotly, GitHub Pages",
+    focus: "API ingestion, medallion architecture, configurable business rules, KPI marts",
+    viewRepo: "View Repository",
+    readme: "Read README",
+    dashboard: "Open Dashboard",
+    dashboardSoon: "Dashboard slot",
+    section1: "1. Context",
+    section2: "2. Solution",
+    section3: "3. Architecture + Tech Stack",
+    section4: "4. Results / What It Demonstrates",
+    section5: "5. Screenshots / Demo",
+    section6: "6. Challenges & Learnings",
+    section7: "7. GitHub Repo",
+    contextP1:
+      "This project is a public portfolio adaptation of a real-world data engineering context I worked on during my internship at Energy Pool.",
+    contextP2:
+      "In the original professional environment, the data pipeline relied on internal operational platforms and non-public data sources that could not be shared. To make the same engineering approach visible in an open and reproducible way, I rebuilt the pipeline around GitHub Issues data from the pandas-dev/pandas repository.",
+    contextP3:
+      "The goal was not to reproduce the original business platform itself, but to preserve the same data engineering logic: API-based ingestion, layered raw-to-curated processing, configurable business rules, and monthly KPI generation for operational monitoring.",
+    solutionP:
+      "I built an end-to-end data pipeline that extracts issue data from the GitHub API, stores the raw payloads in a Bronze layer, transforms them into cleaned and enriched Silver datasets, and produces Gold KPI marts for downstream analysis and lightweight dashboarding.",
+    cliTitle: "Pipeline steps",
+    cliSteps: [
+      "ingest for raw API extraction",
+      "silver for normalization and issue classification",
+      "gold for monthly KPI generation",
+      "demo for quickly previewing analytical outputs",
+    ],
+    configNote:
+      "The processing logic is configuration-driven through YAML, which makes the project easier to maintain and adapt to other repositories or label taxonomies.",
+    bronzeTitle: "Bronze",
+    bronzeItems: [
+      "GitHub Issues API ingestion with pagination and optional time filters",
+      "Timestamped JSON Lines raw storage",
+      "Pull requests excluded from the issues feed",
+    ],
+    silverTitle: "Silver",
+    silverItems: [
+      "Timestamp normalization and resolution time computation",
+      "Flattened labels and curated analytical columns",
+      "Issue classification into ticket kind, priority tier, and component",
+      "Label catalog with frequencies and descriptions",
+    ],
+    goldTitle: "Gold",
+    goldItems: [
+      "Monthly KPI tables for defect-like tickets",
+      "KPIs by component and priority tier plus global aggregates",
+      "Created, closed, backlog, avg / median / p90 resolution time",
+      "Resolution shares within 24h, 72h, 168h, and 336h",
+    ],
+    techTitle: "Main technologies",
+    resultsItems: [
+      "Build a complete API-to-analytics pipeline",
+      "Structure operational data into Bronze, Silver, and Gold layers",
+      "Convert semi-structured issue data into clean analytical datasets",
+      "Encode business-oriented rules in a configurable way",
+      "Generate KPI marts directly usable for dashboards or reporting",
+      "Expose analytical outputs through a lightweight static front-end",
+    ],
+    resultsNote:
+      "Beyond raw extraction, the project focuses on designing a maintainable processing flow that clearly separates ingestion, transformation, and KPI generation.",
+    demoIntro:
+      "The interactive demo for this project is already published separately and includes the diagrams, KPI outputs, and dashboard views.",
+    demoText:
+      "Use the demo link below to open the dedicated project page hosted on GitHub Pages.",
+    challengeP1:
+      "One challenge was selecting a public data source that still reflects the complexity of operational platform data. GitHub Issues was a strong candidate because it includes labels, timestamps, states, descriptions, and enough metadata to make the transformation logic realistic.",
+    challengeP2:
+      "Another challenge was mapping open-source issue taxonomy to business-oriented analytical dimensions. Instead of relying on a fixed schema, I implemented configurable classification rules for issue type, priority, and component assignment.",
+    learningsTitle: "Key learnings",
+    learnings: [
+      "Raw ingestion and analytical modeling should be clearly separated",
+      "Configuration-driven rules improve maintainability",
+      "Label-based operational data requires careful normalization before KPI tracking",
+      "Portfolio projects are stronger when they expose architecture, modeling choices, and delivery outputs, not only code",
+    ],
+    repoText: "Public repository available on GitHub.",
+  },
+  fr: {
+    title: "github-issues-lakehouse",
+    oneLiner:
+      "Une adaptation publique d'un pipeline de data engineering inspirÃ© d'un contexte entreprise, reconstruite Ã  partir des GitHub Issues du dÃ©pÃ´t pandas-dev/pandas et structurÃ©e comme un lakehouse Bronze / Silver / Gold.",
+    context: "Projet personnel inspirÃ© d'un vrai contexte de data engineering vÃ©cu en stage",
+    role: "Data Engineering / Analytics Engineering",
+    stack: "Python, GitHub API, pandas, Parquet, YAML, Plotly, GitHub Pages",
+    focus: "Ingestion API, architecture medallion, rÃ¨gles mÃ©tier configurables, KPI marts",
+    viewRepo: "View Repository",
+    readme: "Read README",
+    dashboard: "Open Dashboard",
+    dashboardSoon: "Espace dashboard",
+    section1: "1. Contexte",
+    section2: "2. Solution",
+    section3: "3. Architecture + Stack technique",
+    section4: "4. RÃ©sultats / Ce que le projet dÃ©montre",
+    section5: "5. Screenshots / DÃ©mo",
+    section6: "6. Challenges & Learnings",
+    section7: "7. GitHub Repo",
+    contextP1:
+      "Ce projet est une adaptation publique d'un contexte rÃ©el de data engineering sur lequel j'ai travaillÃ© pendant mon stage chez Energy Pool.",
+    contextP2:
+      "Dans l'environnement professionnel d'origine, le pipeline s'appuyait sur des plateformes opÃ©rationnelles internes et des sources de donnÃ©es non publiques qui ne pouvaient pas Ãªtre partagÃ©es. Pour rendre visible la mÃªme logique d'ingÃ©nierie dans un format ouvert et reproductible, j'ai reconstruit le pipeline autour des GitHub Issues du dÃ©pÃ´t pandas-dev/pandas.",
+    contextP3:
+      "L'objectif n'Ã©tait pas de reproduire la plateforme mÃ©tier elle-mÃªme, mais de conserver la mÃªme logique data engineering : ingestion via API, traitement par couches du brut au curÃ©, rÃ¨gles mÃ©tier configurables et gÃ©nÃ©ration mensuelle des KPIs pour le suivi opÃ©rationnel.",
+    solutionP:
+      "J'ai construit un pipeline de bout en bout qui extrait les issues depuis l'API GitHub, stocke les payloads bruts dans une couche Bronze, les transforme en jeux Silver nettoyÃ©s et enrichis, puis produit des marts Gold de KPIs pour l'analyse aval et un dashboard lÃ©ger.",
+    cliTitle: "Ã‰tapes du pipeline",
+    cliSteps: [
+      "ingest pour l'extraction brute via API",
+      "silver pour la normalisation et la classification des issues",
+      "gold pour la gÃ©nÃ©ration mensuelle des KPIs",
+      "demo pour prÃ©visualiser rapidement les sorties analytiques",
+    ],
+    configNote:
+      "La logique de traitement est pilotÃ©e par une configuration YAML, ce qui rend le projet plus simple Ã  maintenir et Ã  adapter Ã  d'autres dÃ©pÃ´ts ou taxonomies de labels.",
+    bronzeTitle: "Bronze",
+    bronzeItems: [
+      "Ingestion depuis l'API GitHub Issues avec pagination et filtres temporels optionnels",
+      "Stockage brut en JSON Lines horodatÃ©",
+      "Exclusion des pull requests de la source issues",
+    ],
+    silverTitle: "Silver",
+    silverItems: [
+      "Normalisation des timestamps et calcul du temps de rÃ©solution",
+      "Flatten des labels et colonnes analytiques curÃ©es",
+      "Classification des issues en ticket kind, priority tier et component",
+      "Catalog labels avec frÃ©quences et descriptions",
+    ],
+    goldTitle: "Gold",
+    goldItems: [
+      "Tables mensuelles de KPIs sur les tickets de type defect-like",
+      "KPIs par composant et tier de prioritÃ©, plus agrÃ©gations globales",
+      "Created, closed, backlog, avg / median / p90 resolution time",
+      "Part des tickets rÃ©solus en 24h, 72h, 168h et 336h",
+    ],
+    techTitle: "Technologies principales",
+    resultsItems: [
+      "Construire un pipeline complet de l'API jusqu'Ã  l'analytique",
+      "Structurer des donnÃ©es opÃ©rationnelles en couches Bronze, Silver et Gold",
+      "Transformer des donnÃ©es semi-structurÃ©es en datasets analytiques propres",
+      "Encoder des rÃ¨gles orientÃ©es mÃ©tier de maniÃ¨re configurable",
+      "GÃ©nÃ©rer des KPI marts directement exploitables pour dashboarding ou reporting",
+      "Exposer les sorties analytiques dans une interface statique lÃ©gÃ¨re",
+    ],
+    resultsNote:
+      "Au-delÃ  de l'extraction brute, le projet met surtout l'accent sur un flux maintenable qui sÃ©pare clairement ingestion, transformation et gÃ©nÃ©ration des KPIs.",
+    demoIntro:
+      "La dÃ©mo interactive du projet est dÃ©jÃ  publiÃ©e Ã  part et contient les diagrammes, les sorties KPI et les vues dashboard.",
+    demoText:
+      "Utilise le lien ci-dessous pour ouvrir la page de dÃ©mo dÃ©diÃ©e, publiÃ©e sur GitHub Pages.",
+    challengeP1:
+      "Un premier challenge a Ã©tÃ© de choisir une source publique capable de reflÃ©ter malgrÃ© tout la complexitÃ© de donnÃ©es de plateforme opÃ©rationnelle. GitHub Issues s'est rÃ©vÃ©lÃ© pertinent car les enregistrements contiennent labels, timestamps, Ã©tats, descriptions et suffisamment de mÃ©tadonnÃ©es pour rendre la transformation rÃ©aliste.",
+    challengeP2:
+      "Un autre challenge a concernÃ© le mapping entre taxonomie open-source et dimensions analytiques orientÃ©es mÃ©tier. Au lieu de dÃ©pendre d'un schÃ©ma fixe, j'ai implÃ©mentÃ© des rÃ¨gles configurables pour le type d'issue, la prioritÃ© et l'affectation composant.",
+    learningsTitle: "Principaux enseignements",
+    learnings: [
+      "L'ingestion brute et la modÃ©lisation analytique doivent Ãªtre clairement sÃ©parÃ©es",
+      "Des rÃ¨gles pilotÃ©es par configuration amÃ©liorent la maintenabilitÃ©",
+      "Les donnÃ©es opÃ©rationnelles basÃ©es sur les labels nÃ©cessitent une normalisation soignÃ©e avant le suivi KPI",
+      "Un bon projet portfolio montre aussi l'architecture, la modÃ©lisation et les livrables, pas seulement le code",
+    ],
+    repoText: "DÃ©pÃ´t public disponible sur GitHub.",
+  },
+} as const;
 
-function toNum(v: string | undefined): number | null {
-  if (v == null) return null;
-  const trimmed = v.trim();
-  if (!trimmed) return null;
-  const n = Number(trimmed);
-  return Number.isFinite(n) ? n : null;
-}
+const ui = copy[lang];
+const title = project.title?.[lang] ?? ui.title;
+const summary = project.summary?.[lang] ?? ui.oneLiner;
+const repoHref = project.links?.repo ?? "https://github.com/Hrafbh/github-issues-lakehouse";
+const readmeHref = `${repoHref}#readme`;
+const dashboardHref = project.links?.demo ?? "https://hrafbh.github.io/github-issues-lakehouse/";
+const techTags = ["Python 3.11", "GitHub REST API", "pandas", "PyArrow / Parquet", "YAML", "requests", "Plotly", "GitHub Pages"];
+const awsDiagramSrc = "/projects/github-issues-lakehouse%20EP/architecture%20solutions%20aws.png";
+const medallionDiagramSrc = "/projects/github-issues-lakehouse%20EP/Archeticture_Medallion.jpg";
+const diagramCopy =
+  lang === "fr"
+    ? {
+        flowTitle: "Diagramme 1. Solution AWS",
+        flowAlt: "Diagramme AWS du pipeline GitHub Issues Lakehouse",
+        layerTitle: "Diagramme 2. Architecture Medallion",
+        layerAlt: "Diagramme medallion Bronze Silver Gold du pipeline GitHub Issues Lakehouse",
+      }
+    : {
+        flowTitle: "Diagram 1. AWS Solution",
+        flowAlt: "AWS architecture diagram for the GitHub Issues Lakehouse pipeline",
+        layerTitle: "Diagram 2. Medallion Architecture",
+        layerAlt: "Bronze Silver Gold medallion diagram for the GitHub Issues Lakehouse pipeline",
+      };
 
-function parseCsv(text: string): Row[] {
-  const lines = text.trim().split(/\r?\n/);
-  if (lines.length < 2) return [];
-  const headers = lines[0].split(",").map((h) => h.trim());
-
-  return lines.slice(1).map((line) => {
-    const cols = line.split(",");
-    const row: Row = {};
-    headers.forEach((h, i) => (row[h] = (cols[i] ?? "").trim()));
-    return row;
-  });
-}
-
-function fmtInt(n: number | null): string {
-  if (n == null) return "—";
-  const locale = lang === "fr" ? "fr-FR" : "en-US";
-  return Math.round(n).toLocaleString(locale);
-}
-
-function fmtPct(x: number | null): string {
-  if (x == null) return "—";
-  return `${Math.round(x * 100)}%`;
-}
-
-function fmtDaysFromHours(hours: number | null): string {
-  if (hours == null) return "—";
-  const days = hours / 24;
-  return `${days.toFixed(1)} ${lang === "fr" ? "jours" : "days"}`;
-}
-
-const sectionTitle = (fr: string, en: string) => (lang === "fr" ? fr : en);
-
-// ---------- parse KPIs ----------
-type KpiRow = {
-  month: string;
-  created_count: number | null;
-  closed_count: number | null;
-  backlog_end: number | null;
-  median_resolution_hours: number | null;
-  share_closed_within_72h: number | null;
-  share_closed_within_336h: number | null;
-};
-
-const rows: KpiRow[] = parseCsv(kpiCsv).map((r) => ({
-  month: r.month ?? "",
-  created_count: toNum(r.created_count),
-  closed_count: toNum(r.closed_count),
-  backlog_end: toNum(r.backlog_end),
-  median_resolution_hours: toNum(r.median_resolution_hours),
-  share_closed_within_72h: toNum(r.share_closed_within_72h),
-  share_closed_within_336h: toNum(r.share_closed_within_336h),
-}));
-
-const candidates = rows.filter((r) => (r.closed_count ?? 0) >= 20);
-const ref = (candidates.length ? candidates[candidates.length - 1] : rows[rows.length - 1]) ?? null;
-
-const kpi = ref
-  ? {
-      month: ref.month,
-      created: ref.created_count,
-      closed: ref.closed_count,
-      backlogEnd: ref.backlog_end,
-      medianDays: fmtDaysFromHours(ref.median_resolution_hours),
-      share72: ref.share_closed_within_72h,
-      share336: ref.share_closed_within_336h,
-    }
-  : null;
-
-const kpiNote = ref
-  ? candidates.length
-    ? sectionTitle(
-        `KPIs affichés sur le dernier mois avec volume (≥ 20 tickets fermés) : ${ref.month}.`,
-        `KPIs shown for the latest month with enough volume (≥ 20 closed tickets): ${ref.month}.`
-      )
-    : sectionTitle(
-        `KPIs affichés sur le dernier mois disponible : ${ref.month}.`,
-        `KPIs shown for the latest available month: ${ref.month}.`
-      )
-  : sectionTitle(
-      "Aucun KPI trouvé dans le CSV (vérifie le fichier).",
-      "No KPIs found in the CSV (please check the file)."
-    );
-
-const title = project.title?.[lang] ?? "GitHub Issues Lakehouse";
-const summary = project.summary?.[lang] ?? "";
 ---
-<section class="card" style="padding:22px;">
-  <h1 style="margin:0 0 10px; font-size:28px;">{title}</h1>
-  <p style="margin:0; opacity:.8; max-width:80ch; line-height:1.5;">{summary}</p>
+<section class="detail-hero">
+  <span class="eyebrow">{ui.role}</span>
+  <h1>{title}</h1>
+  <p>{summary}</p>
 
-  <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-    <a class="btn" href={project.links.repo} target="_blank" rel="noreferrer">
-      {lang === "fr" ? "Ouvrir le repo" : "Open repository"}
+  <div class="hero-actions">
+    <a class="btn-primary" href={repoHref} target="_blank" rel="noreferrer">
+      {ui.viewRepo}
     </a>
-    {project.links.demo
-      ? <a class="btn" href={project.links.demo} target="_blank" rel="noreferrer">
-          {lang === "fr" ? "Voir la démo" : "View demo"}
-        </a>
-      : null}
+    <a class="btn-secondary" href={readmeHref} target="_blank" rel="noreferrer">
+      {ui.readme}
+    </a>
+    {dashboardHref ? (
+      <a class="btn-secondary" href={dashboardHref} target="_blank" rel="noreferrer">
+        {ui.dashboard}
+      </a>
+    ) : (
+      <span class="btn-secondary">{ui.dashboardSoon}</span>
+    )}
   </div>
 </section>
 
-<section style="margin-top:18px;">
-  <h2 style="margin:0 0 10px; font-size:18px; opacity:.92;">
-    {sectionTitle("Architecture (Bronze / Silver / Gold)", "Architecture (Bronze / Silver / Gold)")}
-  </h2>
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section1}</h2>
+    </div>
+  </div>
 
-  <div class="grid grid-3">
-    <div class="card" style="padding:16px;">
-      <div style="font-weight:800;">Bronze (raw)</div>
-      <ul style="margin:10px 0 0; opacity:.78; line-height:1.45;">
-        <li>{sectionTitle("Extraction via GitHub API", "Extract via GitHub API")}</li>
-        <li>{sectionTitle("Stockage brut JSONL horodaté", "Timestamped raw JSONL storage")}</li>
-        <li>{sectionTitle("Traçabilité & reproductibilité", "Traceability & reproducibility")}</li>
+  <article class="detail-panel">
+    <p>{ui.contextP1}</p>
+    <p>{ui.contextP2}</p>
+    <p>{ui.contextP3}</p>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section2}</h2>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel">
+        <p>{ui.solutionP}</p>
+        <p>{ui.configNote}</p>
+      </article>
+    </div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.cliTitle}</h3>
+        <ul>
+          {ui.cliSteps.map((step) => <li>{step}</li>)}
+        </ul>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section3}</h2>
+    </div>
+  </div>
+
+  <article class="detail-panel diagram-panel">
+    <h3 class="diagram-title">{diagramCopy.flowTitle}</h3>
+    <img class="project-diagram-image" src={awsDiagramSrc} alt={diagramCopy.flowAlt} loading="lazy" />
+  </article>
+
+  <article class="detail-panel diagram-panel">
+    <h3 class="diagram-title">{diagramCopy.layerTitle}</h3>
+    <img class="project-diagram-image" src={medallionDiagramSrc} alt={diagramCopy.layerAlt} loading="lazy" />
+  </article>
+
+  <div class="focus-grid">
+    <article class="focus-card">
+      <h3>{ui.bronzeTitle}</h3>
+      <ul>
+        {ui.bronzeItems.map((item) => <li>{item}</li>)}
       </ul>
-    </div>
+    </article>
 
-    <div class="card" style="padding:16px;">
-      <div style="font-weight:800;">Silver (curated)</div>
-      <ul style="margin:10px 0 0; opacity:.78; line-height:1.45;">
-        <li><code>ticket_kind</code>: defect/docs/enhancement/question</li>
-        <li><code>priority_tier</code>: P0/P1/P2/NA</li>
-        <li><code>component</code> + <code>resolution_hours</code></li>
-        <li>{sectionTitle("Exports CSV + Parquet", "CSV + Parquet exports")}</li>
+    <article class="focus-card">
+      <h3>{ui.silverTitle}</h3>
+      <ul>
+        {ui.silverItems.map((item) => <li>{item}</li>)}
       </ul>
-    </div>
+    </article>
 
-    <div class="card" style="padding:16px;">
-      <div style="font-weight:800;">Gold (KPIs)</div>
-      <ul style="margin:10px 0 0; opacity:.78; line-height:1.45;">
-        <li>{sectionTitle("KPIs mensuels adaptés GitHub", "GitHub-adapted monthly KPIs")}</li>
-        <li>{sectionTitle("Flow + Backlog + Resolution speed", "Flow + Backlog + Resolution speed")}</li>
-        <li>{sectionTitle("Buckets (24/72/168/336h)", "Time buckets (24/72/168/336h)")}</li>
-        <li>{sectionTitle("Global + par component/priorité", "Global + by component/priority")}</li>
+    <article class="focus-card">
+      <h3>{ui.goldTitle}</h3>
+      <ul>
+        {ui.goldItems.map((item) => <li>{item}</li>)}
       </ul>
+    </article>
+  </div>
+
+  <div class="detail-grid" style="margin-top: 18px;">
+    <div></div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.techTitle}</h3>
+        <div class="tag-row" style="margin-top: 14px;">
+          {techTags.map((tag) => <span class="tag">{tag}</span>)}
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .diagram-panel {
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+
+  .diagram-title {
+    margin: 0 0 1rem;
+    font-size: 1.02rem;
+  }
+
+  .project-diagram-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    background: #fff;
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.06);
+  }
+</style>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section4}</h2>
+      <p>{ui.resultsNote}</p>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel">
+        <ul>
+          {ui.resultsItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
     </div>
   </div>
 </section>
 
-<section style="margin-top:18px;">
-  <h2 style="margin:0 0 10px; font-size:18px; opacity:.92;">
-    {sectionTitle("KPIs clés (Gold)", "Key KPIs (Gold)")}
-  </h2>
-
-  <p style="margin:0 0 12px; opacity:.72;">{kpiNote}</p>
-
-  <div class="grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
-    <div class="card" style="padding:16px;">
-      <div style="opacity:.7; font-size:12px;">{sectionTitle("Mois", "Month")}</div>
-      <div style="font-weight:900; font-size:22px; margin-top:6px;">{kpi?.month ?? "—"}</div>
-    </div>
-
-    <div class="card" style="padding:16px;">
-      <div style="opacity:.7; font-size:12px;">{sectionTitle("Defects créés", "Defects created")}</div>
-      <div style="font-weight:900; font-size:22px; margin-top:6px;">{fmtInt(kpi?.created ?? null)}</div>
-    </div>
-
-    <div class="card" style="padding:16px;">
-      <div style="opacity:.7; font-size:12px;">{sectionTitle("Defects fermés", "Defects closed")}</div>
-      <div style="font-weight:900; font-size:22px; margin-top:6px;">{fmtInt(kpi?.closed ?? null)}</div>
-    </div>
-
-    <div class="card" style="padding:16px;">
-      <div style="opacity:.7; font-size:12px;">{sectionTitle("Backlog fin (approx.)", "Backlog end (approx.)")}</div>
-      <div style="font-weight:900; font-size:22px; margin-top:6px;">{fmtInt(kpi?.backlogEnd ?? null)}</div>
-    </div>
-
-    <div class="card" style="padding:16px;">
-      <div style="opacity:.7; font-size:12px;">{sectionTitle("Médiane résolution", "Median resolution")}</div>
-      <div style="font-weight:900; font-size:18px; margin-top:6px;">{kpi?.medianDays ?? "—"}</div>
-      <div style="opacity:.65; font-size:12px; margin-top:6px;">
-        {sectionTitle("Stats (pas SLA) : lire avec les buckets.", "Stats (not SLA): interpret with buckets.")}
-      </div>
-    </div>
-
-    <div class="card" style="padding:16px;">
-      <div style="opacity:.7; font-size:12px;">{sectionTitle("Fermés ≤ 72h / ≤ 336h", "Closed ≤ 72h / ≤ 336h")}</div>
-      <div style="display:flex; gap:14px; align-items:baseline; margin-top:6px;">
-        <div style="font-weight:900; font-size:22px;">{fmtPct(kpi?.share72 ?? null)}</div>
-        <div style="opacity:.6;">/</div>
-        <div style="font-weight:900; font-size:22px;">{fmtPct(kpi?.share336 ?? null)}</div>
-      </div>
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section5}</h2>
+      <p>{ui.demoIntro}</p>
     </div>
   </div>
 
-  <style>
-    @media (max-width: 900px) {
-      div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
-    }
-  </style>
+  <article class="detail-panel">
+    <p>{ui.demoText}</p>
+    <div class="hero-actions" style="margin-top: 18px;">
+      <a class="btn-primary" href={dashboardHref} target="_blank" rel="noreferrer">
+        {ui.dashboard}
+      </a>
+    </div>
+  </article>
 </section>
 
-<section style="margin-top:18px;">
-  <h2 style="margin:0 0 10px; font-size:18px; opacity:.92;">
-    {sectionTitle("Méthode & bonnes pratiques Data Engineering", "Method & Data Engineering practices")}
-  </h2>
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section6}</h2>
+    </div>
+  </div>
 
-  <div class="card" style="padding:16px; opacity:.82; line-height:1.55;">
-    <ul style="margin:0; padding-left:18px;">
-      <li>{sectionTitle("Configuration centralisée (ex: config.yml) + paramètres explicites.", "Centralized configuration (e.g., config.yml) + explicit parameters.")}</li>
-      <li>{sectionTitle(".env pour secrets (GITHUB_TOKEN) et chemins — pas de secret en dur.", ".env for secrets (GITHUB_TOKEN) and paths — no hard-coded secrets.")}</li>
-      <li>{sectionTitle("Séparation code vs données + outputs Parquet/CSV.", "Code/data separation + Parquet/CSV outputs.")}</li>
-      <li>{sectionTitle("Développement incrémental (commit par commit) + traçabilité.", "Incremental development (commit by commit) + traceability.")}</li>
-    </ul>
+  <div class="detail-grid">
+    <div>
+      <article class="detail-panel">
+        <p>{ui.challengeP1}</p>
+        <p>{ui.challengeP2}</p>
+      </article>
+    </div>
+    <aside>
+      <article class="detail-panel">
+        <h3>{ui.learningsTitle}</h3>
+        <ul>
+          {ui.learnings.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    </aside>
   </div>
 </section>
 
-<section style="margin-top:18px;">
-  <h2 style="margin:0 0 10px; font-size:18px; opacity:.92;">
-    {sectionTitle("Challenges résolus", "Challenges solved")}
-  </h2>
+<section class="section">
+  <div class="section-head">
+    <div>
+      <h2>{ui.section7}</h2>
+      <p>{ui.repoText}</p>
+    </div>
+  </div>
 
-  <div class="card" style="padding:16px; opacity:.82; line-height:1.55;">
-    <ul style="margin:0; padding-left:18px;">
-      <li>{sectionTitle("Erreur de config (KeyError: 'source') → correction YAML + piste: validation de config.", "Config error (KeyError: 'source') → fixed YAML + idea: config validation.")}</li>
-      <li>{sectionTitle("Tooling web bloqué (Node/Astro + permissions) → nettoyage + réinstallation.", "Web tooling blocked (Node/Astro + permissions) → cleanup + reinstall.")}</li>
-    </ul>
+  <div class="hero-actions" style="margin-top: 0;">
+    <a class="btn-primary" href={repoHref} target="_blank" rel="noreferrer">
+      {ui.viewRepo}
+    </a>
+    <a class="btn-secondary" href={readmeHref} target="_blank" rel="noreferrer">
+      {ui.readme}
+    </a>
+    {dashboardHref ? (
+      <a class="btn-secondary" href={dashboardHref} target="_blank" rel="noreferrer">
+        {ui.dashboard}
+      </a>
+    ) : null}
   </div>
 </section>

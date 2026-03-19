@@ -43,12 +43,22 @@ const category =
     : "Data Engineering");
 
 const projectHref = `/${lang}/projects/${project.slug}/`;
+const companyLogo =
+  project.slug === "framatome-data-engineering-project"
+    ? "/projects/framatome/logo_framatome.png"
+    : null;
 ---
 <article class="project-card">
   <div class="project-meta">
     <span class="project-type">{category}</span>
     {project.date ? <span class="project-date">{project.date}</span> : null}
   </div>
+
+  {companyLogo ? (
+    <div class="project-company-badge">
+      <img src={companyLogo} alt="Framatome logo" loading="lazy" />
+    </div>
+  ) : null}
 
   <h3>
     <a class="project-link-title" href={projectHref}>{title}</a>
@@ -74,3 +84,16 @@ const projectHref = `/${lang}/projects/${project.slug}/`;
     ) : null}
   </div>
 </article>
+
+<style>
+  .project-company-badge {
+    margin-bottom: 0.7rem;
+  }
+
+  .project-company-badge img {
+    display: block;
+    height: 16px;
+    width: auto;
+    object-fit: contain;
+  }
+</style>
