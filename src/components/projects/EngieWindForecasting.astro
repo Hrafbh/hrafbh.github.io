@@ -12,23 +12,23 @@ const title =
   project.title?.[lang] ??
   project.title?.en ??
   (isFr
-    ? "Prediction de production eolienne (ENGIE Challenge)"
+    ? "Prédiction de production éolienne (ENGIE Challenge)"
     : "Wind Energy Forecasting (ENGIE Challenge)");
 const summary =
   project.summary?.[lang] ??
   project.summary?.en ??
   (isFr
-    ? "Developpement et evaluation de modeles de ML et DL pour predire la production eolienne a partir de donnees capteurs reelles."
+    ? "Développement et évaluation de modèles de ML et DL pour prédire la production éolienne à partir de données capteurs réelles."
     : "Development and evaluation of ML and DL models to predict wind energy production from real turbine sensor data.");
 const repoHref = typeof project.links?.repo === "string" ? project.links.repo.trim() : "";
 const hasRepo = repoHref.length > 0;
 
 const metaItems = isFr
   ? [
-      ["Contexte", "Projet academique"],
+      ["Contexte", "Projet académique"],
       ["Focus", "Forecasting temporel et comparaison ML vs DL"],
-      ["Modeles", "MLP, Random Forest, XGBoost"],
-      ["Evaluation", "Split temporel, MAE, RMSE"],
+      ["Modèles", "MLP, Random Forest, XGBoost"],
+      ["Évaluation", "Split temporel, MAE, RMSE"],
     ]
   : [
       ["Context", "Academic project"],
@@ -39,9 +39,9 @@ const metaItems = isFr
 
 const problemParagraphs = isFr
   ? [
-      "Le challenge ENGIE consistait a predire la puissance active produite par des eoliennes a partir de mesures historiques issues de capteurs reels.",
-      "Le dataset reunissait des variables environnementales et operationnelles provenant de quatre turbines, avec notamment des temperatures, vitesses de rotation, variables electriques et identifiants de turbine.",
-      "La contrainte cle du projet etait d'eviter toute fuite d'information. L'evaluation devait donc respecter l'ordre chronologique plutot qu'un split aleatoire.",
+      "Le challenge ENGIE consistait à prédire la puissance active produite par des éoliennes à partir de mesures historiques issues de capteurs réels.",
+      "Le dataset réunissait des variables environnementales et opérationnelles provenant de quatre turbines, avec notamment des températures, vitesses de rotation, variables électriques et identifiants de turbine.",
+      "La contrainte clé du projet était d'éviter toute fuite d'information. L'évaluation devait donc respecter l'ordre chronologique plutôt qu'un split aléatoire.",
     ]
   : [
       "The ENGIE challenge focused on predicting active power output from historical wind-turbine sensor data.",
@@ -51,9 +51,9 @@ const problemParagraphs = isFr
 
 const stakes = isFr
   ? [
-      "Une meilleure prediction aide la planification, le pilotage du reseau et la gestion operationnelle.",
-      "Le projet s'appuie sur une vraie telemetrie industrielle plutot que sur un dataset jouet.",
-      "L'evaluation temporelle rend la comparaison des modeles plus realiste.",
+      "Une meilleure prédiction aide la planification, le pilotage du réseau et la gestion opérationnelle.",
+      "Le projet s'appuie sur une vraie télémétrie industrielle plutôt que sur un dataset jouet.",
+      "L'évaluation temporelle rend la comparaison des modèles plus réaliste.",
     ]
   : [
       "Better forecasting supports planning, grid stability, and operational decision-making.",
@@ -63,9 +63,9 @@ const stakes = isFr
 
 const solutionParagraphs = isFr
   ? [
-      "Le projet a suivi un workflow data science classique: analyse exploratoire, preparation des donnees, modelisation, puis comparaison benchmark des modeles.",
-      "Le preprocessing a inclus le traitement des valeurs manquantes, l'encodage one-hot de MAC_CODE, la standardisation des variables numeriques lorsque necessaire, puis un split chronologique 70 / 15 / 15 pour train, validation et test.",
-      "Trois modeles ont ete implementes et compares: un MLP, Random Forest et XGBoost. Les performances ont ete mesurees avec MAE et RMSE.",
+      "Le projet a suivi un workflow data science classique: analyse exploratoire, préparation des données, modélisation, puis comparaison benchmark des modèles.",
+      "Le preprocessing a inclus le traitement des valeurs manquantes, l'encodage one-hot de MAC_CODE, la standardisation des variables numériques lorsque nécessaire, puis un split chronologique 70 / 15 / 15 pour train, validation et test.",
+      "Trois modèles ont été implémentés et comparés: un MLP, Random Forest et XGBoost. Les performances ont été mesurées avec MAE et RMSE.",
     ]
   : [
       "The project followed a structured data science workflow: exploratory analysis, data preparation, model training, and final benchmark comparison.",
@@ -76,10 +76,10 @@ const solutionParagraphs = isFr
 const workflowCards = isFr
   ? [
       ["EDA", "Distributions, correlations, valeurs manquantes et comparaison entre turbines."],
-      ["Preparation", "Nettoyage, encodage categorical et standardisation."],
-      ["Split temporel", "Decoupage chronologique train / validation / test."],
-      ["Modelisation", "Benchmark MLP, Random Forest et XGBoost."],
-      ["Evaluation", "MAE, RMSE, predictions vs reel et importance des variables."],
+      ["Préparation", "Nettoyage, encodage catégoriel et standardisation."],
+      ["Split temporel", "Découpage chronologique train / validation / test."],
+      ["Modélisation", "Benchmark MLP, Random Forest et XGBoost."],
+      ["Évaluation", "MAE, RMSE, prédictions vs réel et importance des variables."],
     ]
   : [
       ["EDA", "Distributions, correlations, missing values, and turbine-level comparisons."],
@@ -91,11 +91,11 @@ const workflowCards = isFr
 
 const pipelineSteps = isFr
   ? [
-      "Donnees capteurs brutes",
+      "Données capteurs brutes",
       "Nettoyage et imputation",
-      "Encodage, standardisation et preparation des features",
+      "Encodage, standardisation et préparation des features",
       "Split temporel",
-      "Entrainement MLP / RF / XGBoost",
+      "Entraînement MLP / RF / XGBoost",
       "Comparaison MAE / RMSE",
     ]
   : [
@@ -110,7 +110,7 @@ const pipelineSteps = isFr
 const modelCards = isFr
   ? [
       ["MLP", "Deux couches Dense(64) avec ReLU, Dropout(0.2), Adam et early stopping."],
-      ["Random Forest", "20 arbres, profondeur non limitee, entrainement parallele avec n_jobs = -1."],
+      ["Random Forest", "20 arbres, profondeur non limitée, entraînement parallèle avec n_jobs = -1."],
       ["XGBoost", "50 arbres, learning_rate 0.05, max_depth 6, subsample 0.8, early stopping."],
     ]
   : [
@@ -121,9 +121,9 @@ const modelCards = isFr
 
 const resultBullets = isFr
   ? [
-      "Random Forest est le meilleur modele du benchmark.",
-      "Le modele obtient Test_MAE 13.14 et Test_RMSE 33.06.",
-      "Le projet montre qu'un modele plus classique peut battre un reseau de neurones sur de la donnee tabulaire.",
+      "Random Forest est le meilleur modèle du benchmark.",
+      "Le modèle obtient Test_MAE 13.14 et Test_RMSE 33.06.",
+      "Le projet montre qu'un modèle plus classique peut battre un réseau de neurones sur de la donnée tabulaire.",
     ]
   : [
       "Random Forest is the strongest model in the benchmark.",
@@ -133,9 +133,9 @@ const resultBullets = isFr
 
 const insights = isFr
   ? [
-      "Random Forest surpasse a la fois le MLP et XGBoost.",
-      "Generator_speed et Rotor_speed ressortent comme variables tres influentes.",
-      "Le MLP a demande plus de controle sur la normalisation et la stabilite de l'entrainement.",
+      "Random Forest surpasse à la fois le MLP et XGBoost.",
+      "Generator_speed et Rotor_speed ressortent comme variables très influentes.",
+      "Le MLP a demandé plus de contrôle sur la normalisation et la stabilité de l'entraînement.",
     ]
   : [
       "Random Forest outperformed both the MLP and XGBoost.",
@@ -145,10 +145,10 @@ const insights = isFr
 
 const challenges = isFr
   ? [
-      ["Contrainte time series", "Un split aleatoire aurait cree de la fuite d'information. Le split chronologique etait indispensable."],
-      ["Qualite des donnees", "La presence de valeurs manquantes a impose un preprocessing rigoureux avant l'entrainement."],
-      ["Choix du modele", "L'intuition initiale en faveur du deep learning n'a pas ete confirmee par les resultats."],
-      ["Stabilite du MLP", "Le rapport mentionne des problemes de NaN et de divergence qui ont demande des ajustements."],
+      ["Contrainte time series", "Un split aléatoire aurait créé de la fuite d'information. Le split chronologique était indispensable."],
+      ["Qualité des données", "La présence de valeurs manquantes a imposé un preprocessing rigoureux avant l'entraînement."],
+      ["Choix du modèle", "L'intuition initiale en faveur du deep learning n'a pas été confirmée par les résultats."],
+      ["Stabilité du MLP", "Le rapport mentionne des problèmes de NaN et de divergence qui ont demandé des ajustements."],
     ]
   : [
       ["Time-series constraint", "A random split would have created leakage, so a chronological split was essential."],
@@ -159,9 +159,9 @@ const challenges = isFr
 
 const learnings = isFr
   ? [
-      "La validation temporelle compte autant que le choix du modele.",
-      "Les modeles arbres restent de tres bonnes bases sur des donnees industrielles tabulaires.",
-      "L'importance des variables aide a rendre les resultats plus interpretables.",
+      "La validation temporelle compte autant que le choix du modèle.",
+      "Les modèles arbres restent de très bonnes bases sur des données industrielles tabulaires.",
+      "L'importance des variables aide à rendre les résultats plus interprétables.",
     ]
   : [
       "Temporal validation matters as much as model choice.",
@@ -249,22 +249,22 @@ const techTags = [
   <div class="hero-actions">
     {hasRepo ? (
       <a class="btn-primary" href={repoHref} target="_blank" rel="noreferrer">
-        {isFr ? "Voir le depot" : "View repository"}
+        {isFr ? "Voir le dépôt" : "View repository"}
       </a>
     ) : (
-      <span class="btn-secondary">{isFr ? "Code GitHub a venir" : "Code will be added soon"}</span>
+      <span class="btn-secondary">{isFr ? "Code GitHub à venir" : "Code will be added soon"}</span>
     )}
   </div>
 </section>
 
 <section class="section">
-  <div class="section-head"><div><h2>{isFr ? "1. Probleme" : "1. Problem"}</h2></div></div>
+  <div class="section-head"><div><h2>{isFr ? "1. Problème" : "1. Problem"}</h2></div></div>
   <div class="detail-grid">
     <article class="detail-panel">
       {problemParagraphs.map((paragraph) => <p>{paragraph}</p>)}
     </article>
     <article class="detail-panel">
-      <h3>{isFr ? "Pourquoi ce probleme compte" : "Why this matters"}</h3>
+      <h3>{isFr ? "Pourquoi ce problème compte" : "Why this matters"}</h3>
       <ul>{stakes.map((item) => <li>{item}</li>)}</ul>
     </article>
   </div>
@@ -288,8 +288,8 @@ const techTags = [
 <section class="section">
   <div class="section-head">
     <div>
-      <h2>{isFr ? "3. Pipeline de modelisation + Stack" : "3. Modeling Pipeline + Stack"}</h2>
-      <p>{isFr ? "Architecture de modelisation plutot qu'architecture logicielle classique." : "A modeling pipeline rather than a classic software architecture."}</p>
+      <h2>{isFr ? "3. Pipeline de modélisation + Stack" : "3. Modeling Pipeline + Stack"}</h2>
+      <p>{isFr ? "Architecture plutôt qu'architecture logicielle classique." : "A modeling pipeline rather than a classic software architecture."}</p>
     </div>
   </div>
   <article class="detail-panel">
@@ -321,8 +321,8 @@ const techTags = [
 <section class="section">
   <div class="section-head">
     <div>
-      <h2>{isFr ? "4. Resultats / Impact" : "4. Results / Impact"}</h2>
-      <p>{isFr ? "Random Forest obtient la meilleure generalisation sur le benchmark." : "Random Forest achieved the strongest generalization in the benchmark."}</p>
+      <h2>{isFr ? "4. Résultats / Impact" : "4. Results / Impact"}</h2>
+      <p>{isFr ? "Random Forest obtient la meilleure généralisation sur le benchmark." : "Random Forest achieved the strongest generalization in the benchmark."}</p>
     </div>
   </div>
   <div class="detail-grid">
@@ -333,7 +333,7 @@ const techTags = [
         <ul>{resultBullets.map((item) => <li>{item}</li>)}</ul>
       </article>
       <article class="detail-panel" style="margin-top: 18px;">
-        <h3>{isFr ? "Comparaison des modeles" : "Model comparison"}</h3>
+        <h3>{isFr ? "Comparaison des modèles" : "Model comparison"}</h3>
         <div class="metrics-wrap">
           <table class="metrics-table">
             <thead>
@@ -361,7 +361,7 @@ const techTags = [
       </article>
     </div>
     <article class="detail-panel">
-      <h3>{isFr ? "Points clefs du rapport" : "Key takeaways from the report"}</h3>
+      <h3>{isFr ? "Points clés du rapport" : "Key takeaways from the report"}</h3>
       <ul>{insights.map((item) => <li>{item}</li>)}</ul>
     </article>
   </div>
@@ -371,7 +371,7 @@ const techTags = [
   <div class="section-head">
     <div>
       <h2>{isFr ? "5. Visuels du projet" : "5. Visual Outputs"}</h2>
-      <p>{isFr ? "Figures reprises du rapport academique." : "Figures reused from the academic report."}</p>
+      <p>{isFr ? "Figures reprises du rapport académique." : "Figures reused from the academic report."}</p>
     </div>
   </div>
   <div class="visual-grid">
@@ -401,16 +401,16 @@ const techTags = [
 </section>
 
 <section class="section">
-  <div class="section-head"><div><h2>{isFr ? "7. Depot GitHub" : "7. GitHub Repo"}</h2></div></div>
+  <div class="section-head"><div><h2>{isFr ? "7. Dépôt GitHub" : "7. GitHub Repo"}</h2></div></div>
   <article class="detail-panel">
     <p>
       {isFr
-        ? "Pour le moment, ce projet est presente comme un case study base sur le rapport plutot que comme un depot de code public."
+        ? "Pour le moment, ce projet est présenté comme un case study basé sur le rapport plutôt que comme un dépôt de code public."
         : "For now, this project is presented as a report-based case study rather than a public code repository."}
     </p>
     <p>
       {isFr
-        ? "Un depot GitHub pourra etre ajoute plus tard pour reproduire les experiences et les resultats."
+        ? "Un dépôt GitHub pourra être ajouté plus tard pour reproduire les expériences et les résultats."
         : "A GitHub repository may be added later to reproduce the experiments and results."}
     </p>
   </article>
