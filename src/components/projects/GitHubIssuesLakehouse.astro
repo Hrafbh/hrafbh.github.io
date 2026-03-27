@@ -1,4 +1,4 @@
----
+﻿---
 import type { Lang } from "../../i18n/config";
 
 type Project = any;
@@ -62,6 +62,27 @@ const copy = {
       "Resolution shares within 24h, 72h, 168h, and 336h",
     ],
     techTitle: "Main technologies",
+    architectureClarificationTitle: "Architecture clarification",
+    architectureClarificationIntro:
+      "The two diagrams below are intentionally broader than this public repository. They summarize the enterprise-style architecture I worked with during my internship at Energy Pool and act as the reference that inspired this portfolio adaptation.",
+    diagramScopeTitle: "What the diagrams represent",
+    diagramScopeItems: [
+      "An internship context combining data with Jira API data for operational follow-up",
+      "AWS storage and orchestration services that belonged to the professional environment",
+      "A higher-level target architecture used to explain the original delivery logic",
+    ],
+    repoScopeTitle: "What this public repository actually implements",
+    repoScopeItems: [
+      "A reproducible pipeline built only on GitHub Issues data from the pandas-dev/pandas repository",
+      "Project-level storage in JSON Lines, CSV, and Parquet rather than AWS-managed storage services",
+      "A simplified orchestration flow driven by Python commands and project configuration, then exposed through GitHub Pages",
+    ],
+    architectureClarificationOutro:
+      "The Bronze / Silver / Gold modeling logic stays the same, but the source systems and infrastructure were simplified so the project can be shared publicly.",
+    flowCaption:
+      "This AWS diagram mainly reflects the internship-inspired target architecture, including Jira API, and AWS services that are not part of this public portfolio implementation.",
+    layerCaption:
+      "This medallion diagram remains accurate for the Bronze / Silver / Gold logic.",
     resultsItems: [
       "Build a complete API-to-analytics pipeline",
       "Structure operational data into Bronze, Silver, and Gold layers",
@@ -146,6 +167,27 @@ const copy = {
       "Part des tickets résolus en 24h, 72h, 168h et 336h",
     ],
     techTitle: "Technologies principales",
+    architectureClarificationTitle: "Clarification sur l'architecture",
+    architectureClarificationIntro:
+      "Les deux diagrammes ci-dessous sont volontairement plus larges que ce repository public. Ils resumment l'architecture de reference que j'ai connue pendant mon stage chez Energy Pool et servent d'inspiration a cette adaptation portfolio.",
+    diagramScopeTitle: "Ce que montrent les diagrammes",
+    diagramScopeItems: [
+      "Un contexte de stage combinant des donnees issues de l'API Jira pour le suivi operationnel",
+      "Des services AWS de stockage et d'orchestration qui appartenaient a l'environnement professionnel",
+      "Une architecture cible plus globale, utilisee pour expliquer la logique de delivery d'origine",
+    ],
+    repoScopeTitle: "Ce que ce repository public implemente reellement",
+    repoScopeItems: [
+      "Un pipeline reproductible construit uniquement a partir des GitHub Issues du depot pandas-dev/pandas",
+      "Un stockage au niveau du projet en JSON Lines, CSV et Parquet, et non des services AWS geres",
+      "Une orchestration simplifiee pilotee par des commandes Python et la configuration du projet, puis exposee via GitHub Pages",
+    ],
+    architectureClarificationOutro:
+      "La logique Bronze / Silver / Gold reste la meme, mais les systemes sources et l'infrastructure ont ete simplifies pour pouvoir partager le projet publiquement.",
+    flowCaption:
+      "Ce diagramme AWS reflete surtout l'architecture cible inspiree du stage, avec l'API Jira et des services AWS qui ne font pas partie de cette implementation publique.",
+    layerCaption:
+      "Ce diagramme medallion reste pertinent pour la logique Bronze / Silver / Gold.",
     resultsItems: [
       "Construire un pipeline complet de l'API jusqu'à l'analytique",
       "Structurer des données opérationnelles en couches Bronze, Silver et Gold",
@@ -268,14 +310,39 @@ const diagramCopy =
     </div>
   </div>
 
+  <article class="detail-panel architecture-note">
+    <h3>{ui.architectureClarificationTitle}</h3>
+    <p>{ui.architectureClarificationIntro}</p>
+
+    <div class="architecture-note-grid">
+      <div>
+        <h4>{ui.diagramScopeTitle}</h4>
+        <ul>
+          {ui.diagramScopeItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+
+      <div>
+        <h4>{ui.repoScopeTitle}</h4>
+        <ul>
+          {ui.repoScopeItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <p class="architecture-note-outro">{ui.architectureClarificationOutro}</p>
+  </article>
+
   <article class="detail-panel diagram-panel">
     <h3 class="diagram-title">{diagramCopy.flowTitle}</h3>
     <img class="project-diagram-image" src={awsDiagramSrc} alt={diagramCopy.flowAlt} loading="lazy" />
+    <p class="diagram-caption">{ui.flowCaption}</p>
   </article>
 
   <article class="detail-panel diagram-panel">
     <h3 class="diagram-title">{diagramCopy.layerTitle}</h3>
     <img class="project-diagram-image" src={medallionDiagramSrc} alt={diagramCopy.layerAlt} loading="lazy" />
+    <p class="diagram-caption">{ui.layerCaption}</p>
   </article>
 
   <div class="focus-grid">
@@ -315,6 +382,32 @@ const diagramCopy =
 </section>
 
 <style>
+  .architecture-note {
+    margin-bottom: 18px;
+  }
+
+  .architecture-note h3 {
+    margin: 0 0 0.9rem;
+    font-size: 1.02rem;
+  }
+
+  .architecture-note-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    margin: 1rem 0;
+  }
+
+  .architecture-note-grid h4 {
+    margin: 0 0 0.65rem;
+    font-size: 0.98rem;
+  }
+
+  .architecture-note-outro {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
   .diagram-panel {
     margin-bottom: 18px;
     overflow: hidden;
@@ -333,6 +426,11 @@ const diagramCopy =
     border: 1px solid var(--image-border);
     background: var(--image-bg);
     box-shadow: var(--shadow-image);
+  }
+
+  .diagram-caption {
+    margin: 0.9rem 0 0;
+    color: var(--text-muted);
   }
 </style>
 

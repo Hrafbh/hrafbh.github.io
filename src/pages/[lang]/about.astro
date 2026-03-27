@@ -1,6 +1,12 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import { allLangs as LANGS, isLang, type Lang } from "../../i18n/config";
+import { allSkills } from "../../data/skills.js";
+
+type SkillItem = {
+  name: string;
+  src: string;
+};
 
 export function getStaticPaths() {
   return LANGS.map((lang) => ({
@@ -45,12 +51,28 @@ const copy = {
 } as const;
 
 const ui = copy[lang];
+const typedSkills = allSkills as SkillItem[];
 ---
 <SiteLayout lang={lang} title={`${ui.title} - Achraf Bahich`} description={ui.intro}>
-  <section class="page-hero">
-    <span class="eyebrow">{ui.eyebrow}</span>
-    <h1>{ui.title}</h1>
-    <p>{ui.intro}</p>
+  <section class="page-hero about-hero">
+    <div class="about-copy">
+      <span class="eyebrow">{ui.eyebrow}</span>
+      <h1>{ui.title}</h1>
+      <p>{ui.intro}</p>
+    </div>
+
+    <ul
+      class="about-skills"
+      aria-label={lang === "fr" ? "Technologies principales" : "Core technologies"}
+    >
+      {
+        typedSkills.map((skill) => (
+          <li class="about-skill-chip" title={skill.name}>
+            <img src={skill.src} alt={skill.name} loading="lazy" width="44" height="44" />
+          </li>
+        ))
+      }
+    </ul>
   </section>
 
   <section class="section">
@@ -70,3 +92,65 @@ const ui = copy[lang];
     </div>
   </section>
 </SiteLayout>
+
+<style>
+  .about-hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 28px;
+    flex-wrap: nowrap;
+  }
+
+  .about-copy {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .about-skills {
+    display: grid;
+    grid-template-columns: repeat(3, 88px);
+    flex: 0 0 auto;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: max-content;
+  }
+
+  .about-skill-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-strong);
+  }
+
+  .about-skill-chip img {
+    width: 82%;
+    height: 82%;
+    object-fit: contain;
+  }
+
+  @media (max-width: 640px) {
+    .about-hero {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .about-skills {
+      flex: initial;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: 100%;
+    }
+
+    .about-skill-chip {
+      width: 100%;
+      height: 74px;
+    }
+  }
+</style>

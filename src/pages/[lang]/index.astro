@@ -3,6 +3,7 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import { allLangs as LANGS, isLang, type Lang } from "../../i18n/config";
 import { projects } from "../../data/projects.js";
+import { coreSkills } from "../../data/skills.js";
 
 export function getStaticPaths() {
   return LANGS.map((lang) => ({
@@ -21,6 +22,10 @@ const copy = {
       "I work end to end from data ingestion and modeling to analytics and AI delivery, with hands-on experience in ETL/ELT, Azure, PySpark, SQL, NLP, and support automation.",
     primary: "View projects",
     secondary: "About me",
+    skillsEyebrow: "Core stack",
+    skillsTitle: "Main skills",
+    skillsText:
+      "A selection of technologies used across data engineering, analytics, and applied AI projects.",
     featuredTitle: "Projects",
     featuredText:
       "A selection of projects presented with context, implementation details, and concrete outcomes.",
@@ -38,31 +43,33 @@ const copy = {
       "A project approach focused on understanding business needs, structuring the problem clearly, and shipping maintainable solutions.",
   },
   fr: {
-    eyebrow: "Data Engineering - Data Science - IA appliquee",
-    title: "Ingenieur data, cloud et IA appliquee.",
+    eyebrow: "Data Engineering - Data Science - IA appliquée",
+    title: "Ingénieur data, cloud et IA appliquée.",
     subtitle:
-      "Je travaille de bout en bout, de l'ingestion et la modelisation des donnees jusqu'a la livraison d'outils analytiques et IA, avec une experience concrete en ETL/ELT, Azure, PySpark, SQL, NLP et automatisation du support.",
+      "Je travaille de bout en bout, de l’ingestion et de la modélisation des données jusqu’à la livraison d’outils analytiques et d’IA, avec une expérience concrète en ETL/ELT, Azure, PySpark, SQL, NLP et automatisation du support.",
     primary: "Voir les projets",
     secondary: "A propos",
+    skillsEyebrow: "Stack principal",
     featuredTitle: "Projets",
     featuredText:
-      "Une selection de projets presentes avec leur contexte, leur implementation et leurs resultats concrets.",
+      "Une sélection de projets présentant leur contexte, leur implémentation et leurs résultats concrets.",
     mapTitle: "Ce que montre ce portfolio",
     mapText:
-      "L'objectif est de presenter les projets comme en contexte reel : besoin metier, choix d'architecture, implementation et resultats mesurables.",
+      "L'objectif est de présenter les projets comme en contexte réel : besoin métier, choix d'architecture, implémentation et résultats mesurables.",
     card1Title: "Data Engineering",
     card1Text:
-      "Pipelines ETL/ELT, modelisation, workflows cloud, architecture medallion et traitement de donnees oriente production.",
+      "Pipelines ETL/ELT, modélisation, workflows cloud, architecture médallion et traitement de données orienté production.",
     card2Title: "Data Science & IA",
     card2Text:
-      "Machine learning applique, NLP, RAG et assistants IA connectes a de la documentation et a des cas d'usage support.",
+      "Machine learning appliqué, NLP, RAG et assistants IA connectés à de la documentation et à des cas d'usage support.",
     card3Title: "Approche delivery",
     card3Text:
-      "Une facon de travailler centree sur la comprehension du besoin, la clarte technique et la livraison de solutions maintenables.",
+      "Une facon de travailler centrée sur la compréhension du besoin, la clarté technique et la livraison de solutions maintenables.",
   },
 } as const;
 
 const ui = copy[lang];
+const heroSkills = coreSkills;
 const featured = projects;
 ---
 <SiteLayout
@@ -71,7 +78,7 @@ const featured = projects;
   description={ui.subtitle}
 >
   <section class="hero">
-    <div>
+    <div class="hero-copy-block">
       <span class="eyebrow">{ui.eyebrow}</span>
       <h1>{ui.title}</h1>
       <p class="hero-copy">{ui.subtitle}</p>
@@ -81,6 +88,22 @@ const featured = projects;
         <a class="btn-secondary" href={`/${lang}/about/`}>{ui.secondary}</a>
       </div>
     </div>
+
+    <aside class="hero-panel skills-panel" >
+      <div class="skills-panel-head">
+        <span class="eyebrow">{ui.skillsEyebrow}</span>
+      </div>
+
+      <ul class="skills-grid">
+        {
+          heroSkills.map((skill) => (
+            <li class="skill-chip" title={skill.name}>
+              <img src={skill.src} alt={skill.name} loading="lazy" width="44" height="44" />
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
   </section>
 
   <section class="section">
@@ -122,3 +145,79 @@ const featured = projects;
     </div>
   </section>
 </SiteLayout>
+
+<style>
+  .hero-copy-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .skills-panel {
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .skills-panel-head h2 {
+    margin: 10px 0 0;
+    font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+    letter-spacing: -0.02em;
+  }
+
+  .skills-panel-head p {
+    margin: 10px 0 0;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  .skills-kicker {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface-strong);
+    color: var(--primary);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .skill-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 68px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-strong);
+  }
+
+  .skill-chip img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  @media (max-width: 640px) {
+    .skills-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
