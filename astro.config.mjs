@@ -3,6 +3,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://hrafbh.github.io",
+  site: "https://achrafbahich.github.io",
   base: "/"
 });

@@ -42,7 +42,7 @@ export const projects = [
       en: "GitHub issues lakehouse project designed as a structured data engineering case study.",
     },
     links: {
-      repo: "https://github.com/Hrafbh",
+      repo: "https://github.com/achrafbahich",
       demo: "",
     },
     showcase: {
@@ -76,7 +76,7 @@ export const projects = [
       en: "RAG-oriented internal support assistant connected to Confluence, illustrating a realistic B2B SaaS support use case.",
     },
     links: {
-      repo: "https://github.com/Hrafbh/ConfluRAG-SupportAgent",
+      repo: "https://github.com/achrafbahich/ConfluRAG-SupportAgent",
       demo: "",
     },
     showcase: {
@@ -110,8 +110,8 @@ export const projects = [
       en: "Data engineering case study focused on structuring, transforming, and exposing business data reliably.",
     },
     links: {
-      repo: "https://github.com/Hrafbh/github-issues-lakehouse-ep",
-      demo: "https://hrafbh.github.io/github-issues-lakehouse-ep/",
+      repo: "https://github.com/achrafbahich/github-issues-lakehouse-ep",
+      demo: "https://achrafbahich.github.io/github-issues-lakehouse-ep/",
     },
     showcase: {
       type: "highlights",
